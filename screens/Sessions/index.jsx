@@ -1,10 +1,15 @@
 import { View, Text } from 'react-native'
 import React from 'react'
+import { SafeAreaView } from 'react-native-safe-area-context'
+import MainHeader from '../../components/MainHeader'
 
 export default function Sessions() {
   return (
-    <View className="flex justify-center items-center h-full bg-white">
-      <Text>Sessions</Text>
-    </View>
+    <SafeAreaView>
+      <MainHeader title="Sessions" />
+      <View className="flex h-full justify-center items-center bg-white">
+        <Text>Sessions</Text>
+      </View>
+    </SafeAreaView>
   )
 }

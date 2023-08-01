@@ -1,10 +1,16 @@
-import { View, Text } from 'react-native'
-import React from 'react'
+import { View } from "react-native";
+import React from "react";
+import CardHeader from "../../components/CardsHeader";
+import MainHeader from "../../components/MainHeader";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function Flashcards() {
   return (
-    <View className="flex justify-center items-center h-full bg-white">
-      <Text>Flashcards</Text>
-    </View>
-  )
+    <SafeAreaView>
+      <View className="flex bg-white w-full h-full">
+        <MainHeader title={"Cards"}/>
+        <CardHeader />
+      </View>
+    </SafeAreaView>
+  );
 }

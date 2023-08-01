@@ -1,0 +1,48 @@
+{
+  "decks": [
+    {
+      "id": 12345,
+      "name": "Trigonometry",
+      "ownerId": 1,
+      "subjects": [
+        {
+          "id": 1,
+          "question": "sen(30°)?",
+          "answer": "1/2 (a half)",
+          "status": "LEARNING",
+          "tags": ["Mathematics", "Trigonometry"]
+        },
+        {
+          "id": 2,
+          "question": "sen(60°)?",
+          "answer": "3/2",
+          "status": "LEARNING",
+          "tags": ["Mathematics", "Trigonometry"]
+        }
+      ]
+    },
+
+    {
+      "id": 12346,
+      "name": "English",
+      "ownerId": 1,
+      "subjects": [
+        {
+          "id": 3,
+          "question": "What is the meaning of 'dog'?",
+          "answer": "A domesticated carnivorous mammal that typically has a long snout, an acute sense of smell, nonretractable claws, and a barking, howling, or whining voice.",
+          "status": "LEARNING",
+          "tags": ["English", "Vocabulary"]
+        },
+        {
+          "id": 4,
+          "question": "What is the meaning of 'cat'?",
+          "answer": "A small domesticated carnivorous mammal with soft fur, a short snout, and retractable claws. It is widely kept as a pet or for catching mice, and many breeds have been developed.",
+          "status": "LEARNING",
+          "tags": ["English", "Vocabulary"]
+        }
+      ]
+    }
+    
+  ]
+}

@@ -1,13 +1,16 @@
 import { View, Text } from "react-native";
 import React from "react";
-import { StatusBar } from "expo-status-bar";
+import { SafeAreaView } from "react-native-safe-area-context";
+import MainHeader from "../../components/MainHeader";
 
 const Home = () => {
   return (
-    <View className="flex justify-center items-center h-full bg-white">
-      <Text>Home</Text>
-      <StatusBar translucent style="dark" />
-    </View>
+    <SafeAreaView>
+      <MainHeader title="Home"/>
+      <View className="flex h-full justify-center items-center bg-white">
+        <Text>Home</Text>
+      </View>
+    </SafeAreaView>
   );
 };
 export default Home;
