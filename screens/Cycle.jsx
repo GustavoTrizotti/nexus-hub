@@ -1,6 +1,6 @@
 import { View, Text } from "react-native";
 import React from "react";
-import MainHeader from "../../components/MainHeader";
+import MainHeader from "../components/MainHeader";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 export default function Cycle() {
