@@ -2,7 +2,7 @@ import { View, Text } from "react-native";
 import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import MainHeader from "../components/MainHeader";
-import SessionTimerHeader from "../components/SessionTimerHeader";
+import SessionTimerHeader from "../components/SessionCounterHeader";
 
 export default function Sessions() {
   return (
