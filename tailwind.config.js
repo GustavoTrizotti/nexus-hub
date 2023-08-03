@@ -8,6 +8,13 @@ module.exports = {
         primary: "#AD6FEB",
         secondary: "#2E2E2E",
         tertiary: "#4f4e4e",
+        subjectRed: "#FFA0A0",
+        subjectYellow: "#FFEAA0",
+        subjectGreen: "#A0FFB0",
+        subjectBlue: "#A0FFF9",
+        subjectPurple: "#AEA0FF",
+        subjectViolet: "#D0A5FB",
+        subjectPink: "#F2A0FF"
       },
     },
   },

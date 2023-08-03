@@ -2,21 +2,29 @@ import { View, Pressable } from "react-native";
 import React from "react";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
-const SessionTimerButton = ({ session }) => {
-  const { isActive, isPaused, handleStart, handlePause, handleResume } =
-    session;
+const SessionTimerButton = ({ session, bgColor, padding, iconSize }) => {
+  const {
+    isActive,
+    isPaused,
+    handleStart,
+    handleReset,
+    handlePause,
+    handleResume,
+  } = session;
+
+  const buttonClassStyle = `${bgColor} ${padding} rounded-full`;
 
   const handlePauseIcon = () => {
     if (isActive) {
       if (isPaused) {
-        return <Icon name="pause" size={36} color="#fff" />;
+        return <Icon name="pause" size={iconSize} color="#fff" />;
       }
     }
-    return <Icon name="play" size={36} color="#fff" />;
+    return <Icon name="play" size={iconSize} color="#fff" />;
   };
 
   return (
-    <View>
+    <View className="flex flex-row">
       <Pressable
         onPress={() => {
           if (isActive) {
@@ -29,7 +37,8 @@ const SessionTimerButton = ({ session }) => {
             handleStart();
           }
         }}
-        className="bg-primary p-8 rounded-full transition-opacity hover:opacity-50"
+        onLongPress={() => handleReset() }
+        className={buttonClassStyle}
       >
         {handlePauseIcon}
       </Pressable>

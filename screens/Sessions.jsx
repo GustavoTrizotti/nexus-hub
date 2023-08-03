@@ -3,6 +3,7 @@ import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import MainHeader from "../components/MainHeader";
 import SessionTimerHeader from "../components/SessionCounterHeader";
+import SessionSubjectTimer from "../components/SessionSubjectTimer";
 
 export default function Sessions() {
   return (
@@ -10,6 +11,7 @@ export default function Sessions() {
       <MainHeader title="Sessions" />
       <View className="flex h-full px-3 bg-white">
         <SessionTimerHeader />
+        <SessionSubjectTimer />
       </View>
     </SafeAreaView>
   );
