@@ -18,7 +18,6 @@ const MainHeader = ( { title } ) => {
           <Icon name="chevron-left" size={24} color="#AD6FEB" />
         </TouchableWithoutFeedback>
       )}
-
       <Text className="text-primary text-center uppercase text-2xl font-bold">
         {title}
       </Text>

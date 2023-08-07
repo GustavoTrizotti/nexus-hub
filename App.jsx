@@ -6,7 +6,7 @@ import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import Home from "./screens/Home";
 import Subjects from "./screens/Subjects";
 import Cycle from "./screens/Cycle";
-import Flashcards from "./screens/Flashcards"
+import Flashcards from "./navigation/FlashcardsNavigation"
 import Sessions from "./screens/Sessions";
 
 export default function App() {
