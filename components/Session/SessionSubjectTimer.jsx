@@ -2,8 +2,8 @@ import { View, Text, ScrollView } from "react-native";
 import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-import useTimer from "../hooks/useTimer";
-import { timeFormatSession } from "../utils/timeFormatSession";
+import useTimer from "../../hooks/useTimer";
+import { timeFormatSession } from "../../utils/timeFormatSession";
 import SessionTimerButton from "./SessionTimerButton";
 
 const SessionSubjectIndividualTimer = ({ color, name }) => {

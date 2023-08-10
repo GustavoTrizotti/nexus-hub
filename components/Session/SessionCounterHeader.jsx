@@ -1,8 +1,8 @@
 import { View, Text } from "react-native";
 import React from "react";
 
-import useTimer from "../hooks/useTimer";
-import { timeFormatSession } from "../utils/timeFormatSession";
+import useTimer from "../../hooks/useTimer";
+import { timeFormatSession } from "../../utils/timeFormatSession";
 import SessionTimerButton from "./SessionTimerButton";
 
 const SessionTimerHeader = () => {

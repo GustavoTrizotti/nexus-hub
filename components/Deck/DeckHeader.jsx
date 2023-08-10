@@ -5,11 +5,11 @@ const DeckHeader = () => {
   return (
     <View className="flex px-2 flex-row w-full justify-between items-center">
       <View className="flex flex-col p-3">
-        <View className="flex flex-row justify-center items-center align-center gap-2">
-          <Text className="text-primary font-bold text-xl">Trigonometry</Text>
+        <View className="flex flex-row items-center align-center gap-2">
+          <Text className="text-primary font-bold text-xl">My Decks</Text>
           <Icon name="cards" color="#AD6FEB" size={24} />
         </View>
-        <Text className="text-tertiary text-md p-1">Spaced Revision Deck</Text>
+        <Text className="text-tertiary text-md py-1">Spaced Revision Decks</Text>
       </View>
       <View className="flex flex-col p-3">
         <TouchableOpacity
@@ -20,7 +20,7 @@ const DeckHeader = () => {
           }}
         >
           <Text className="text-white text-md uppercase font-bold">
-            Create Card
+            New Deck
           </Text>
         </TouchableOpacity>
       </View>
