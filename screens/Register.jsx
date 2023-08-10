@@ -1,12 +1,12 @@
 import { View, Text } from 'react-native'
 import React from 'react'
 
-const CardHeader = () => {
+const Register = () => {
   return (
     <View>
-      <Text>CardHeader</Text>
+      <Text>Register</Text>
     </View>
   )
 }
 
-export default CardHeader
+export default Register
