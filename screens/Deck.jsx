@@ -9,7 +9,7 @@ import DeckList from "../components/Decks/DeckList";
 export default function Decks({ navigation }) {
   return (
     <SafeAreaView>
-      <MainHeader title={"Cards"} />
+      <MainHeader/>
       <View className="flex bg-white w-full h-full">
         <CardHeader />
         <DeckList />
