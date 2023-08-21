@@ -10,7 +10,7 @@ const DeckOptions = ({ route }) => {
   return (
     <SafeAreaView className="flex bg-white h-full w-full">
       <MainHeader title={deck.name}/>
-      <DeckOptionsChart />
+      <DeckOptionsChart deck={deck}/>
     </SafeAreaView>
   );
 };

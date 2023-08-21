@@ -9,7 +9,9 @@ const DeckHeader = () => {
           <Text className="text-primary font-bold text-xl">My Decks</Text>
           <Icon name="cards" color="#AD6FEB" size={24} />
         </View>
-        <Text className="text-tertiary text-md py-1">Spaced Revision Decks</Text>
+        <Text className="text-tertiary text-md py-1">
+          Spaced Revision Decks
+        </Text>
       </View>
       <View className="flex flex-col p-3">
         <TouchableOpacity
