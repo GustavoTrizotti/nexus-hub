@@ -27,7 +27,6 @@ const MainHeader = ({ title }) => {
           {route.name}
         </Text>
       )}
-
       <Icon name="search" size={20} color="#AD6FEB" />
     </View>
   );
