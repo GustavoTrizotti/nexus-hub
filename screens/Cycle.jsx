@@ -6,7 +6,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 export default function Cycle() {
   return (
     <SafeAreaView>
-      <MainHeader title="Cycle" />
+      <MainHeader />
       <View className="flex h-full justify-center items-center bg-white">
         <Text>Cycle</Text>
       </View>

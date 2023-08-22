@@ -6,7 +6,7 @@ import MainHeader from "../components/MainHeader";
 const Subjects = () => {
   return (
     <SafeAreaView>
-      <MainHeader title="Subjects" />
+      <MainHeader />
       <View className="flex h-full justify-center items-center bg-white">
         <Text>Subjects</Text>
       </View>
