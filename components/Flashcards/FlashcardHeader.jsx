@@ -8,7 +8,7 @@ const FlashcardHeader = ({ deck }) => {
   const navigation = useNavigation();
 
   return (
-    <View className=" p-6 flex flex-row items-center justify-center">
+    <View className=" p-4 flex flex-row items-center justify-center">
       <View className="flex flex-2 justify-self-start">
         <Pressable onPress={() => navigation.goBack()}>
           <Icon name="chevron-left" size={24} color="#AD6FEB" />
