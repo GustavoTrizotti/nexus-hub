@@ -12,6 +12,7 @@ import randomCard from "../../utils/randomCard";
 import { useNavigation } from "@react-navigation/native";
 import CardSheet from "../../components/DeckOptions/CardSheet";
 import { TextInput } from "react-native-gesture-handler";
+import CardList from "../../components/DeckOptions/CardList";
 
 const DeckOptions = ({ route }) => {
   const deck = route.params.deck;
@@ -49,27 +50,8 @@ const DeckOptions = ({ route }) => {
               </Pressable>
             </View>
           </View>
-          <View className="flex flex-row items-center justify-center gap-2 mt-4">
-            <Icon name="cards" size={30} color={"#AD6FEB"} />
-            <Text className="text-center p-2 text-xl text-primary font-bold">
-              Card List
-            </Text>
-            <View className="flex flex-row justify-center items-center">
-              <TextInput
-                className="h-12 m-4 text-xl"
-                placeholder="Search Card..."
-              />
-              <Icon name="magnify" size={30} color={"#AD6FEB"} />
-            </View>
-          </View>
-          <View className="flex items-center justify-center w-screen">
-            {deck.cards.map((card, key) => {
-              return (
-                <CardSheet key={key} deck={deck} card={card} name={deck.name} />
-              );
-            })}
-          </View>
         </View>
+        <CardList deck={deck}/>
       </ScrollView>
     </SafeAreaView>
   );
