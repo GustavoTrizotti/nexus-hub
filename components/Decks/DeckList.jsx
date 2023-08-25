@@ -2,7 +2,7 @@ import { View, Text } from "react-native";
 import React, { useState } from "react";
 
 import DeckListItem from "./DeckListItem";
-import db from "../../utils/dataObject";
+import db from "../../utils/dataDeckObject";
 import DeckListChildItem from "./DeckListChildItem";
 
 const DeckList = () => {

@@ -6,7 +6,7 @@ import CardSheet from "./CardSheet";
 const CardList = ({ deck }) => {
   return (
     <View>
-      <View className="flex flex-row px-4 m-6 items-center justify-between bg-gray-100">
+      <View className="flex flex-row px-4 m-6 items-center justify-between bg-gray-100 rounded-md">
         <TextInput className="flex-1 h-8 m-4 text-lg w-auto" placeholder="Search Card..." />
         <Icon name="magnify" size={24} color={"#AD6FEB"} />
       </View>

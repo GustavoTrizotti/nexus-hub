@@ -25,6 +25,7 @@ const TabNavigation = ({navigation}) => {
       <Tab.Navigator
         backBehavior="history"
         screenOptions={({ route }) => ({
+          tabBarHideOnKeyboard: true,
           headerShown: false,
           tabBarShowLabel: false,
           tabBarActiveTintColor: "#AD6FEB",
@@ -63,6 +64,7 @@ const TabNavigation = ({navigation}) => {
 
             return <Icon name={iconName} size={30} color={color} />;
           },
+          
         })}
       >
         <Tab.Screen name={SCREEN_NAMES.HOME} component={Home} />

@@ -1,4 +1,4 @@
-import { View, Text, ScrollView } from "react-native";
+import { View, Text, ScrollView, KeyboardAvoidingView } from "react-native";
 import React from "react";
 
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -10,8 +10,6 @@ import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
 import randomCard from "../../utils/randomCard";
 import { useNavigation } from "@react-navigation/native";
-import CardSheet from "../../components/DeckOptions/CardSheet";
-import { TextInput } from "react-native-gesture-handler";
 import CardList from "../../components/DeckOptions/CardList";
 
 const DeckOptions = ({ route }) => {
@@ -24,7 +22,7 @@ const DeckOptions = ({ route }) => {
     <SafeAreaView className="flex bg-white h-full w-full">
       <ScrollView>
         <MainHeader title={deck.name} />
-        <View>
+        <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
           <DeckOptionsHeader title={deck.name} />
           <View className="flex items-center justify-center mt-4">
             <DeckOptionsChart deck={deck} />
@@ -50,7 +48,7 @@ const DeckOptions = ({ route }) => {
               </Pressable>
             </View>
           </View>
-        </View>
+        </KeyboardAvoidingView>
         <CardList deck={deck}/>
       </ScrollView>
     </SafeAreaView>
