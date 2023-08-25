@@ -8,7 +8,7 @@ import DeckList from "../components/Decks/DeckList";
 import CreateDeck from "../components/Decks/CreateDeck";
 import ReactNativeModal from "react-native-modal";
 
-export default function Decks({ navigation }) {
+export default function Decks() {
   const [modalVisible, setModalVisible] = useState(false);
 
   const handleSetModalVisible = () => {
