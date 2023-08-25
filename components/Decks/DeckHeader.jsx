@@ -1,7 +1,8 @@
-import { View, Text, TouchableOpacity } from "react-native";
+import { useState } from "react";
+import { View, Text, Pressable } from "react-native";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
-const DeckHeader = () => {
+const DeckHeader = ({ handleSetModalVisible }) => {
   return (
     <View className="flex px-2 flex-row w-full justify-between items-center">
       <View className="flex flex-col p-3">
@@ -14,17 +15,17 @@ const DeckHeader = () => {
         </Text>
       </View>
       <View className="flex flex-col p-3">
-        <TouchableOpacity
+        <Pressable
           className="bg-primary p-3 px-4 rounded-md"
           activeOpacity={0.75}
           onPress={() => {
-            console.log("Teste");
+            handleSetModalVisible();
           }}
         >
           <Text className="text-white text-md uppercase font-bold">
             New Deck
           </Text>
-        </TouchableOpacity>
+        </Pressable>
       </View>
     </View>
   );
