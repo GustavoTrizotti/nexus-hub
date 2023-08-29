@@ -1,15 +1,18 @@
-import { View, Text } from "react-native";
+import { View, ScrollView } from "react-native";
 import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import MainHeader from "../components/MainHeader";
+import SubjectHeader from "../components/Subjects/SubjectHeader";
+import SubjectBody from "../components/Subjects/SubjectBody";
 
 const Subjects = () => {
   return (
-    <SafeAreaView>
-      <MainHeader />
-      <View className="flex h-full justify-center items-center bg-white">
-        <Text>Subjects</Text>
-      </View>
+    <SafeAreaView className="flex bg-white h-full w-full">
+      <ScrollView>
+        <MainHeader />
+        <SubjectHeader />
+        <SubjectBody />
+      </ScrollView>
     </SafeAreaView>
   );
 };

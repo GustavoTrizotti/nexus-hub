@@ -4,12 +4,12 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
 import Home from "../screens/Home";
-import Subjects from "../screens/Subjects";
+import Subjects from "../navigation/SubjectNavigation";
 import Cycle from "../screens/Cycle";
 import Flashcards from "../navigation/FlashcardsNavigation"
 import Sessions from "../screens/Sessions";
 
-const TabNavigation = ({navigation}) => {
+const TabNavigation = () => {
   const Tab = createBottomTabNavigator();
 
   const SCREEN_NAMES = {
