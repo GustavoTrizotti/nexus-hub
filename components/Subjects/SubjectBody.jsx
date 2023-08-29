@@ -7,9 +7,9 @@ import SubjectCard from "./SubjectCard";
 const SubjectBody = () => {
   const subjects = subject.subjects;
   return (
-    <View className="flex items-center justify-center">
+    <View className="flex items-center justify-center mb-6">
       {subjects.map((subject) => {
-        return <SubjectCard id={subject.id} subject={subject} />;
+        return <SubjectCard key={subject.id} subject={subject} />;
       })}
     </View>
   );
