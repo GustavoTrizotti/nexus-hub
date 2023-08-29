@@ -14,10 +14,8 @@ const SubjectCardDifficulty = ({diff}) => {
         }
     }
 
-    console.log(diffArray);
-
     return (
-        <View className="flex flex-row">
+        <View className="flex flex-row gap-x-1">
             {diffArray.map((diff, idx) => {
                 if (diff == 1) {
                     return <Icon key={idx} name='circle-outline' size={12} color={"#4f4e4e"}/>
