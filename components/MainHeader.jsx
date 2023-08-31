@@ -4,14 +4,14 @@ import { StatusBar } from "expo-status-bar";
 import Icon from "react-native-vector-icons/FontAwesome5";
 import { useNavigation, useRoute } from "@react-navigation/native";
 
-const MainHeader = ({ title }) => {
+const MainHeader = ({ title, search }) => {
   const navigation = useNavigation();
   const route = useRoute();
 
   return (
     <View className="bg-white p-6 flex flex-row items-center justify-between">
       <StatusBar style="dark" backgroundColor="#fff" />
-      {title === "Home" ? (
+      {route.name === "HOME" ? (
         <Icon name="bars" size={24} color="#AD6FEB" />
       ) : (
         <TouchableWithoutFeedback onPress={() => navigation.goBack()}>
@@ -27,6 +27,7 @@ const MainHeader = ({ title }) => {
           {route.name}
         </Text>
       )}
+
       <Icon name="search" size={20} color="#AD6FEB" />
     </View>
   );

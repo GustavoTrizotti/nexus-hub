@@ -1,5 +1,4 @@
-import { View, Text } from "react-native";
-import { TextInput } from "react-native-gesture-handler";
+import { View, Text, TextInput } from "react-native";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import CardSheet from "./CardSheet";
 

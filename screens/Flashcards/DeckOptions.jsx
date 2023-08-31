@@ -1,5 +1,5 @@
 import { View, Text, ScrollView, KeyboardAvoidingView } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 
 import { SafeAreaView } from "react-native-safe-area-context";
 import MainHeader from "../../components/MainHeader";
@@ -23,7 +23,7 @@ const DeckOptions = ({ route }) => {
       <ScrollView>
         <MainHeader title={deck.name} />
         <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-          <DeckOptionsHeader title={deck.name} />
+          <DeckOptionsHeader title={deck.name} navigation={navigation}/>
           <View className="flex items-center justify-center mt-4">
             <DeckOptionsChart deck={deck} />
             <View className="flex flex-row mt-6 mx-2 items-center justify-between">
