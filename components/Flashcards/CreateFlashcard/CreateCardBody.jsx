@@ -3,7 +3,7 @@ import React from "react";
 
 const CreateCardBody = () => {
   return (
-    <View className="flex p-4 w-full">
+    <View className="flex w-full">
       <View>
         <Text className="font-bold text-lg p-2 text-primary">Question</Text>
         <TextInput

@@ -14,12 +14,12 @@ const CreateFlashcard = ({ route }) => {
       <MainHeader title={"Flashcards"}/>
       <View>
         <Text className="text-xl text-center font-bold text-primary">{title}</Text>
-        <Text className="text-lg text-center font-bold text-tertiary p-2">Create Flashcard</Text>
+        <Text className="text-lg text-center font-bold text-tertiary my-2">Create Flashcard</Text>
       </View>
       <View className="p-4 flex justify-center items-center">
         <CreateCardBody />
       </View>
-      <View className="p-4 mx-4 flex justify-center items-center">
+      <View className="p-4 flex justify-center items-center">
         <CreateCardTag card={card}/>
       </View>
     </SafeAreaView>
