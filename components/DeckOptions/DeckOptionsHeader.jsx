@@ -3,7 +3,7 @@ import React from "react";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { Pressable } from "react-native";
 
-const DeckOptionsHeader = ({ title, navigation }) => {
+const DeckOptionsHeader = ({ title, navigation, card }) => {
   return (
     <View className="flex px-2 flex-row w-full justify-between items-center">
       <View className="flex flex-col p-3">
@@ -20,7 +20,7 @@ const DeckOptionsHeader = ({ title, navigation }) => {
           className="flex flex-row bg-primary p-3 px-2 rounded-md items-center justify-between gap-x-2"
           activeOpacity={0.75}
           onPress={() => {
-            navigation.navigate("CreateCard", {title: title});
+            navigation.navigate("CreateCard", {title: title, card: card});
           }}
         >
           <Icon name="cards" color="#FFFFFF" size={24}/>

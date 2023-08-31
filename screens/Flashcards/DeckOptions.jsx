@@ -23,7 +23,7 @@ const DeckOptions = ({ route }) => {
       <ScrollView>
         <MainHeader title={deck.name} />
         <KeyboardAvoidingView behavior={Platform.OS === 'ios' ? 'padding' : 'height'}>
-          <DeckOptionsHeader title={deck.name} navigation={navigation}/>
+          <DeckOptionsHeader title={deck.name} navigation={navigation} card={selectedCard}/>
           <View className="flex items-center justify-center mt-4">
             <DeckOptionsChart deck={deck} />
             <View className="flex flex-row mt-6 mx-2 items-center justify-between">
