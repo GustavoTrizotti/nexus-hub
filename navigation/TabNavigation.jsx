@@ -36,7 +36,6 @@ const TabNavigation = () => {
             borderWidth: 0,
             elevation: 0,
             shadowOpacity: 0,
-            paddingBottom: 16,
           },
           tabBarIcon: ({ color, focused }) => {
             let iconName;
