@@ -4,6 +4,8 @@ import MainHeader from "../../components/MainHeader";
 import { SafeAreaView } from "react-native-safe-area-context";
 import CreateCardBody from "../../components/Flashcards/CreateFlashcard/CreateCardBody";
 import CreateCardTag from "../../components/Flashcards/CreateFlashcard/CreateCardTag";
+import { Pressable } from "react-native";
+import { ScrollView } from "react-native";
 
 const CreateFlashcard = ({ route }) => {
   const title = route.params.title;
@@ -11,17 +13,28 @@ const CreateFlashcard = ({ route }) => {
 
   return (
     <SafeAreaView className="bg-white h-full">
-      <MainHeader title={"Flashcards"}/>
-      <View>
-        <Text className="text-xl text-center font-bold text-primary">{title}</Text>
-        <Text className="text-lg text-center font-bold text-tertiary my-2">Create Flashcard</Text>
-      </View>
-      <View className="p-4 flex justify-center items-center">
-        <CreateCardBody />
-      </View>
-      <View className="p-4 flex justify-center items-center">
-        <CreateCardTag card={card}/>
-      </View>
+      <ScrollView>
+        <MainHeader title={"Flashcards"} />
+        <View>
+          <Text className="text-xl text-center font-bold text-primary">
+            {title}
+          </Text>
+          <Text className="text-lg text-center font-bold text-tertiary my-2">
+            Create Flashcard
+          </Text>
+        </View>
+        <View className="p-4 flex justify-center items-center">
+          <CreateCardBody />
+          <Pressable className="p-4 mt-6 px-6 bg-primary rounded-md">
+            <Text className="text-lg text-center text-white font-bold">
+              Save Changes
+            </Text>
+          </Pressable>
+        </View>
+        <View className="p-4 flex justify-center items-center">
+          <CreateCardTag card={card} />
+        </View>
+      </ScrollView>
     </SafeAreaView>
   );
 };
