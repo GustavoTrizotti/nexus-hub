@@ -4,8 +4,12 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import MainHeader from "../components/MainHeader";
 import SessionTimerHeader from "../components/Session/SessionCounterHeader";
 import SessionSubjectTimer from "../components/Session/SessionSubjectTimer";
+import { useSelector } from "react-redux";
 
 export default function Sessions() {
+  const { sessions } = useSelector((rootReducer) => rootReducer.sessionReducer);
+  console.log(sessions);
+
   return (
     <SafeAreaView>
       <MainHeader />
