@@ -1,5 +1,5 @@
-import { View, ScrollView } from "react-native";
-import React from "react";
+import { ScrollView } from "react-native";
+import React, { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import MainHeader from "../components/MainHeader";
 import SubjectHeader from "../components/Subjects/SubjectHeader";
@@ -15,7 +15,7 @@ const Subjects = () => {
       <ScrollView>
         <MainHeader />
         <SubjectHeader />
-        <SubjectBody/>
+        <SubjectBody subjects={subjects}/>
       </ScrollView>
     </SafeAreaView>
   );
