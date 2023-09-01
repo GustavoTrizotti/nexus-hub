@@ -8,7 +8,6 @@ import { useSelector } from "react-redux";
 
 export default function Sessions() {
   const { sessions } = useSelector((rootReducer) => rootReducer.sessionReducer);
-  console.log(sessions);
 
   return (
     <SafeAreaView>

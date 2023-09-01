@@ -2,7 +2,9 @@ import { createSlice } from "@reduxjs/toolkit";
 
 import data from "../../utils/dataDeckObject"
 
-const initialState = data;
+const initialState = {
+    decks: data
+};
 
 const deckSlice = createSlice({
     name: "deck",
