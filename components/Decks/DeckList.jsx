@@ -5,12 +5,11 @@ import DeckListItem from "./DeckListItem";
 import DeckListChildItem from "./DeckListChildItem";
 
 const DeckList = ({ deckList }) => {
-  const [decks, setDecks] = useState(deckList);
 
   return (
     <View className="flex px-2">
-      {decks.map((deck, index) => {
-        if (deck.childDeck) {
+      {deckList.map((deck, index) => {
+        if (deckList.childDeck) {
           return (
             <DeckListChildItem
               key={index}

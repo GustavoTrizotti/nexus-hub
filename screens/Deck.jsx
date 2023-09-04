@@ -17,17 +17,21 @@ export default function Decks() {
     setModalVisible(true);
   };
 
+  const handleSetModalHidden = () => {
+    setModalVisible(false);
+  }
+
   return (
     <SafeAreaView>
       <MainHeader />
       <View className="flex bg-white w-full h-full">
         <DeckHeader handleSetModalVisible={handleSetModalVisible} />
-        <DeckList deckList={decks.decks} />
+        <DeckList deckList={decks} />
         <ReactNativeModal
           isVisible={modalVisible}
           onBackdropPress={() => setModalVisible(false)}
         >
-          <CreateDeck />
+          <CreateDeck closeModal={handleSetModalHidden}/>
         </ReactNativeModal>
       </View>
     </SafeAreaView>

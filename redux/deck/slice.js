@@ -2,19 +2,21 @@ import { createSlice } from "@reduxjs/toolkit";
 
 import data from "../../utils/dataDeckObject"
 
-const initialState = {
-    decks: data
-};
+const initialState = data;
 
 const deckSlice = createSlice({
     name: "deck",
     initialState,
     reducers: {
-        createDeck: (state, action) => {
+        addDeck: (state, action) => {
             state.decks.push(action.payload);
+            console.log("State Uploaded!");
+        },
+        removeDeck: (state, action) => {
+            
         }
     }
 });
 
-export const { createDeck } = deckSlice.actions;
+export const { addDeck } = deckSlice.actions;
 export default deckSlice.reducer;

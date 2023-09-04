@@ -8,7 +8,6 @@ import { useSelector } from "react-redux";
 
 const Subjects = () => {
   const {subjects} = useSelector(rootReducer => rootReducer.subjectReducer)
-  console.log(subjects);
 
   return (
     <SafeAreaView className="flex bg-white h-full w-full">
