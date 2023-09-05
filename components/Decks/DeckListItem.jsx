@@ -9,7 +9,7 @@ const DeckListItem = ({ deck, parent }) => {
 
   return (
     <View>
-      <Pressable onPress={() => navigation.navigate("Deck", {deck: deck})} className="flex p-4 mb-2 mx-3 flex-row items-center justify-between border-b-2 border-gray-100">
+      <Pressable onPress={() => navigation.navigate("Deck", {deck: deck, length: deck.cards.length})} className="flex p-4 mb-2 mx-3 flex-row items-center justify-between border-b-2 border-gray-100">
         <View className="flex flex-row justify-center items-center gap-4">
           <Icon name={iconName} size={30} color="#AD6FEB" />
           <Text className="text-xl font-bold text-primary"> {deck.name} </Text>
