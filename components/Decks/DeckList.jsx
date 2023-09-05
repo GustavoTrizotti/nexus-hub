@@ -9,7 +9,7 @@ const DeckList = ({ deckList }) => {
   return (
     <View className="flex px-2">
       {deckList.map((deck, index) => {
-        if (deckList.childDeck) {
+        if (deck.childDeck) {
           return (
             <DeckListChildItem
               key={index}
