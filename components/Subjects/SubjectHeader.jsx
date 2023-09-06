@@ -1,22 +1,25 @@
 import { View, Text, TextInput, Pressable } from "react-native";
 import React from "react";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import SearchInput from "../utils/SearchInput";
+import { useState } from "react";
 
-const SubjectHeader = () => {
+const SubjectHeader = ({view, setView}) => {
+  const color = "#AD6FEB"
+
   return (
-    <View className="flex p-4 mx-2">
-      <View className="flex flex-row bg-gray-100 items-center p-2 m-2 mb-6 rounded-lg">
-        <Icon name="magnify" size={24} color={"#AD6FEB"}/>
-        <TextInput
-          placeholder="Subject..."
-          className="flex-1 p-3 text-lg rounded-md"
-        />
+    <View className="flex p-4 mx-2 justify-center items-center">
+      <View className="flex flex-row items-center justify-center p-2 m-2 mb-6 rounded-lg">
+        <SearchInput color={color} placeholderInput={"Subject name..."}/>
       </View>
-      <View className="flex p-4 mx-2">
-        <Pressable className="bg-primary flex items-center justify-center p-2 flex-row rounded-lg">
+      <View className="flex p-4 mx-2 flex-row justify-center items-center gap-x-4">
+        <Pressable className="bg-primary flex flex-1 items-center justify-center p-2 flex-row rounded-lg">
           <Icon name="book" size={24} color={"#FFF"}/>
           <Text className="text-white font-bold text-lg text-center p-2 px-4">New Subject</Text>
         </Pressable>
+        <View className="p-3 bg-primary flex justify-center rounded-md">
+        {view ? <Icon name="view-grid" size={30} color={"#fff"} onPress={setView}/> : <Icon name="view-list" size={30} color={"#fff"} onPress={setView}/>}
+        </View>
       </View>
     </View>
   );

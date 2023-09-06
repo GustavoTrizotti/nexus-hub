@@ -7,14 +7,19 @@ import SubjectBody from "../components/Subjects/SubjectBody";
 import { useSelector } from "react-redux";
 
 const Subjects = () => {
+  const [view, setView] = useState(false)
   const {subjects} = useSelector(rootReducer => rootReducer.subjectReducer)
+
+  const handleSetView = () => {
+    setView(!view);
+  }
 
   return (
     <SafeAreaView className="flex bg-white h-full w-full">
       <ScrollView>
         <MainHeader />
-        <SubjectHeader />
-        <SubjectBody subjects={subjects}/>
+        <SubjectHeader setView={handleSetView} view={view}/>
+        <SubjectBody subjects={subjects} view={view}/>
       </ScrollView>
     </SafeAreaView>
   );
