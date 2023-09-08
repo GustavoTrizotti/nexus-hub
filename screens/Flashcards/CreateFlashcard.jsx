@@ -31,9 +31,11 @@ const CreateFlashcard = ({ route }) => {
             </Text>
           </Pressable>
         </View>
-        <View className="p-4 flex justify-center items-center">
-          <CreateCardTag card={card} />
-        </View>
+        {card ? (
+          <View className="p-4 flex justify-center items-center">
+            <CreateCardTag card={card} />
+          </View>
+        ) : null}
       </ScrollView>
     </SafeAreaView>
   );
