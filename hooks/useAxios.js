@@ -2,7 +2,7 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 
 const useAxios = (params) => {
-    axios.defaults.baseURL = "http://localhost:8080/api/v1/"
+    axios.defaults.baseURL = "http://localhost:8080/api/v1"
     const [res, setRes] = useState('');
     const [err, setErr] = useState('');
     const [loading, setLoading] = useState(true);

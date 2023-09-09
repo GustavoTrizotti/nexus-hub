@@ -3,7 +3,7 @@ import React from 'react'
 
 const Login = () => {
   return (
-    <View>
+    <View className="flex bg-white w-full h-full justify-center items-center">
       <Text>Login</Text>
     </View>
   )
