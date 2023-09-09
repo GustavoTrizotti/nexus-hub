@@ -3,10 +3,10 @@ import React from 'react'
 
 const Login = () => {
   return (
-    <View className="flex bg-white w-full h-full justify-center items-center">
-      <Text>Login</Text>
+    <View className="flex bg w-full h-full justify-center items-center">
+      <Text>Texto</Text>
     </View>
   )
-}
+  }
 
 export default Login
