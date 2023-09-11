@@ -1,14 +1,62 @@
 import { View, TextInput } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
-const FormInput = ({ name, placeholder, color = "#2E2E2E" }) => {
+const FormInput = ({ name, placeholder, isPassword }) => {
+  const [text, setText] = useState("");
+  const [visible, setVisible] = useState(true);
+
   return (
-    <View className="flex flex-row border-2 border-secondary">
-      <View className="bg-secondary flex justify-center items-center px-2.5 py-2 mr-4">
-        <Icon name={name} color={color} size={32} />
-      </View>
-      <TextInput placeholder={placeholder} className="flex-1 text-secondary" placeholderTextColor="#2E2E2E"/>
+    <View className="flex flex-row border-b-2 border-gray-300 justify-between">
+      {!visible ? (
+        <TextInput
+          placeholder={placeholder}
+          className="text-secondary text-lg"
+          value={text}
+          onChangeText={(e) => setText(e)}
+          secureTextEntry={isPassword}
+        />
+      ) : (
+        <TextInput
+          placeholder={placeholder}
+          className="text-secondary text-lg"
+          value={text}
+          onChangeText={(e) => setText(e)}
+        />
+      )}
+
+      {!isPassword ? (
+        <View className="flex justify-center items-center p-2">
+          {text.length > 0 ? (
+            <Icon
+              name={"close-circle"}
+              color="#d1d5db"
+              size={32}
+              onPress={() => setText("")}
+            />
+          ) : (
+            <Icon name={name} color="#d1d5db" size={32} />
+          )}
+        </View>
+      ) : (
+        <View className="flex justify-center items-center p-2">
+          {visible ? (
+            <Icon
+              name={"eye"}
+              color="#d1d5db"
+              size={32}
+              onPress={() => setVisible(!visible)}
+            />
+          ) : (
+            <Icon
+              name={"lock"}
+              color="#d1d5db"
+              size={32}
+              onPress={() => setVisible(!visible)}
+            />
+          )}
+        </View>
+      )}
     </View>
   );
 };

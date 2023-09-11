@@ -3,29 +3,33 @@ import {
   Keyboard,
   Platform,
   Pressable,
-  Image,
   Text,
+  View,
+  Image,
 } from "react-native";
 import React from "react";
-import { LinearGradient } from "expo-linear-gradient";
 import LoginForm from "../components/Login/LoginForm";
+import { SafeAreaView } from "react-native-safe-area-context";
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
 const Login = () => {
   return (
-    <LinearGradient
-      colors={["#CF9EFF", "#AD6FEB"]}
-      className="flex w-full h-full p-4"
-    >
+    <SafeAreaView className="flex items-center justify-center bg-white">
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : "height"}
-        className="flex w-full h-full justify-center"
+        className="flex w-full h-full justify-center items-center"
       >
-        <Pressable onPress={Keyboard.dismiss} className="flex w-full h-full items-center justify-between">
-          <Text>Text</Text>
-          <LoginForm />
+        <Pressable
+          onPress={Keyboard.dismiss}
+          className="flex w-full h-full items-center justify-evenly p-4 px-6"
+        >
+          <View className="w-full flex justify-center items-center gap-y-40">
+            <Icon name="cube" color={"#AD6FEB"} size={120}/>
+            <LoginForm />
+          </View>
         </Pressable>
       </KeyboardAvoidingView>
-    </LinearGradient>
+    </SafeAreaView>
   );
 };
 
