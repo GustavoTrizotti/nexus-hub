@@ -5,6 +5,7 @@ import {
   Pressable,
   View,
   Image,
+  Text,
 } from "react-native";
 import React from "react";
 import LoginForm from "../components/Login/LoginForm";
@@ -19,12 +20,15 @@ const Login = () => {
       >
         <Pressable
           onPress={Keyboard.dismiss}
-          className="flex w-full h-full items-center justify-evenly p-4 px-6"
+          className="flex w-full h-full items-center justify-center p-4 px-6"
         >
-          <View className="w-full flex justify-center items-center gap-y-40">
+          <View>
             <Image source={require("../assets/logo.png")} />
-            <LoginForm />
           </View>
+          <Text className="font-bold text-2xl uppercase text-primary mt-4">
+            Login
+          </Text>
+          <LoginForm />
         </Pressable>
       </KeyboardAvoidingView>
     </SafeAreaView>
