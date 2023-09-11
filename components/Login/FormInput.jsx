@@ -2,26 +2,29 @@ import { View, TextInput } from "react-native";
 import React, { useState } from "react";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
-const FormInput = ({ name, placeholder, isPassword }) => {
+const FormInput = ({ name, placeholder, isPassword, color="#d1d5db" }) => {
   const [text, setText] = useState("");
-  const [visible, setVisible] = useState(true);
+  const [visible, setVisible] = useState(false);
 
   return (
-    <View className="flex flex-row border-b-2 border-gray-300 justify-between">
+    <View className="flex flex-row border-b-2 justify-between mb-3" style={{borderColor: color}}>
       {!visible ? (
         <TextInput
           placeholder={placeholder}
-          className="text-secondary text-lg"
+          className="text-lg flex-1"
+          style={{color: color}}
           value={text}
           onChangeText={(e) => setText(e)}
           secureTextEntry={isPassword}
+          placeholderTextColor={color}
         />
       ) : (
         <TextInput
           placeholder={placeholder}
-          className="text-secondary text-lg"
+          className="text-secondary text-lg flex-1"
           value={text}
           onChangeText={(e) => setText(e)}
+          placeholderTextColor={color}
         />
       )}
 
@@ -30,12 +33,12 @@ const FormInput = ({ name, placeholder, isPassword }) => {
           {text.length > 0 ? (
             <Icon
               name={"close-circle"}
-              color="#d1d5db"
+              color={color}
               size={32}
               onPress={() => setText("")}
             />
           ) : (
-            <Icon name={name} color="#d1d5db" size={32} />
+            <Icon name={name} color={color} size={32} />
           )}
         </View>
       ) : (
@@ -43,14 +46,14 @@ const FormInput = ({ name, placeholder, isPassword }) => {
           {visible ? (
             <Icon
               name={"eye"}
-              color="#d1d5db"
+              color={color}
               size={32}
               onPress={() => setVisible(!visible)}
             />
           ) : (
             <Icon
               name={"lock"}
-              color="#d1d5db"
+              color={color}
               size={32}
               onPress={() => setVisible(!visible)}
             />
