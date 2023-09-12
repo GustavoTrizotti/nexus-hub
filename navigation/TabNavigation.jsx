@@ -8,6 +8,7 @@ import Subjects from "../navigation/SubjectNavigation";
 import Cycle from "../screens/Cycle";
 import Flashcards from "../navigation/FlashcardsNavigation"
 import Sessions from "../screens/Sessions";
+import DrawerNavigation from "./DrawerNavigation";
 
 const TabNavigation = () => {
   const Tab = createBottomTabNavigator();
@@ -72,6 +73,7 @@ const TabNavigation = () => {
         <Tab.Screen name={SCREEN_NAMES.CYCLE} component={Cycle} />
         <Tab.Screen name={SCREEN_NAMES.CARDS} component={Flashcards} />
         <Tab.Screen name={SCREEN_NAMES.SESSIONS} component={Sessions} />
+        <Tab.Screen name="Drawer" component={DrawerNavigation} />
       </Tab.Navigator>
     </NavigationContainer>
   );

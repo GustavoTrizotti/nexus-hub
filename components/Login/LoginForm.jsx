@@ -63,14 +63,20 @@ const LoginForm = () => {
                   username: username,
                   password: password,
                 })
-                .then((res) =>
+                .then(res =>
                   navigation.navigate("Tab", {
                     userId: res.data,
                     authorization: res.headers.authorization,
                     message: true,
                   })
                 )
-                .catch((e) => toast.show("Login failed!", {type: "danger", dangerColor: "#FFA0A0"}))
+                .catch((e) =>
+                  toast.show(`Login failed! ${e}`, {
+                    type: "danger",
+                    dangerColor: "#FFA0A0",
+                    textStyle: { textAlign: "center" },
+                  })
+                )
             }
           >
             <Text className="text-white font-bold text-lg text-center uppercase">

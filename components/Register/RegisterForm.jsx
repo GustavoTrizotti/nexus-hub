@@ -2,12 +2,15 @@ import { View, Text, Pressable } from "react-native";
 import React, { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import FormInput from "../Login/FormInput";
+import axios from "axios";
 
 const RegisterForm = () => {
   const [name, setName] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const navigation = useNavigation();
+
+  const url = `http://192.168.0.12:8080/register`;
 
   return (
     <View className="flex w-full m-4 h-auto justify-center">
@@ -52,7 +55,19 @@ const RegisterForm = () => {
         </View>
       </View>
       <View className="flex p-2 mt-4 mx-4">
-        <Pressable className="bg-white flex p-4 items-center justify-center rounded-full mt-2">
+        <Pressable
+          className="bg-white flex p-4 items-center justify-center rounded-full mt-2"
+          onPress={() =>
+            axios
+              .post(url, {
+                name: name,
+                username: username,
+                password: password,
+              })
+              .then((res) => console.log(res))
+              .catch((e) => console.log(e))
+          }
+        >
           <Text className="text-primary font-bold text-lg text-center uppercase">
             Register
           </Text>
