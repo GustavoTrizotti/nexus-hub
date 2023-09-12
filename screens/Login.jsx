@@ -20,14 +20,14 @@ const Login = () => {
       >
         <Pressable
           onPress={Keyboard.dismiss}
-          className="flex w-full h-full items-center justify-center p-4 px-6"
+          className="flex w-full h-full items-center justify-center px-6"
         >
-          <View>
+          <View className="flex justify-center items-center mb-8">
             <Image source={require("../assets/logo.png")} />
+            <Text className="font-bold text-2xl uppercase text-primary mt-4">
+              Login
+            </Text>
           </View>
-          <Text className="font-bold text-2xl uppercase text-primary mt-4">
-            Login
-          </Text>
           <LoginForm />
         </Pressable>
       </KeyboardAvoidingView>

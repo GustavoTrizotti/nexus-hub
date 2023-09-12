@@ -1,31 +1,48 @@
 import { View, Text, Pressable } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import FormInput from "../Login/FormInput";
-import { LinearGradient } from "expo-linear-gradient";
 
 const RegisterForm = () => {
+  const [name, setName] = useState("");
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
   const navigation = useNavigation();
 
   return (
     <View className="flex w-full m-4 h-auto justify-center">
       <View>
-        <FormInput name="format-text" placeholder="Name..." color="#FFF" />
+        <FormInput
+          name="format-text"
+          placeholder="Name..."
+          color="#FFF"
+          textColor="#FFF"
+          changeText={setName}
+          text={name}
+        />
       </View>
       <View>
-        <FormInput name="account" placeholder="Username..." color="#FFF" />
+        <FormInput
+          name="account"
+          placeholder="Username..."
+          color="#FFF"
+          textColor="#FFF"
+          changeText={setUsername}
+          text={username}
+        />
       </View>
       <View>
         <FormInput
           name="key"
           placeholder="Password..."
           color="#FFF"
+          textColor="#FFF"
           isPassword={true}
+          changeText={setPassword}
+          text={password}
         />
         <View className="flex flex-row w-full justify-center gap-x-1.5 items-center pt-2 mt-4">
-          <Text className="text-md text-white">
-            Already has an account?
-          </Text>
+          <Text className="text-md text-white">Already has an account?</Text>
           <Text
             className="text-md text-white font-bold"
             onPress={() => navigation.navigate("Login")}

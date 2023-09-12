@@ -24,6 +24,7 @@ const TabNavigation = () => {
     <NavigationContainer independent={true}>
       <Tab.Navigator
         backBehavior="history"
+        initialRouteName={SCREEN_NAMES.HOME}
         screenOptions={({ route }) => ({
           tabBarHideOnKeyboard: true,
           headerShown: false,

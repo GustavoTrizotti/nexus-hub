@@ -10,10 +10,12 @@ import {
 import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import RegisterForm from "../components/Register/RegisterForm";
+import { StatusBar } from "expo-status-bar";
 
 const Register = () => {
   return (
     <SafeAreaView className="flex items-center justify-center bg-primary">
+      <StatusBar style="light" />
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : "height"}
         className="flex w-full h-full justify-center items-center"

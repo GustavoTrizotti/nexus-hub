@@ -2,8 +2,7 @@ import { View, TextInput } from "react-native";
 import React, { useState } from "react";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
-const FormInput = ({ name, placeholder, isPassword, color="#d1d5db" }) => {
-  const [text, setText] = useState("");
+const FormInput = ({ name, placeholder, isPassword, color="#d1d5db", textColor, changeText, text }) => {
   const [visible, setVisible] = useState(false);
 
   return (
@@ -12,9 +11,9 @@ const FormInput = ({ name, placeholder, isPassword, color="#d1d5db" }) => {
         <TextInput
           placeholder={placeholder}
           className="text-lg flex-1"
-          style={{color: color}}
+          style={{color: textColor}}
           value={text}
-          onChangeText={(e) => setText(e)}
+          onChangeText={(e) => changeText(e)}
           secureTextEntry={isPassword}
           placeholderTextColor={color}
         />
@@ -22,8 +21,9 @@ const FormInput = ({ name, placeholder, isPassword, color="#d1d5db" }) => {
         <TextInput
           placeholder={placeholder}
           className="text-secondary text-lg flex-1"
+          style={{color: textColor}}
           value={text}
-          onChangeText={(e) => setText(e)}
+          onChangeText={(e) => changeText(e)}
           placeholderTextColor={color}
         />
       )}
@@ -35,7 +35,7 @@ const FormInput = ({ name, placeholder, isPassword, color="#d1d5db" }) => {
               name={"close-circle"}
               color={color}
               size={32}
-              onPress={() => setText("")}
+              onPress={() => changeText("")}
             />
           ) : (
             <Icon name={name} color={color} size={32} />

@@ -6,30 +6,24 @@ import Register from "./screens/Register";
 import TabNavigation from "./navigation/TabNavigation";
 import { Provider } from "react-redux";
 import store from "./redux/store";
-import { useState } from "react";
-import useAxios from "./hooks/useAxios";
+import { ToastProvider } from "react-native-toast-notifications";
 
 export default function App() {
   const Stack = createNativeStackNavigator();
-
-  /* const [data, setData] = useState(null);
-  const [res, err, loading] = useAxios({
-    url: '/subjects/all',
-    method: 'get',
-    headers: {
-      
-    }
-  })
- */
   return (
     <Provider store={store}>
-      <NavigationContainer>
-        <Stack.Navigator initialRouteName="Login" screenOptions={{ headerShown: false }}>
-          <Stack.Screen name="Tab" component={TabNavigation} />
-          <Stack.Screen name="Login" component={Login} />
-          <Stack.Screen name="Register" component={Register} />
-        </Stack.Navigator>
-      </NavigationContainer>
+      <ToastProvider>
+        <NavigationContainer>
+          <Stack.Navigator
+            initialRouteName="Login"
+            screenOptions={{ headerShown: false }}
+          >
+            <Stack.Screen name="Tab" component={TabNavigation} />
+            <Stack.Screen name="Login" component={Login} />
+            <Stack.Screen name="Register" component={Register} />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </ToastProvider>
     </Provider>
   );
 }
