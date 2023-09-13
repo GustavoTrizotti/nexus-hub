@@ -64,7 +64,7 @@ const LoginForm = () => {
                   password: password,
                 })
                 .then(res =>
-                  navigation.navigate("Tab", {
+                  navigation.navigate("Drawer", {
                     userId: res.data,
                     authorization: res.headers.authorization,
                     message: true,

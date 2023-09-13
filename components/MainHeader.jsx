@@ -1,12 +1,21 @@
-import { View, Text, TouchableWithoutFeedback } from "react-native";
+import { View, Text, Pressable } from "react-native";
 import React from "react";
 import { StatusBar } from "expo-status-bar";
 import Icon from "react-native-vector-icons/FontAwesome5";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { useFonts } from "expo-font";
+import { useDispatch, useSelector } from "react-redux";
+import { openDrawer, closeDrawer, toggleDrawer } from "../redux/drawer/slice";
 
 const MainHeader = ({ title, search }) => {
 
+  const dispatch = useDispatch();
+  const isOpen = useSelector((state) => state.isOpen);
+  
+  const handleOpenDrawer = () => { 
+    dispatch(openDrawer());
+  }
+  
   const [fontsLoaded] = useFonts({
     'Sora': require('../assets/fonts/Sora/Sora-Regular.ttf')
   });
@@ -22,11 +31,11 @@ const MainHeader = ({ title, search }) => {
     <View className="bg-white p-6 flex flex-row items-center justify-between">
       <StatusBar style="dark" backgroundColor="#fff" />
       {route.name === "HOME" ? (
-        <Icon name="bars" size={24} color="#AD6FEB" />
+        <Icon name="bars" size={24} color="#AD6FEB" onPress={handleOpenDrawer}/>
       ) : (
-        <TouchableWithoutFeedback onPress={() => navigation.goBack()}>
+        <Pressable onPress={() => navigation.goBack()}>
           <Icon name="chevron-left" size={24} color="#AD6FEB" />
-        </TouchableWithoutFeedback>
+        </Pressable>
       )}
       {title != null ? (
         <Text className="text-primary text-center text-2xl font-bold" style={{fontFamily: 'Sora'}}>
