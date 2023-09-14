@@ -1,19 +1,49 @@
-import { View, Text, Pressable } from "react-native";
+import { View, Text, Pressable, ActivityIndicator } from "react-native";
 import React, { useState } from "react";
 import FormInput from "./FormInput";
 import { LinearGradient } from "expo-linear-gradient";
 import { useNavigation } from "@react-navigation/native";
 import axios from "axios";
 import { useToast } from "react-native-toast-notifications";
+import { useAuth } from "../../context/AuthContext";
 
 const LoginForm = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
   const navigation = useNavigation();
+
+  const { setAuthToken } = useAuth();
 
   const url = `http://192.168.0.12:8080/login`;
 
   const toast = useToast();
+
+  const handleLogin = async () => {
+    setLoading(true);
+    await axios
+      .post(url, {
+        username: username,
+        password: password,
+      })
+      .then((response) => {
+        setLoading(false);
+        setError(false);
+        setAuthToken(response.headers.authorization);
+        navigation.navigate("Drawer");
+      })
+      .catch((error) => {
+        console.log(error);
+        setLoading(false);
+        setError(true);
+        toast.show("Login Failed", {
+          type: "danger",
+          dangerColor: "#FFA0A0",
+        });
+      });
+  };
 
   return (
     <View className="flex w-full m-4 gap-y-6 h-1/2 justify-center">
@@ -56,32 +86,14 @@ const LoginForm = () => {
           start={{ x: 0, y: 0 }}
           end={{ x: 1, y: 1 }}
         >
-          <Pressable
-            onPress={() =>
-              axios
-                .post(url, {
-                  username: username,
-                  password: password,
-                })
-                .then(res =>
-                  navigation.navigate("Drawer", {
-                    userId: res.data,
-                    authorization: res.headers.authorization,
-                    message: true,
-                  })
-                )
-                .catch((e) =>
-                  toast.show(`Login failed! ${e}`, {
-                    type: "danger",
-                    dangerColor: "#FFA0A0",
-                    textStyle: { textAlign: "center" },
-                  })
-                )
-            }
-          >
-            <Text className="text-white font-bold text-lg text-center uppercase">
-              Login
-            </Text>
+          <Pressable onPress={() => handleLogin()}>
+            {loading ? (
+              <ActivityIndicator size="large" color="#FFF" />
+            ) : (
+              <Text className="text-white font-bold text-lg text-center uppercase">
+                Login
+              </Text>
+            )}
           </Pressable>
         </LinearGradient>
       </View>
