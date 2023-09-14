@@ -1,4 +1,4 @@
-import { DrawerActions, NavigationContainer, useNavigation } from "@react-navigation/native";
+import { NavigationContainer, useNavigation } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
@@ -8,16 +8,10 @@ import Subjects from "../navigation/SubjectNavigation";
 import Cycle from "../screens/Cycle";
 import Flashcards from "../navigation/FlashcardsNavigation"
 import Sessions from "../screens/Sessions";
-import { useSelector } from "react-redux";
 
 const TabNavigation = () => {
   const navigation = useNavigation();
   const Tab = createBottomTabNavigator();
-
-  const drawerOpen = useSelector((state) => state.isOpen);
-  if (drawerOpen) {
-    navigation.dispatch(DrawerActions.openDrawer());
-  }
 
   const SCREEN_NAMES = {
     HOME: "HOME",

@@ -1,7 +1,7 @@
 import { View, Text, Pressable, TextInput } from "react-native";
-import React, { useState } from "react";
+import React from "react";
 
-const CreateDeck = ({ closeModal }) => {
+const CreateDeck = () => {
   return (
     <View className="flex relative justify-center items-center p-2 py-8 bg-white mx-4 my-8 h-fit rounded-lg">
       <View className="flex px-6 py-2 w-full">
