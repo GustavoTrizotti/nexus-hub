@@ -3,18 +3,22 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 import Login from "./screens/Login";
 import Register from "./screens/Register";
-import AuthProvider from "./context/AuthContext";
+import AuthProvider, { useAuth } from "./context/AuthContext";
 import { ToastProvider } from "react-native-toast-notifications";
 import DrawerNavigation from "./navigation/DrawerNavigation";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function App() {
   const Stack = createNativeStackNavigator();
+  const token = AsyncStorage.getItem("authToken").then((token) => token);
+  const routeName = token ? "Drawer" : "Login";
+
   return (
     <AuthProvider>
       <ToastProvider>
         <NavigationContainer>
           <Stack.Navigator
-            initialRouteName="Login"
+            initialRouteName={routeName}
             screenOptions={{ headerShown: false }}
           >
             <Stack.Screen name="Drawer" component={DrawerNavigation} />

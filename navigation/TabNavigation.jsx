@@ -10,7 +10,6 @@ import Flashcards from "../navigation/FlashcardsNavigation"
 import Sessions from "../screens/Sessions";
 
 const TabNavigation = () => {
-  const navigation = useNavigation();
   const Tab = createBottomTabNavigator();
 
   const SCREEN_NAMES = {
