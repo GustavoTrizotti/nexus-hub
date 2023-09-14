@@ -39,9 +39,6 @@
     "react-native-svg": "13.9.0",
     "react-native-toast-notifications": "^3.4.0",
     "react-native-vector-icons": "^10.0.0",
-    "react-redux": "^8.1.2",
-    "redux": "^4.2.1",
-    "redux-logger": "^3.0.6",
     "tailwindcss": "^3.3.2"
   },
   "devDependencies": {

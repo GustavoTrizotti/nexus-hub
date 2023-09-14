@@ -4,11 +4,10 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import MainHeader from "../components/MainHeader";
 import SubjectHeader from "../components/Subjects/SubjectHeader";
 import SubjectBody from "../components/Subjects/SubjectBody";
-import { useSelector } from "react-redux";
 
 const Subjects = () => {
   const [view, setView] = useState(false)
-  const {subjects} = useSelector(rootReducer => rootReducer.subjectReducer)
+  const subjects = []
 
   const handleSetView = () => {
     setView(!view);
