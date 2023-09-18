@@ -9,15 +9,7 @@ import { useAuth } from "../context/AuthContext";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const CustomDrawer = (props) => {
-    const { setAuthToken } = useAuth();
-    const navigation = props.navigation;
-
-    const handleLogout = () => {
-        console.log("logout")
-        setAuthToken(null);
-        AsyncStorage.removeItem("authToken");
-        navigation.navigate("Login");
-    }
+  const navigation = props.navigation;
 
   return (
     <View className="flex-1">
@@ -25,7 +17,7 @@ const CustomDrawer = (props) => {
         <DrawerItemList {...props} />
       </DrawerContentScrollView>
       <View className="w-full flex p-4 items-start justify-center">
-        <Pressable className="bg-primary p-3 flex flex-row rounded-md" onPress={() => handleLogout()}>
+        <Pressable className="bg-primary p-3 flex flex-row rounded-md">
             <Icon name='logout' size={20} color="#fff"/>
           <Text className="text-md text-white font-bold uppercase ml-2">Logout</Text>
         </Pressable>

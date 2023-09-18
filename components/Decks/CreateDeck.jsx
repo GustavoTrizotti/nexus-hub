@@ -12,7 +12,6 @@ const CreateDeck = () => {
           <TextInput
             className="flex p-4 bg-gray-100 mt-2 text-lg rounded-lg"
             placeholder="Name..."
-            onChangeText={(e) => setName(e)}
           />
         </View>
         <Pressable className="p-2 bg-primary mt-6 rounded-md">

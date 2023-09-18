@@ -5,8 +5,6 @@ import { LinearGradient } from "expo-linear-gradient";
 import { useNavigation } from "@react-navigation/native";
 import axios from "axios";
 import { useToast } from "react-native-toast-notifications";
-import { useAuth } from "../../context/AuthContext";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const LoginForm = () => {
   const [username, setUsername] = useState("");
@@ -15,8 +13,6 @@ const LoginForm = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const navigation = useNavigation();
-
-  const { setAuthToken } = useAuth();
 
   const url = `http://192.168.0.12:8080/login`;
 
