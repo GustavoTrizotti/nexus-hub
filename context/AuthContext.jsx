@@ -12,7 +12,7 @@ export const useAuth = () => {
 };
 
 export const AuthProvider = ({ children }) => {
-  const [state, setState] = useState({ refreshed: false, auth: null });
+  const [state, setState] = useState({ refreshed: false });
   const { setItem, getItem } = useAsyncStorage("token");
 
   const refresh = async () => {
@@ -23,10 +23,6 @@ export const AuthProvider = ({ children }) => {
       refreshed: true,
     }));
   };
-
-  useEffect(() => {
-    setItem(JSON.stringify(state));
-  }, [state]);
 
   useEffect(() => {
     refresh();

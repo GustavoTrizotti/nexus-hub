@@ -8,13 +8,13 @@ import Subjects from "../navigation/SubjectNavigation";
 import Cycle from "../screens/Cycle";
 import Flashcards from "../navigation/FlashcardsNavigation"
 import Sessions from "../screens/Sessions";
-import { useAsyncStorage } from "@react-native-async-storage/async-storage";
+import { useAuth } from "../context/AuthContext";
 
 const TabNavigation = () => {
   const Tab = createBottomTabNavigator();
 
-  const { getItem, setItem } = useAsyncStorage('token');
-  getItem().then(res => console.log(res));
+  const [token, setToken] = useAuth();
+  console.log(token);
 
   const SCREEN_NAMES = {
     HOME: "HOME",

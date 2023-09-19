@@ -10,8 +10,6 @@ import {
 import React from "react";
 import LoginForm from "../components/Login/LoginForm";
 import { SafeAreaView } from "react-native-safe-area-context";
-import axios from "axios";
-import { useState } from "react";
 
 const Login = () => {
   return (

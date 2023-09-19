@@ -7,7 +7,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import DeckList from "../components/Decks/DeckList";
 import CreateDeck from "../components/Decks/CreateDeck";
 import ReactNativeModal from "react-native-modal";
-import axios from "axios";
+import connect from "../utils/baseAxios"
 
 import { useEffect } from "react";
 import { useAuth } from "../context/AuthContext";
@@ -30,7 +30,7 @@ export default function Decks() {
   };
 
   const deckList = async () => {
-    await axios
+    await connect
       .get("http://192.168.0.12:8080/api/v1/decks/all", {
         headers: {
           Authorization: token

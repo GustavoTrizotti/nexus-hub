@@ -40,7 +40,10 @@
     "react-native-toast-notifications": "^3.4.0",
     "react-native-vector-icons": "^10.0.0",
     "react-query": "^3.39.3",
-    "tailwindcss": "^3.3.2"
+    "tailwindcss": "^3.3.2",
+    "react-native-web": "~0.19.6",
+    "react-dom": "18.2.0",
+    "@expo/webpack-config": "^19.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0"

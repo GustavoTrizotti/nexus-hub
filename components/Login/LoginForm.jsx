@@ -7,6 +7,7 @@ import axios from "axios";
 import { useToast } from "react-native-toast-notifications";
 import { useAuth } from "../../context/AuthContext";
 import { useCallback } from "react";
+import { useAsyncStorage } from "@react-native-async-storage/async-storage";
 
 const LoginForm = () => {
   const [username, setUsername] = useState("");
@@ -19,12 +20,13 @@ const LoginForm = () => {
 
   const [token, setToken] = useAuth();
 
-  const url = `http://192.168.0.12:8080/login`;
+  const url = `http://10.115.71.55:8080/login`;
 
   const toast = useToast();
 
   const handleLogin = async () => {
     setLoading(true);
+    const { setItem } = useAsyncStorage('token');
     await axios
       .post(url, {
         username: username,
@@ -34,6 +36,7 @@ const LoginForm = () => {
         setData(response)
         setLoading(false);
         console.log(response.headers.authorization);
+        setItem(response.headers.authorization)
         setToken({refreshed: true, auth: response.headers.authorization})
       })
       .catch((error) => {
