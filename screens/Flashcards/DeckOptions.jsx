@@ -11,28 +11,30 @@ import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import randomCard from "../../utils/randomCard";
 import { useNavigation } from "@react-navigation/native";
 import CardList from "../../components/DeckOptions/CardList";
+import CreateFlashcard from "./CreateFlashcard"
 
 const DeckOptions = ({ route }) => {
   const deck = route.params.deck;
-  const length = route.params.length;
-  const selectedCard = randomCard(deck.cards);
+  const cards = route.params.cards;
+  const length = cards.length;
+  const selectedCard = randomCard(cards);
   const navigation = useNavigation();
 
-  return (
-    <SafeAreaView className="flex bg-white h-full w-full">
-      <ScrollView>
-        <MainHeader title={deck.name} />
-        <KeyboardAvoidingView
-          behavior={Platform.OS === "ios" ? "padding" : "height"}
-        >
-          <DeckOptionsHeader
-            title={deck.name}
-            navigation={navigation}
-            card={selectedCard}
-          />
-          {length > 0 ? (
+  if (length > 0) {
+    return (
+      <SafeAreaView className="flex bg-white h-full w-full">
+        <ScrollView>
+          <MainHeader title={deck.name} />
+          <KeyboardAvoidingView
+            behavior={Platform.OS === "ios" ? "padding" : "height"}
+          >
+            <DeckOptionsHeader
+              title={deck.name}
+              navigation={navigation}
+              card={selectedCard}
+            />
             <View className="flex items-center justify-center mt-4">
-              <DeckOptionsChart deck={deck} />
+              <DeckOptionsChart deck={deck} cards={cards} />
               <View className="flex flex-row mt-6 mx-2 items-center justify-between">
                 <Pressable
                   className="flex flex-1 bg-primary p-4 m-2 rounded-md"
@@ -55,14 +57,14 @@ const DeckOptions = ({ route }) => {
                 </Pressable>
               </View>
             </View>
-          ) : (
-            navigation.navigate("CreateCard", { title: deck.name })
-          )}
-        </KeyboardAvoidingView>
-        <CardList deck={deck} />
-      </ScrollView>
-    </SafeAreaView>
-  );
+          </KeyboardAvoidingView>
+          <CardList deck={deck} cards={cards} />
+        </ScrollView>
+      </SafeAreaView>
+    );
+  } else {
+    return <CreateFlashcard card={selectedCard} title={deck.name}/>
+  }
 };
 
 export default DeckOptions;

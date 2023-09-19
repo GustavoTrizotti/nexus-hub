@@ -1,14 +1,18 @@
 import { View } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import DeckListItem from "./DeckListItem";
 import DeckListChildItem from "./DeckListChildItem";
+import axios from "axios";
+import { useAuth } from "../../context/AuthContext";
 
-const DeckList = ({ deckList }) => {
+const DeckList = ({ decks }) => {
+
+  const [token] = useAuth();
 
   return (
     <View className="flex px-2">
-      {deckList.map((deck) => {
+      {decks.map((deck) => {
         if (deck.childDeck) {
           return (
             <DeckListChildItem

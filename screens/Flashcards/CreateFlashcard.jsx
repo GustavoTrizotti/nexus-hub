@@ -7,10 +7,7 @@ import CreateCardTag from "../../components/Flashcards/CreateFlashcard/CreateCar
 import { Pressable } from "react-native";
 import { ScrollView } from "react-native";
 
-const CreateFlashcard = ({ route }) => {
-  const title = route.params.title;
-  const card = route.params.card;
-
+const CreateFlashcard = ({ title, card }) => {
   return (
     <SafeAreaView className="bg-white h-full">
       <ScrollView>

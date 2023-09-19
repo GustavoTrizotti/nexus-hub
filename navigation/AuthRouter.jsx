@@ -9,7 +9,6 @@ import SplashScreen from "../screens/SplashScreen"
 const AuthRouter = () => {
   const Stack = createNativeStackNavigator();
   const [{auth, refreshed}] = useAuth();
-  console.log(auth, refreshed);
 
     if (!refreshed) {
         return <SplashScreen />

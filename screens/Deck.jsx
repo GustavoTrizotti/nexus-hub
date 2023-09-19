@@ -7,20 +7,18 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import DeckList from "../components/Decks/DeckList";
 import CreateDeck from "../components/Decks/CreateDeck";
 import ReactNativeModal from "react-native-modal";
-import connect from "../utils/baseAxios"
+import connect from "../utils/baseAxios";
 
 import { useEffect } from "react";
 import { useAuth } from "../context/AuthContext";
 
 export default function Decks() {
-  const [data, setData] = useState(null)
-  const [isLoading, setIsLoading] = useState(true)
-  const [error, setError] = useState(null)
+  const [decks, setDecks] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
-  const [token, setToken] = useAuth();
+  const [token] = useAuth();
 
   const [modalVisible, setModalVisible] = useState(false);
-  const decks = [];
 
   const handleSetModalVisible = () => {
     setModalVisible(true);
@@ -30,25 +28,25 @@ export default function Decks() {
     setModalVisible(false);
   };
 
-  const deckList = async () => {
+  const getDeckList = async () => {
     await connect
       .get("http://192.168.0.12:8080/api/v1/decks/all", {
         headers: {
-          Authorization: token.auth
-        }
+          Authorization: token.auth,
+        },
       })
-      .then(res => {
-        setData(res.data)
-        setIsLoading(false)
+      .then((res) => {
+        setDecks(res.data);
+        setIsLoading(false);
       })
-      .catch(e => {
-        setError(e)
-        setIsLoading(false)
-      })
+      .catch((e) => {
+        console.log(e);
+        setIsLoading(false);
+      });
   };
 
   useEffect(() => {
-    deckList();
+    getDeckList();
   }, []);
 
   return (
@@ -60,8 +58,10 @@ export default function Decks() {
           <View>
             <ActivityIndicator size="large" color="#000" />
           </View>
-        ) : <DeckList deckList={data} />}
-        
+        ) : (
+          <DeckList decks={decks} />
+        )}
+
         <ReactNativeModal
           isVisible={modalVisible}
           onBackdropPress={() => setModalVisible(false)}

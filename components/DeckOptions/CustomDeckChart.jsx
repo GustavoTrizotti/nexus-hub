@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { View, Text, Dimensions } from "react-native";
 import React from "react";
 import PieChart from "react-native-pie-chart";
@@ -6,9 +5,9 @@ import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
 import percentageFormat from "../../utils/deckCardPercentageFormat";
 
-const CustomDeckChart = ({ deck }) => {
-  const deckCards = deck.cards;
-  const deckCardsLength = deck.cards.length;
+const CustomDeckChart = ({ cards }) => {
+  const deckCards = cards;
+  const deckCardsLength = cards.length;
   const countNew = deckCards.filter((deck) => deck.status === "NEW").length;
   const countLearning = deckCards.filter(
     (deck) => deck.status === "LEARNING"
@@ -19,7 +18,7 @@ const CustomDeckChart = ({ deck }) => {
 
   const width = Dimensions.get("window").width * 0.5;
   const series = [countNew, countLearning, countLearned];
-  const sliceColor = ["#AD6FEB", "#CF9EFF", "#4f4e4e"];
+  const sliceColor = ["#AD6FEB", "#CF9EFF", "#9d63d4"];
 
   return (
     <View className="flex gap-4">
@@ -54,8 +53,8 @@ const CustomDeckChart = ({ deck }) => {
         ) : null}
         {countLearned != 0 ? (
           <View className="flex flex-row items-center justify-center gap-2">
-            <Icon name="check-bold" size={30} color={"#4f4e4e"} />
-            <Text className="text-xl text-tertiary font-bold">
+            <Icon name="check-bold" size={30} color={"#9d63d4"} />
+            <Text className="text-xl font-bold" style={{color: "#9d63d4"}}>
               Learned: {percentageFormat(deckCardsLength, countLearned)}%
             </Text>
           </View>
