@@ -1,4 +1,4 @@
-import { NavigationContainer, useNavigation } from "@react-navigation/native";
+import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
@@ -8,13 +8,9 @@ import Subjects from "../navigation/SubjectNavigation";
 import Cycle from "../screens/Cycle";
 import Flashcards from "../navigation/FlashcardsNavigation"
 import Sessions from "../screens/Sessions";
-import { useAuth } from "../context/AuthContext";
 
 const TabNavigation = () => {
   const Tab = createBottomTabNavigator();
-
-  const [token, setToken] = useAuth();
-  console.log(token);
 
   const SCREEN_NAMES = {
     HOME: "HOME",

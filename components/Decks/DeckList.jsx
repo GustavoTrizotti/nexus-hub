@@ -8,18 +8,18 @@ const DeckList = ({ deckList }) => {
 
   return (
     <View className="flex px-2">
-      {deckList.map((deck, index) => {
+      {deckList.map((deck) => {
         if (deck.childDeck) {
           return (
             <DeckListChildItem
-              key={index}
+              key={deck.id}
               deck={deck.childDeck}
               parentDeck={deck}
               parent={true}
             />
           );
         } else {
-          return <DeckListItem key={index} deck={deck} />;
+          return <DeckListItem key={deck.id} deck={deck} />;
         }
       })}
     </View>

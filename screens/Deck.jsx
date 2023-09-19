@@ -1,4 +1,4 @@
-import { Text, View } from "react-native";
+import { ActivityIndicator, Text, View } from "react-native";
 import React, { useState } from "react";
 import DeckHeader from "../components/Decks/DeckHeader";
 import MainHeader from "../components/MainHeader";
@@ -18,6 +18,7 @@ export default function Decks() {
   const [error, setError] = useState(null)
 
   const [token, setToken] = useAuth();
+
   const [modalVisible, setModalVisible] = useState(false);
   const decks = [];
 
@@ -33,16 +34,21 @@ export default function Decks() {
     await connect
       .get("http://192.168.0.12:8080/api/v1/decks/all", {
         headers: {
-          Authorization: token
+          Authorization: token.auth
         }
       })
-      .then(res => console.log(res))
-      .catch(e => console.log(e))
+      .then(res => {
+        setData(res.data)
+        setIsLoading(false)
+      })
+      .catch(e => {
+        setError(e)
+        setIsLoading(false)
+      })
   };
 
   useEffect(() => {
-    console.log("Teste");
-    deckList
+    deckList();
   }, []);
 
   return (
@@ -50,7 +56,12 @@ export default function Decks() {
       <MainHeader />
       <View className="flex bg-white w-full h-full">
         <DeckHeader handleSetModalVisible={handleSetModalVisible} />
-        <DeckList deckList={decks} />
+        {isLoading ? (
+          <View>
+            <ActivityIndicator size="large" color="#000" />
+          </View>
+        ) : <DeckList deckList={data} />}
+        
         <ReactNativeModal
           isVisible={modalVisible}
           onBackdropPress={() => setModalVisible(false)}
