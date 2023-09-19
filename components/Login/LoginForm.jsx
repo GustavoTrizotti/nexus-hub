@@ -5,14 +5,19 @@ import { LinearGradient } from "expo-linear-gradient";
 import { useNavigation } from "@react-navigation/native";
 import axios from "axios";
 import { useToast } from "react-native-toast-notifications";
+import { useAuth } from "../../context/AuthContext";
+import { useCallback } from "react";
 
 const LoginForm = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
+  const [data, setData] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(false);
+  const [error, setError] = useState(null);
   const navigation = useNavigation();
+
+  const [token, setToken] = useAuth();
 
   const url = `http://192.168.0.12:8080/login`;
 
@@ -26,19 +31,15 @@ const LoginForm = () => {
         password: password,
       })
       .then((response) => {
+        setData(response)
         setLoading(false);
-        setError(false);
-        setAuthToken(response.headers.authorization);
-        navigation.navigate("Drawer");
+        console.log(response.headers.authorization);
+        setToken({refreshed: true, auth: response.headers.authorization})
       })
       .catch((error) => {
         console.log(error);
         setLoading(false);
-        setError(true);
-        toast.show("Login Failed", {
-          type: "danger",
-          dangerColor: "#FFA0A0",
-        });
+        setError(error);
       });
   };
 

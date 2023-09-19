@@ -1,4 +1,4 @@
-import { View } from "react-native";
+import { Text, View } from "react-native";
 import React, { useState } from "react";
 import DeckHeader from "../components/Decks/DeckHeader";
 import MainHeader from "../components/MainHeader";
@@ -7,10 +7,19 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import DeckList from "../components/Decks/DeckList";
 import CreateDeck from "../components/Decks/CreateDeck";
 import ReactNativeModal from "react-native-modal";
+import axios from "axios";
+
+import { useEffect } from "react";
+import { useAuth } from "../context/AuthContext";
 
 export default function Decks() {
+  const [data, setData] = useState(null)
+  const [isLoading, setIsLoading] = useState(true)
+  const [error, setError] = useState(null)
+
+  const [token, setToken] = useAuth();
   const [modalVisible, setModalVisible] = useState(false);
-  const decks = []
+  const decks = [];
 
   const handleSetModalVisible = () => {
     setModalVisible(true);
@@ -18,7 +27,23 @@ export default function Decks() {
 
   const handleSetModalHidden = () => {
     setModalVisible(false);
-  }
+  };
+
+  const deckList = async () => {
+    await axios
+      .get("http://192.168.0.12:8080/api/v1/decks/all", {
+        headers: {
+          Authorization: token
+        }
+      })
+      .then(res => console.log(res))
+      .catch(e => console.log(e))
+  };
+
+  useEffect(() => {
+    console.log("Teste");
+    deckList
+  }, []);
 
   return (
     <SafeAreaView>
@@ -30,7 +55,7 @@ export default function Decks() {
           isVisible={modalVisible}
           onBackdropPress={() => setModalVisible(false)}
         >
-          <CreateDeck closeModal={handleSetModalHidden}/>
+          <CreateDeck closeModal={handleSetModalHidden} />
         </ReactNativeModal>
       </View>
     </SafeAreaView>

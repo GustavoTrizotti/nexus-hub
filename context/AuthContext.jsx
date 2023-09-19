@@ -1,50 +1,40 @@
-import { createContext, useState, useContext, useEffect } from "react";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useContext } from "react";
+import { createContext, useState } from "react";
+
+import { useAsyncStorage } from "@react-native-async-storage/async-storage";
+import { useEffect } from "react";
 
 const AuthContext = createContext();
 
-const AuthProvider = ({ children }) => {
-  const [token, setToken] = useState(null);
+export const useAuth = () => {
+  const [token, setToken] = useContext(AuthContext);
+  return [token, setToken];
+};
+
+export const AuthProvider = ({ children }) => {
+  const [state, setState] = useState({ refreshed: false, auth: null });
+  const { setItem, getItem } = useAsyncStorage("token");
+
+  const refresh = async () => {
+    const data = await getItem();
+    setState(prev => ({
+      ...(data && JSON.parse(data)),
+      ...prev,
+      refreshed: true,
+    }));
+  };
 
   useEffect(() => {
-    retrieveToken();
-  }, [])
+    setItem(JSON.stringify(state));
+  }, [state]);
 
-  const setAuthToken = async (newToken) => {
-    try {
-        if (newToken) {
-            await AsyncStorage.setItem("authToken", newToken);
-        } else {
-            await AsyncStorage.removeItem("authToken");
-        }
-        setToken(newToken);
-    } catch (error) {
-        console.log("Erro ao salvar o token: ", error);
-    }
-  }
-
-  const retrieveToken = async () => {
-    try {
-        const storedToken = await AsyncStorage.getItem("authToken");
-        setToken(storedToken);
-    } catch (error) {
-        console.log("Erro ao recuperar o token: ", error);
-    }
-  }
+  useEffect(() => {
+    refresh();
+  }, []);
 
   return (
-    <AuthContext.Provider value={{ token, setAuthToken }}>
-        {children}
+    <AuthContext.Provider value={[state, setState]}>
+      {children}
     </AuthContext.Provider>
   );
 };
-
-export function useAuth() {
-    const context = useContext(AuthContext);
-    if (!context) {
-        throw new Error("useAuth deve ser usado dentro de um AuthProvider");
-    }
-    return context;
-}
-
-export default AuthProvider;
