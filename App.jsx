@@ -1,6 +1,5 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { NavigationContainer } from "@react-navigation/native";
-import TabNavigation from "./navigation/TabNavigation";
 import { AuthProvider } from "./context/AuthContext";
 import AuthRouter from "./navigation/AuthRouter";
 

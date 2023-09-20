@@ -66,7 +66,7 @@ export default function Decks() {
           isVisible={modalVisible}
           onBackdropPress={() => setModalVisible(false)}
         >
-          <CreateDeck closeModal={handleSetModalHidden} />
+          <CreateDeck closeModal={handleSetModalHidden} deck={decks[0]} setDecks={setDecks}/>
         </ReactNativeModal>
       </View>
     </SafeAreaView>

@@ -33,10 +33,9 @@ export const AuthProvider = ({ children }) => {
   };
 
   const refresh = async () => {
-    console.log("Teste");
     try {
       const data = await getItem();
-      if (data.auth === null || data === null) {
+      if (data.auth === null) {
         const decodedToken = jwtDecode(data);
         const currentDate = new Date();
         decodedToken.exp * 1000 < currentDate.getTime()
@@ -45,10 +44,10 @@ export const AuthProvider = ({ children }) => {
       } else {
         setState({auth: null, refreshed: true})
       }
-    } catch (error) {
-      console.log("Error by refreshing the token: ", error);
+    } catch (e) {
+      console.log(e);
     }
-  };
+  }
 
   useEffect(() => {
     refresh();
