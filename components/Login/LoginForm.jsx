@@ -8,8 +8,8 @@ import { useAuth } from "../../context/AuthContext";
 import { useAsyncStorage } from "@react-native-async-storage/async-storage";
 
 const LoginForm = () => {
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const [username, setUsername] = useState("arthur");
+  const [password, setPassword] = useState("admin");
 
   const [loading, setLoading] = useState(false);
   const navigation = useNavigation();
@@ -28,9 +28,9 @@ const LoginForm = () => {
       })
       .then((response) => {
         setLoading(false);
-        setItem({auth: response.headers.authorization, refreshed: true})
-        setToken({auth: response.headers.authorization, refreshed: true})
         storeToken(response.headers.authorization)
+        setToken((prevState) => ({...prevState, auth: response.headers.authorization}))
+        setItem({refreshed: true, auth: response.headers.authorization})
       })
       .catch((error) => {
         console.log(error);

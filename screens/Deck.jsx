@@ -55,8 +55,8 @@ export default function Decks() {
       <View className="flex bg-white w-full h-full">
         <DeckHeader handleSetModalVisible={handleSetModalVisible} />
         {isLoading ? (
-          <View>
-            <ActivityIndicator size="large" color="#000" />
+          <View className="flex-1 items-center justify-center">
+            <ActivityIndicator size="large" color="#AD6FEB" />
           </View>
         ) : (
           <DeckList decks={decks} />

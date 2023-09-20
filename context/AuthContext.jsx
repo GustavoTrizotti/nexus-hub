@@ -33,9 +33,10 @@ export const AuthProvider = ({ children }) => {
   };
 
   const refresh = async () => {
+    console.log("Teste");
     try {
       const data = await getItem();
-      if (data.auth === null) {
+      if (data.auth === null || data === null) {
         const decodedToken = jwtDecode(data);
         const currentDate = new Date();
         decodedToken.exp * 1000 < currentDate.getTime()
