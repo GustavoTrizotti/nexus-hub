@@ -59,14 +59,14 @@ export default function Decks() {
             <ActivityIndicator size="large" color="#AD6FEB" />
           </View>
         ) : (
-          <DeckList decks={decks} />
+          <DeckList decks={decks} setDecks={setDecks}/>
         )}
 
         <ReactNativeModal
           isVisible={modalVisible}
           onBackdropPress={() => setModalVisible(false)}
         >
-          <CreateDeck closeModal={handleSetModalHidden} deck={decks[0]} setDecks={setDecks}/>
+          <CreateDeck closeModal={handleSetModalHidden} setDecks={setDecks}/>
         </ReactNativeModal>
       </View>
     </SafeAreaView>

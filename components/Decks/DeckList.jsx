@@ -1,15 +1,10 @@
 import { View } from "react-native";
-import React, { useEffect, useState } from "react";
+import React from "react";
 
 import DeckListItem from "./DeckListItem";
 import DeckListChildItem from "./DeckListChildItem";
-import axios from "axios";
-import { useAuth } from "../../context/AuthContext";
 
-const DeckList = ({ decks }) => {
-
-  const [token] = useAuth();
-
+const DeckList = ({ decks, setDecks }) => {
   return (
     <View className="flex px-2">
       {decks.map((deck) => {
@@ -23,7 +18,7 @@ const DeckList = ({ decks }) => {
             />
           );
         } else {
-          return <DeckListItem key={deck.id} deck={deck} />;
+          return <DeckListItem key={deck.id} deck={deck} decks={decks} setDecks={setDecks}/>;
         }
       })}
     </View>

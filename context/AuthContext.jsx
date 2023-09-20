@@ -35,7 +35,7 @@ export const AuthProvider = ({ children }) => {
   const refresh = async () => {
     try {
       const data = await getItem();
-      if (data.auth === null) {
+      if (data.auth !== null) {
         const decodedToken = jwtDecode(data);
         const currentDate = new Date();
         decodedToken.exp * 1000 < currentDate.getTime()
@@ -45,7 +45,7 @@ export const AuthProvider = ({ children }) => {
         setState({auth: null, refreshed: true})
       }
     } catch (e) {
-      console.log(e);
+      console.log("Teste: ", e);
     }
   }
 
