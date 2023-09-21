@@ -2,17 +2,17 @@ import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import TabNavigation from "./TabNavigation";
-import Login from "../screens/Login"
+import Login from "../screens/Login";
 import { useAuth } from "../context/AuthContext";
-import SplashScreen from "../screens/SplashScreen"
+import SplashScreen from "../screens/SplashScreen";
 
 const AuthRouter = () => {
   const Stack = createNativeStackNavigator();
-  const [{auth, refreshed}] = useAuth();
+  const [{ auth, refreshed }] = useAuth();
 
-    if (!refreshed) {
-        return <SplashScreen />
-    }
+  if (!refreshed) {
+    return <SplashScreen />;
+  }
 
   return (
     <NavigationContainer independent={true}>
@@ -20,7 +20,10 @@ const AuthRouter = () => {
         {auth ? (
           <Stack.Screen name="Tab" component={TabNavigation} />
         ) : (
-          <Stack.Screen name="Login" component={Login} />
+          <>
+            <Stack.Screen name="Login" component={Login} />
+            <Stack.Screen name="Home" component={TabNavigation} />
+          </>
         )}
       </Stack.Navigator>
     </NavigationContainer>

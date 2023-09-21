@@ -11,11 +11,17 @@ import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import randomCard from "../../utils/randomCard";
 import { useNavigation } from "@react-navigation/native";
 import CardList from "../../components/DeckOptions/CardList";
-import CreateFlashcard from "./CreateFlashcard"
+import CreateFlashcard from "./CreateFlashcard";
+import EditDeckModal from "../../components/DeckOptions/EditDeckModal";
+import { useState } from "react";
 
 const DeckOptions = ({ route }) => {
+  const [isVisible, setIsVisible] = useState(false);
+
   const deck = route.params.deck;
-  const cards = route.params.cards;
+  const setDeck = route.params.setDecks;
+
+  const [cards, setCards] = useState(route.params.cards);
   const length = cards.length;
   const selectedCard = randomCard(cards);
   const navigation = useNavigation();
@@ -49,7 +55,10 @@ const DeckOptions = ({ route }) => {
                     Study
                   </Text>
                 </Pressable>
-                <Pressable className="flex flex-2 h-fit bg-primary p-4 m-2 rounded-md">
+                <Pressable
+                  className="flex flex-2 h-fit bg-primary p-4 m-2 rounded-md"
+                  onPress={() => setIsVisible(true)}
+                >
                   <Icon name="pencil" size={24} color="#FFF" />
                 </Pressable>
                 <Pressable className="flex flex-2 bg-primary p-4 m-2 rounded-md">
@@ -60,10 +69,17 @@ const DeckOptions = ({ route }) => {
           </KeyboardAvoidingView>
           <CardList deck={deck} cards={cards} />
         </ScrollView>
+
+        <EditDeckModal
+          isVisible={isVisible}
+          setIsVisible={setIsVisible}
+          deck={deck}
+          setDeck={setDeck}
+        />
       </SafeAreaView>
     );
   } else {
-    return <CreateFlashcard card={selectedCard} title={deck.name}/>
+    return <CreateFlashcard card={selectedCard} title={deck.name} />;
   }
 };
 

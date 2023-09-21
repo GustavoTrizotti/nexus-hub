@@ -5,7 +5,6 @@ import { LinearGradient } from "expo-linear-gradient";
 import { useNavigation } from "@react-navigation/native";
 import axios from "axios";
 import { useAuth } from "../../context/AuthContext";
-import { useAsyncStorage } from "@react-native-async-storage/async-storage";
 
 const LoginForm = () => {
   const [username, setUsername] = useState("arthur");
@@ -14,28 +13,29 @@ const LoginForm = () => {
   const [loading, setLoading] = useState(false);
   const navigation = useNavigation();
 
-  const [token, setToken, storeToken] = useAuth();
+  const [, setToken, storeToken] = useAuth();
 
   const url = `http://192.168.0.12:8080/login`;
 
   const handleLogin = async () => {
     setLoading(true);
-    const { setItem } = useAsyncStorage('token');
-    await axios
-      .post(url, {
+    try {
+      const response = await axios.post(url, {
         username: username,
         password: password,
-      })
-      .then((response) => {
-        setLoading(false);
-        storeToken(response.headers.authorization)
-        setToken((prevState) => ({...prevState, auth: response.headers.authorization}))
-        setItem({refreshed: true, auth: response.headers.authorization})
-      })
-      .catch((error) => {
-        console.log(error);
-        setLoading(false);
       });
+
+      setLoading(false);
+      const authToken = response.headers.authorization;
+
+      storeToken(authToken);
+      setToken({ auth: authToken, refreshed: true });
+
+      navigation.navigate("Home")
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+    }
   };
 
   return (

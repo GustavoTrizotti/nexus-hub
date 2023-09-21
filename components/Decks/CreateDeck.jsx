@@ -1,35 +1,26 @@
 import { View, Text, Pressable, TextInput } from "react-native";
 import React, { useState } from "react";
-import axios from "axios";
-import { useAuth } from "../../context/AuthContext";
-import { useToast } from "react-native-toast-notifications";
+import { useDeck } from "../../context/DeckContext";
 
 const CreateDeck = ({ setDecks, closeModal }) => {
   const [deckName, setDeckName] = useState("");
-  const [token] = useAuth();
-
-  const toast = useToast();
+  const { createDeck } = useDeck()
 
   const handlePostDeck = async () => {
-    await axios
-      .post("http://192.168.0.12:8080/api/v1/decks/save", {
-        name: deckName,
-        subjectId: null,
-        parentDeckId: null,
-      }, {
-        headers: {
-          Authorization: token.auth
-        }
-      })
-      .then((res) => {
-        setDecks((prev) => [...prev, res.data])
-        closeModal()
-        toast.show(`${deckName} added!`, {
-          type: "success",
-          successColor: "#AD6FEB"
-        })
-      })
-      .catch((e) => console.log(e));
+    const newDeck = {
+      name: deckName,
+      subjectId: null,
+      parentDeckId: null
+    };
+
+    try {
+      await createDeck(newDeck);
+      setDecks((prev) => [...prev, newDeck])
+    } catch (error) {
+      console.log("Error creating the deck: ", error);
+    }
+
+    closeModal()
   };
 
   return (

@@ -5,7 +5,7 @@ import { useNavigation } from "@react-navigation/native";
 import axios from "axios";
 import { useAuth } from "../../context/AuthContext";
 
-const DeckListItem = ({ decks, setDecks, deck, parent }) => {
+const DeckListItem = ({ decks, setDecks, deck, setDeck, parent }) => {
   const [cardList, setCardList] = useState([]);
   const [token] = useAuth();
 
@@ -35,8 +35,10 @@ const DeckListItem = ({ decks, setDecks, deck, parent }) => {
         },
       })
       .then((res) => {
-        const filteredDecks = decks.filter(deckFilter => deckFilter.id !== res.data.id )
-        setDecks(filteredDecks)
+        const filteredDecks = decks.filter(
+          (deckFilter) => deckFilter.id !== res.data.id
+        );
+        setDecks(filteredDecks);
       })
       .catch((e) => console.log(e.response.data));
   };
@@ -69,10 +71,14 @@ const DeckListItem = ({ decks, setDecks, deck, parent }) => {
     <View>
       <Pressable
         onPress={() =>
-          navigation.navigate("Deck", { deck: deck, cards: cardList })
+          navigation.navigate("Deck", {
+            deck: deck,
+            setDeck: setDeck,
+            cards: cardList,
+          })
         }
         onLongPress={() => {
-          deleteOptions(deck)
+          deleteOptions(deck);
         }}
         className="flex p-4 mb-2 mx-3 flex-row items-center justify-between border-b-2 border-gray-100"
       >

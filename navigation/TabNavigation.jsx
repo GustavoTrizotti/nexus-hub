@@ -6,8 +6,9 @@ import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import Home from "../screens/Home";
 import Subjects from "../navigation/SubjectNavigation";
 import Cycle from "../screens/Cycle";
-import Flashcards from "../navigation/FlashcardsNavigation"
+import Flashcards from "../navigation/FlashcardsNavigation";
 import Sessions from "../screens/Sessions";
+import { DeckProvider } from "../context/DeckContext";
 
 const TabNavigation = () => {
   const Tab = createBottomTabNavigator();
@@ -64,10 +65,9 @@ const TabNavigation = () => {
 
             return <Icon name={iconName} size={30} color={color} />;
           },
-          
         })}
       >
-        <Tab.Screen name={SCREEN_NAMES.HOME} component={Home}/>
+        <Tab.Screen name={SCREEN_NAMES.HOME} component={Home} />
         <Tab.Screen name={SCREEN_NAMES.SUBJECTS} component={Subjects} />
         <Tab.Screen name={SCREEN_NAMES.CYCLE} component={Cycle} />
         <Tab.Screen name={SCREEN_NAMES.CARDS} component={Flashcards} />
