@@ -2,40 +2,19 @@ import { View, Text, Pressable, ActivityIndicator } from "react-native";
 import React, { useState } from "react";
 import FormInput from "./FormInput";
 import { LinearGradient } from "expo-linear-gradient";
-import { useNavigation } from "@react-navigation/native";
-import axios from "axios";
 import { useAuth } from "../../context/AuthContext";
+import { useNavigation } from "@react-navigation/native";
 
 const LoginForm = () => {
   const [username, setUsername] = useState("arthur");
   const [password, setPassword] = useState("admin");
-
-  const [loading, setLoading] = useState(false);
+  
   const navigation = useNavigation();
 
-  const [, setToken, storeToken] = useAuth();
+  const { login, isLoading } = useAuth();
 
-  const url = `http://192.168.0.12:8080/login`;
-
-  const handleLogin = async () => {
-    setLoading(true);
-    try {
-      const response = await axios.post(url, {
-        username: username,
-        password: password,
-      });
-
-      setLoading(false);
-      const authToken = response.headers.authorization;
-
-      storeToken(authToken);
-      setToken({ auth: authToken, refreshed: true });
-
-      navigation.navigate("Home")
-    } catch (error) {
-      console.log(error);
-      setLoading(false);
-    }
+  const handleLogin = () => {
+    login(username, password)
   };
 
   return (
@@ -80,7 +59,7 @@ const LoginForm = () => {
           end={{ x: 1, y: 1 }}
         >
           <Pressable onPress={() => handleLogin()}>
-            {loading ? (
+            {isLoading ? (
               <ActivityIndicator size="large" color="#FFF" />
             ) : (
               <Text className="text-white font-bold text-lg text-center uppercase">

@@ -5,16 +5,70 @@ import { useAsyncStorage } from "@react-native-async-storage/async-storage";
 import { useEffect } from "react";
 import jwtDecode from "jwt-decode";
 
+import baseURL from "../utils/baseURL";
+import axios from "axios";
+
 const AuthContext = createContext();
 
 export const useAuth = () => {
-  const [token, setToken, storeToken] = useContext(AuthContext);
-  return [token, setToken, storeToken];
+  return useContext(AuthContext);
 };
 
 export const AuthProvider = ({ children }) => {
-  const [state, setState] = useState({ auth: null, refreshed: false });
+  const [token, setToken] = useState({ auth: null, refreshed: false });
+  const [isLoading, setIsLoading] = useState(false);
   const { setItem, removeItem, getItem } = useAsyncStorage("token");
+
+  const logout = async () => {
+    try {
+      if (token.auth !== null) {
+        setToken({ auth: null, refreshed: true });
+        removeItem();
+        await storeToken(JSON.stringify({ auth: null, refreshed: true }));
+      } else {
+        console.log("Token not found.");
+      }
+    } catch (error) {
+      console.log("Error logging out the user: ", error);
+    }
+  };
+
+  const login = async (username, password) => {
+    setIsLoading(true);
+    try {
+      const response = await axios.post(baseURL.loginURL, {
+        username: username,
+        password: password,
+      });
+      setIsLoading(false);
+      storeToken(
+        JSON.stringify({
+          auth: response.headers.authorization,
+          refreshed: true,
+        })
+      );
+      setToken({ auth: response.headers.authorization, refreshed: true });
+    } catch (error) {
+      console.log("Error loggin the user: ", error);
+      setIsLoading(false);
+    }
+  };
+
+  const register = async (name, username, password) => {
+    setIsLoading(true);
+    try {
+      const response = await axios.post(baseURL.registerURL, {
+        name: name,
+        username: username,
+        password: password,
+      });
+      setIsLoading(false);
+      login(username, password);
+    } catch (error) {
+      console.log("Error registering the user: ", error);
+      setIsLoading(false);
+    }
+  };
 
   const storeToken = async (token) => {
     try {
@@ -26,7 +80,7 @@ export const AuthProvider = ({ children }) => {
 
   const removeToken = async () => {
     try {
-      await removeItem();
+      await storeToken(JSON.stringify({auth: null, refreshed: true}));
     } catch (error) {
       console.log("Error removing token: ", token);
     }
@@ -34,27 +88,42 @@ export const AuthProvider = ({ children }) => {
 
   const refresh = async () => {
     try {
-      const data = await getItem();
-      if (data !== null) {
-        const decodedToken = jwtDecode(data);
+      const tokenData = await getItem();
+      const data = JSON.parse(tokenData);
+      if (data.auth !== null) {
+        const decodedToken = jwtDecode(data.auth);
         const currentDate = new Date();
         decodedToken.exp * 1000 < currentDate.getTime()
-          ? (removeToken(), setState({ auth: null, refreshed: true }))
-          : setState({ auth: data, refreshed: true });
+          ? (
+            removeToken(),
+            setToken(
+              { auth: null, refreshed: true },
+            ))
+          : setToken({ auth: data, refreshed: true });
       } else {
-        setState({auth: null, refreshed: true})
+        setToken({ auth: null, refreshed: true });
       }
     } catch (e) {
-      console.log("Teste:", e.headers);
+      console.log("Error refreshing the authorization token: ", e);
     }
-  }
+  };
 
   useEffect(() => {
     refresh();
   }, []);
 
   return (
-    <AuthContext.Provider value={[state, setState, storeToken]}>
+    <AuthContext.Provider
+      value={{
+        token,
+        setToken,
+        storeToken,
+        login,
+        logout,
+        register,
+        isLoading,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );

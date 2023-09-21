@@ -11,7 +11,7 @@ export const useDeck = () => {
 };
 
 export const DeckProvider = ({ children }) => {
-  const [token] = useAuth();
+  const { token } = useAuth();
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -113,11 +113,11 @@ export const DeckProvider = ({ children }) => {
     }
   };
 
-  useEffect(() => {
+  /* useEffect(() => {
     if (token.auth !== null) {
       refresh();
     }
-  }, [token.auth]);
+  }, [token.auth]); */
 
   return (
     <DeckContext.Provider
