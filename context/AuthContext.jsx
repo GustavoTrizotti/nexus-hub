@@ -99,7 +99,7 @@ export const AuthProvider = ({ children }) => {
             setToken(
               { auth: null, refreshed: true },
             ))
-          : setToken({ auth: data, refreshed: true });
+          : setToken({ auth: data.auth, refreshed: true });
       } else {
         setToken({ auth: null, refreshed: true });
       }
@@ -107,6 +107,10 @@ export const AuthProvider = ({ children }) => {
       console.log("Error refreshing the authorization token: ", e);
     }
   };
+
+  const refreshToken = async () => {
+    
+  }
 
   useEffect(() => {
     refresh();

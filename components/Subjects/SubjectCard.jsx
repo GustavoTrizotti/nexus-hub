@@ -13,8 +13,7 @@ const SubjectCard = ({ subject }) => {
 
   return (
     <View
-      className="flex p-4 h-44 w-1/2 justify-center items-center my-4 rounded-lg shadow-md"
-      style={{ backgroundColor: `${color}` }}
+      className="flex px-4 py-12 w-full justify-center items-center my-4 rounded-lg bg-light"
     >
       <Text className="text-2xl text-tertiary font-bold mb-8">
         {subject.name}
