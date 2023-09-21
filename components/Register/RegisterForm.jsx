@@ -1,9 +1,7 @@
-import { View, Text, Pressable } from "react-native";
+import { View, Text, Pressable, ActivityIndicator } from "react-native";
 import React, { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
 import FormInput from "../Login/FormInput";
-import axios from "axios";
-import baseURL from "../../utils/baseURL";
 import { useAuth } from "../../context/AuthContext";
 
 const RegisterForm = () => {
@@ -16,7 +14,7 @@ const RegisterForm = () => {
   const navigation = useNavigation();
 
   const handleRegister = (name, username, password) => {
-
+    register(name, username, password)
   }
 
   return (
@@ -62,9 +60,11 @@ const RegisterForm = () => {
         </View>
       </View>
       <View className="flex p-2 mt-4 mx-4">
-        <Pressable className="bg-white flex p-4 items-center justify-center rounded-full mt-2">
+        <Pressable className="bg-white flex p-4 items-center justify-center rounded-full mt-2"
+          onPress={() => handleRegister(name, username, password)}
+        >
           {isLoading ? (
-            <ActivityIndicator size="large" color="#FFF" />
+            <ActivityIndicator size="large" color="#AD6FEB" />
           ) : (
             <Text className="text-primary font-bold text-lg text-center uppercase">
               Login
