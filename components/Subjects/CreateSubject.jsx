@@ -2,8 +2,6 @@ import {
   View,
   Text,
   TextInput,
-  KeyboardAvoidingView,
-  Platform,
 } from "react-native";
 import React from "react";
 import MainHeader from "../MainHeader";

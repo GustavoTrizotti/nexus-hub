@@ -1,27 +1,40 @@
-import { View, Text } from "react-native";
+import { View } from "react-native";
 import React from "react";
-import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { useState } from "react";
 import DifficultyCheck from "./DifficultyCheck";
 
 const CreateDifficulty = () => {
-  const [diffs, setDiffs] = useState([false, false, false, false, false]);
+  const [checkBoxes, setCheckBoxes] = useState([
+    true,
+    false,
+    false,
+    false,
+    false,
+  ]);
+
+  const handleCheckboxChange = (index) => {
+    const newCheckboxes = [...checkBoxes];
+    if (newCheckboxes[index] !== false) {
+      for (let i = index + 1; i < newCheckboxes.length; i++) {
+        newCheckboxes[i] = false;
+      }
+    } else {
+      for (let i = 0; i <= index; i++) {
+        newCheckboxes[i] = true;
+      }
+    }
+    setCheckBoxes(newCheckboxes);
+  };
 
   return (
     <View className="flex flex-row p-4 w-full mt-2 justify-center">
-      {diffs.map((diff, i) => {
-        const handleCheck = () => {
-          setDiffs()
-        }
-
-        return (
-          <DifficultyCheck
-            key={i}
-            checked={checked}
-            handleCheck={handleCheck}
-          />
-        );
-      })}
+      {checkBoxes.map((checked, index) => (
+        <DifficultyCheck
+          checked={checked}
+          handleCheck={() => handleCheckboxChange(index)}
+          key={index}
+        />
+      ))}
     </View>
   );
 };

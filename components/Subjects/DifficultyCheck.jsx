@@ -1,7 +1,6 @@
-import { View, Text, TouchableOpacity } from "react-native";
+import { TouchableOpacity } from "react-native";
 import React from "react";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import { useState } from "react";
 
 const DifficultyCheck = ({checked, handleCheck}) => {
   return (
