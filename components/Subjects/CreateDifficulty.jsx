@@ -1,4 +1,4 @@
-import { View } from "react-native";
+import { Text, View } from "react-native";
 import React from "react";
 import { useState } from "react";
 import DifficultyCheck from "./DifficultyCheck";
@@ -11,6 +11,16 @@ const CreateDifficulty = () => {
     false,
     false,
   ]);
+
+  const diffs = {
+    1: "Very Easy",
+    2: "Easy",
+    3: "Medium",
+    4: "Hard",
+    5: "Very Hard",
+  };
+
+  const difficulty = checkBoxes.filter((check) => check === true).length;
 
   const handleCheckboxChange = (index) => {
     const newCheckboxes = [...checkBoxes];
@@ -27,14 +37,20 @@ const CreateDifficulty = () => {
   };
 
   return (
-    <View className="flex flex-row p-4 w-full mt-2 justify-center">
-      {checkBoxes.map((checked, index) => (
-        <DifficultyCheck
-          checked={checked}
-          handleCheck={() => handleCheckboxChange(index)}
-          key={index}
-        />
-      ))}
+    <View className="w-full mt-2">
+      <View className="p-4 flex flex-row justify-center">
+        {checkBoxes.map((checked, index) => (
+          <DifficultyCheck
+            checked={checked}
+            handleCheck={() => handleCheckboxChange(index)}
+            key={index}
+          />
+        ))}
+      </View>
+
+      <View className="flex justify-center items-center">
+        <Text className="pt-2 text-lg text-primary uppercase font-bold">{diffs[difficulty]}</Text>
+      </View>
     </View>
   );
 };

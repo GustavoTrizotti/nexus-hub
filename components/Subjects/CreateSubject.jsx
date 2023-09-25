@@ -1,8 +1,4 @@
-import {
-  View,
-  Text,
-  TextInput,
-} from "react-native";
+import { View, Text, TextInput } from "react-native";
 import React from "react";
 import MainHeader from "../MainHeader";
 import KeyboardAvoidWrapper from "../utils/KeyboardAvoidWrapper";
@@ -24,7 +20,9 @@ const CreateSubject = () => {
         <View>
           <View className="flex p-4">
             <View className="p-2">
-              <Text className="font-bold text-lg text-primary">Subject Name</Text>
+              <Text className="font-bold text-lg text-primary">
+                Subject Name
+              </Text>
               <TextInput
                 placeholder="Subject name..."
                 className="flex border-b-2 border-gray-200 p-4 text-lg my-2"
@@ -33,6 +31,9 @@ const CreateSubject = () => {
             <View className="p-2 mt-2">
               <Text className="font-bold text-lg text-primary">Difficulty</Text>
               <CreateDifficulty />
+            </View>
+            <View className="p-2 mt-2">
+              <Text className="font-bold text-lg text-primary">Color</Text>
             </View>
           </View>
         </View>
