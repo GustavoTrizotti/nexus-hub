@@ -49,7 +49,7 @@ export const SubjectProvider = ({ children }) => {
       setSubjects((prev) => [...prev, response.data]);
       setIsLoading(false);
     } catch (error) {
-      console.log("Error creating the subject: ", error);
+      console.log("Error creating the subject: ", error.message);
     }
   };
 

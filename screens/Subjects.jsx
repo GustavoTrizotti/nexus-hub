@@ -5,7 +5,6 @@ import MainHeader from "../components/MainHeader";
 import SubjectHeader from "../components/Subjects/SubjectHeader";
 import SubjectBody from "../components/Subjects/SubjectBody";
 import { useSubjects } from "../context/SubjectContext";
-import { useEffect } from "react";
 
 const Subjects = () => {
   const [view, setView] = useState(false)
@@ -15,7 +14,6 @@ const Subjects = () => {
   }
 
   const { subjects, getSubjects } = useSubjects()
-  console.log(subjects);
 
   return (
     <SafeAreaView className="flex bg-white h-full w-full">
