@@ -89,7 +89,8 @@ export const AuthProvider = ({ children }) => {
   const refresh = async () => {
     try {
       const tokenData = await getItem();
-      const data = JSON.parse(tokenData);
+      const data = JSON.parse(tokenData)
+      console.log(data);
       if (data.auth !== null) {
         const decodedToken = jwtDecode(data.auth);
         const currentDate = new Date();
