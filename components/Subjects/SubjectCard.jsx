@@ -1,4 +1,4 @@
-import { View, Text } from "react-native";
+import { View, Text, Dimensions } from "react-native";
 import React from "react";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import SubjectCardDifficulty from "./SubjectCardDifficulty";
@@ -8,30 +8,49 @@ import {
   PanGestureHandler,
 } from "react-native-gesture-handler";
 import Animated, {
+  runOnJS,
   useAnimatedGestureHandler,
   useAnimatedStyle,
   useSharedValue,
   withTiming,
 } from "react-native-reanimated";
 
-const SubjectCard = ({ subject }) => {
-  const bgColor = subject.color;
-  const colors = {
-    color: subject.color,
-    dark: "#FFF",
-    light: "#2E2E2E",
-  };
-
-  const color = changeTextColor(colors.color, colors.dark, colors.light);
+const SubjectCard = ({ subject, scrollRef, onDissmiss }) => {
+  const color = subject.color;
   const translateX = useSharedValue(0);
+  const itemHeight = useSharedValue("100%");
+  const itemWidth = useSharedValue("100%");
+  const opacity = useSharedValue(1);
+
+  const width = Dimensions.get("screen").width;
+  const threshold = -width * 0.3;
 
   const panGesture = useAnimatedGestureHandler({
     onActive: (event) => {
       translateX.value = event.translationX;
+      if (event.translationX > 0) {
+        translateX.value = 0;
+      }
     },
     onEnd: (event) => {
-      translateX.value = withTiming(0);
-    }, 
+      const isDissmissed = translateX.value < threshold;
+      if (isDissmissed) {
+        translateX.value = withTiming(-width);
+        itemHeight.value = withTiming(0, {
+          duration: 2000,
+        });
+        itemWidth.value = withTiming(0, {
+          duration: 2000,
+        });
+        opacity.value = withTiming(0, undefined, (isFinished) => {
+          if (isFinished && onDissmiss) {
+            runOnJS(onDissmiss)(subject.id);
+          }
+        });
+      } else {
+        translateX.value = withTiming(0);
+      }
+    },
   });
 
   const reanimatedStyle = useAnimatedStyle(() => ({
@@ -42,27 +61,39 @@ const SubjectCard = ({ subject }) => {
     ],
   }));
 
+  const reanimatedDeleteStyle = useAnimatedStyle(() => {
+    return {
+      width: itemWidth.value,
+      height: itemHeight.value,
+      opacity: opacity.value,
+    };
+  });
   return (
-    <GestureHandlerRootView className="flex w-full flex-row my-4">
-      <View style={{
-        position: 'absolute',
-        right: '1%',
-        display: 'flex',
-        height: '100%',
-        justifyContent: 'center',
-        alignItems: 'center'
-      }}>
-         <Icon name="trash-can" size={60} color="#f7473e"/>
-      </View>
-      <PanGestureHandler onGestureEvent={panGesture}>
+    <GestureHandlerRootView className="flex w-full flex-row my-4 justify-center items-center">
+      <Animated.View
+        style={[
+          {
+            position: "absolute",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            alignSelf: "center",
+          },
+          reanimatedDeleteStyle,
+        ]}
+        className="bg-red-400 p-4 rounded-lg w-full h-full"
+      >
+        <Icon name="trash-can" size={50} color="#FFF" />
+      </Animated.View>
+      <PanGestureHandler
+        simultaneousHandlers={scrollRef}
+        onGestureEvent={panGesture}
+      >
         <Animated.View
-          className="w-full justify-center items-center px-4 py-12 rounded-lg"
-          style={[reanimatedStyle, { backgroundColor: bgColor }]}
+          className="w-full justify-between items-center px-4 py-12 rounded-lg bg-white shadow-md"
+          style={[reanimatedStyle, {borderLeftWidth: 12, borderLeftColor: color}]}
         >
-          <Text
-            className="text-2xl text-tertiary font-bold mb-8 text-center"
-            style={{ color: color }}
-          >
+          <Text className="text-2xl font-bold mb-8 text-center" style={{color: color}}>
             {subject.name}
           </Text>
           <View className="flex flex-row items-center justify-center">

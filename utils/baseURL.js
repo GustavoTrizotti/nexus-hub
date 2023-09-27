@@ -1,5 +1,5 @@
-const baseURL = "http://10.115.71.55:8080"
-const apiURL = "http://10.115.71.55:8080/api/v1"
+const baseURL = "http://192.168.0.12:8080"
+const apiURL = "http://192.168.0.12:8080/api/v1"
 
 export default {
     loginURL: `${baseURL}/login`,
@@ -8,6 +8,6 @@ export default {
     subjects: {
         baseSubjects: `${apiURL}/subjects`,
         getAll: `${apiURL}/subjects/all`,
-        create: `${apiURL}/subjects/save`
+        create: `${apiURL}/subjects/save`,
     }
 }

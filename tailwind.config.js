@@ -7,6 +7,7 @@ module.exports = {
         transparent: "transparent",
         primary: "#AD6FEB",
         light: "#CF9EFF",
+        secondaryLight: '#f1e3ff',
         secondary: "#2E2E2E",
         tertiary: "#4f4e4e",
         subjectRed: "#FFA0A0",

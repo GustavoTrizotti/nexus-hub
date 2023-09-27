@@ -49,7 +49,32 @@ export const SubjectProvider = ({ children }) => {
       setSubjects((prev) => [...prev, response.data]);
       setIsLoading(false);
     } catch (error) {
-      console.log("Error creating the subject: ", error.message);
+      console.log("Error creating the subject: ", error);
+    }
+  };
+
+  const deleteSubject = async (subjectId) => {
+    setIsLoading(true);
+    try {
+      console.log(token.auth);
+      const response = await axios.delete(
+        `http://192.168.0.12:8080/api/v1/subjects/${subjectId}`,
+        {
+          headers: {
+            Authorization: token.auth,
+          },
+        }
+      );
+      if (response !== undefined) {
+        const filteredSubjects = subjects.filter(
+          (subject) => subject.id !== response.data.id
+        );
+        setSubjects(filteredSubjects);
+      }
+      setIsLoading(false);
+    } catch (error) {
+      console.log("Error deleting the subject: ", error);
+      setIsLoading(false);
     }
   };
 
@@ -72,6 +97,7 @@ export const SubjectProvider = ({ children }) => {
         setSubjects,
         getSubjects,
         createSubject,
+        deleteSubject,
         isLoading,
       }}
     >
