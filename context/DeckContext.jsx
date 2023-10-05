@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useContext } from "react";
 import { createContext } from "react";
 import { useAuth } from "./AuthContext";
+import baseURL from "../utils/baseURL";
 
 const DeckContext = createContext();
 
@@ -12,61 +13,32 @@ export const useDeck = () => {
 
 export const DeckProvider = ({ children }) => {
   const { token } = useAuth();
-  const [data, setData] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-
-  const createDeck = async (newDeck) => {
-    await axios
-      .post(
-        "http://192.168.0.12:8080/api/v1/decks/save",
-        {
-          name: newDeck.name,
-          subjectId: newDeck.subjectId,
-          parentDeckId: newDeck.parentDeckId,
-        },
-        {
-          headers: {
-            Authorization: token.auth,
-          },
-        }
-      )
-      .then((res) => {
-        setIsLoading(false);
-        setData([...data, res.data]);
-      })
-      .catch((e) => {
-        console.log(e);
-        setIsLoading(false);
-      });
-  };
+  const [decks, setDecks] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   const getDecks = async () => {
-    console.log(token);
-    await axios
-      .get("http://192.168.0.12:8080/api/v1/decks/all", {
+    setIsLoading(true);
+    try {
+      const response = await axios.get(baseURL.decks.getAll, {
         headers: {
           Authorization: token.auth,
         },
-      })
-      .then((res) => {
-        console.log("GetDecks Data:", res.data);
-        setData(res.data);
-        setIsLoading(false);
-      })
-      .catch((e) => {
-        console.log(e);
-        setIsLoading(false);
       });
+      setIsLoading(false);
+      setDecks(response.data);
+    } catch (error) {
+      console.log("Error getting the decks: ", error);
+    }
   };
 
-  const updateDeck = async (deck) => {
-    await axios
-      .put(
-        `http://192.168.0.12:8080/api/v1/decks/${deckId}`,
+  const createDeck = async (deck) => {
+    setIsLoading(true);
+    try {
+      const response = await axios.post(
+        baseURL.decks.create,
         {
-          id: deck.id,
           name: deck.name,
-          subjectId: deck.subjectName,
+          subjectId: deck.subjectId,
           parentDeckId: deck.parentDeckId,
         },
         {
@@ -74,60 +46,52 @@ export const DeckProvider = ({ children }) => {
             Authorization: token.auth,
           },
         }
-      )
-      .then((res) => {
-        setData(res.data);
-        setIsLoading(false);
-      })
-      .catch((e) => {
-        console.log(e);
-        setIsLoading(false);
-      });
+      );
+      setDecks((prev) => [...prev, response.data]);
+      setIsLoading(false);
+    } catch (error) {
+      console.log("Error creating the decks: ", error);
+    }
   };
 
   const deleteDeck = async (deckId) => {
-    await axios
-      .delete(`http://192.168.0.12:8080/api/v1/decks/${deckId}`, {
-        data: {
-          id: deckId,
-        },
-        headers: {
-          Authorization: token.auth,
-        },
-      })
-      .then((res) => {
-        setData(filteredDecks);
-        setIsLoading(false);
-      })
-      .catch((e) => {
-        console.log(e.response.data);
-        setIsLoading(false);
-      });
-  };
-
-  const refresh = async () => {
+    setIsLoading(true);
     try {
-      getDecks();
+      const response = await axios.delete(
+        baseURL.decks.baseDecks + `/${deckId}`,
+        {
+          headers: {
+            Authorization: token.auth,
+          },
+        }
+      );
+      if (response !== undefined) {
+        const filteredDecks = decks.filter(
+          (deck) => deck.id !== response.data.id
+        );
+        setDecks(filteredDecks);
+      }
+      setIsLoading(false);
     } catch (error) {
-      console.log(error.headers);
+      console.log("Error deleting the deck: ", error);
     }
   };
 
-  /* useEffect(() => {
+  useEffect(() => {
     if (token.auth !== null) {
-      refresh();
+      getDecks();
     }
-  }, [token.auth]); */
+  }, [token.auth, token.refreshed]);
 
   return (
     <DeckContext.Provider
       value={{
-        data,
-        isLoading,
+        decks,
+        setDecks,
         createDeck,
         getDecks,
-        updateDeck,
         deleteDeck,
+        isLoading,
       }}
     >
       {children}

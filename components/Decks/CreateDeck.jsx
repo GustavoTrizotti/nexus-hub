@@ -4,29 +4,27 @@ import { useDeck } from "../../context/DeckContext";
 
 const CreateDeck = ({ setDecks, closeModal }) => {
   const [deckName, setDeckName] = useState("");
-  const { createDeck } = useDeck()
+  const { createDeck } = useDeck();
 
   const handlePostDeck = async () => {
     const newDeck = {
       name: deckName,
       subjectId: null,
-      parentDeckId: null
+      parentDeckId: null,
     };
-
     try {
       await createDeck(newDeck);
-      setDecks((prev) => [...prev, newDeck])
+      setDecks((prev) => [...prev, newDeck]);
     } catch (error) {
       console.log("Error creating the deck: ", error);
     }
-
-    closeModal()
+    closeModal();
   };
 
   return (
     <View className="flex relative justify-center items-center p-2 py-8 bg-white mx-4 my-8 h-fit rounded-lg">
       <View className="flex px-6 py-2 w-full">
-        <Text className="text-xl text-center text-primary font-bold mb-4">
+        <Text className="text-xl text-center text-primary font-bold uppercase mb-4">
           New Deck
         </Text>
         <View>

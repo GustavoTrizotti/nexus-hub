@@ -11,9 +11,8 @@ import ReactNativeModal from "react-native-modal";
 import { useDeck } from "../context/DeckContext";
 
 export default function Decks() {
-  const { data, isLoading } = useDeck();
-
-  const [decks, setDecks] = useState(data);
+  const { decks, setDecks, isLoading } = useDeck();
+  console.log(decks);
 
   const [modalVisible, setModalVisible] = useState(false);
 

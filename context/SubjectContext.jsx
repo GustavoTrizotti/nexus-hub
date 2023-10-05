@@ -56,9 +56,8 @@ export const SubjectProvider = ({ children }) => {
   const deleteSubject = async (subjectId) => {
     setIsLoading(true);
     try {
-      console.log(token.auth);
       const response = await axios.delete(
-        `http://192.168.0.12:8080/api/v1/subjects/${subjectId}`,
+        baseURL.subjects.baseSubjects + `/${subjectId}`,
         {
           headers: {
             Authorization: token.auth,
@@ -82,13 +81,7 @@ export const SubjectProvider = ({ children }) => {
     if (token.auth !== null) {
       getSubjects();
     }
-  }, [token.auth]);
-
-  useEffect(() => {
-    if (token.auth !== null) {
-      getSubjects();
-    }
-  }, [token.refreshed]);
+  }, [token.auth, token.refreshed]);
 
   return (
     <SubjectContext.Provider

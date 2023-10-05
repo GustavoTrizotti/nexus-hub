@@ -80,7 +80,7 @@ export const AuthProvider = ({ children }) => {
 
   const removeToken = async () => {
     try {
-      await storeToken(JSON.stringify({auth: null, refreshed: true}));
+      await storeToken(JSON.stringify({ auth: null, refreshed: true }));
     } catch (error) {
       console.log("Error removing token: ", token);
     }
@@ -89,29 +89,26 @@ export const AuthProvider = ({ children }) => {
   const refresh = async () => {
     try {
       const tokenData = await getItem();
-      const data = JSON.parse(tokenData)
-      console.log(data);
-      if (data.auth !== null) {
-        const decodedToken = jwtDecode(data.auth);
-        const currentDate = new Date();
-        decodedToken.exp * 1000 < currentDate.getTime()
-          ? (
-            removeToken(),
-            setToken(
-              { auth: null, refreshed: true },
-            ))
-          : setToken({ auth: data.auth, refreshed: true });
+      if (tokenData != null) {
+        const data = JSON.parse(tokenData);
+        if (data.auth !== null) {
+          const decodedToken = jwtDecode(data.auth);
+          const currentDate = new Date();
+          decodedToken.exp * 1000 < currentDate.getTime()
+            ? (removeToken(), setToken({ auth: null, refreshed: true }))
+            : setToken({ auth: data.auth, refreshed: true });
+        } else {
+          setToken({ auth: null, refreshed: true });
+        }
       } else {
-        setToken({ auth: null, refreshed: true });
+        storeToken(JSON.stringify({auth: null, refreshed: false}))
       }
     } catch (e) {
       console.log("Error refreshing the authorization token: ", e);
     }
   };
 
-  const refreshToken = async () => {
-    
-  }
+  const refreshToken = async () => {};
 
   useEffect(() => {
     refresh();
