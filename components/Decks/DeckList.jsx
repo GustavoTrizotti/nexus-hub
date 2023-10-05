@@ -1,9 +1,9 @@
-import { View } from "react-native";
 import React from "react";
+import { View } from "react-native";
 
 import DeckListItem from "./DeckListItem";
 
-const DeckList = ({ decks, setDecks }) => {
+const DeckList = ({ decks }) => {
   return (
     <View className="flex px-2">
       {decks.map((deckMap) => {

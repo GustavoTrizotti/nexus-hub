@@ -1,11 +1,11 @@
-import { createContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import { useAuth } from "./AuthContext";
 import axios from "axios";
 import baseURL from "../utils/baseURL";
 
 const FlashcardContext = createContext();
 
-export const useFlashcard = () => {
+export const useFlashcards = () => {
   return useContext(FlashcardContext);
 };
 
@@ -22,12 +22,28 @@ export const FlashcardProvider = ({ children }) => {
           Authorization: token.auth,
         },
       });
+      console.log(response);
       setIsLoading(false);
       setFlashcards(response.data);
     } catch (error) {
       console.log("Error getting the flashcards: ", error);
     }
   };
+
+  const getFlashcardsByDeckId = async (deckId) => {
+    setIsLoading(true);
+    try {
+      const response = await axios.get(baseURL.flashcards.baseFlashcards + `/${deckId}/all`, {
+        headers: {
+          Authorization: token.auth,
+        }
+      })
+      setIsLoading(false)
+      setFlashcards(response.data)
+    } catch (error) {
+      console.log("Error getting flashcards by deck id: ", error);
+    }
+  }
 
   const createFlashcard = async (flashcard) => {
     setIsLoading(true);
@@ -37,7 +53,7 @@ export const FlashcardProvider = ({ children }) => {
         {
           question: flashcard.question,
           answer: flashcard.answer,
-          deckId: flashcard.subjectId,
+          deckId: flashcard.deckId,
           tagId: flashcard.tagId,
         },
         {
@@ -65,33 +81,34 @@ export const FlashcardProvider = ({ children }) => {
         }
       );
       if (response !== undefined) {
-        const filteredFlashcards = flashcards.filter(flashcard => flashcard.id !== response.data.id);
-        setFlashcards(filteredFlashcards)
+        const filteredFlashcards = flashcards.filter(
+          (flashcard) => flashcard.id !== response.data.id
+        );
+        setFlashcards(filteredFlashcards);
       }
-      setIsLoading(false)
+      setIsLoading(false);
     } catch (error) {
       console.log("Error deleting the flashcard: ", error);
     }
   };
 
   useEffect(() => {
-    if (token.auth !== null) {
-        getFlashcards();
-    }
-  }, [token.auth, token.refreshed])
+    getFlashcards();
+  }, [])
 
   return (
     <FlashcardContext.Provider
-        value={{
-            flashcards,
-            setFlashcards,
-            getFlashcards,
-            createFlashcard,
-            deleteFlashcard,
-            isLoading,
-        }}
+      value={{
+        flashcards,
+        setFlashcards,
+        getFlashcards,
+        getFlashcardsByDeckId,
+        createFlashcard,
+        deleteFlashcard,
+        isLoading,
+      }}
     >
-        {children}
+      {children}
     </FlashcardContext.Provider>
-  )
+  );
 };

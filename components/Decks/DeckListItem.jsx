@@ -1,8 +1,8 @@
-import { View, Text, Pressable } from "react-native";
-import React, {  useState } from "react";
-import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { useNavigation } from "@react-navigation/native";
-import { useFlashcard } from "../../context/FlashcardContext"
+import React, { useState } from "react";
+import { Pressable, Text, View } from "react-native";
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import { useFlashcards } from "../../context/FlashcardContext"
 import { useEffect } from "react";
 
 const DeckListItem = ({ deck, parent }) => {
@@ -10,16 +10,9 @@ const DeckListItem = ({ deck, parent }) => {
   const iconName = parent ? "chevron-right" : "cards-variant";
   const navigation = useNavigation();
 
-  const { getSubjects } = useFlashcard()
-  const [flashcardList, setFlashcardList] = useState([])
+  const { flashcards } = useFlashcards()
 
-  const handleGetFlashcards = () => {
-    setFlashcardList(getSubjects())
-  }
-
-  useEffect(() => {
-    handleGetFlashcards();
-  }, [])
+  console.log(flashcards);
 
   return (
     <View>

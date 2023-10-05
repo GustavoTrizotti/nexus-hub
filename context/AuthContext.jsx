@@ -101,7 +101,7 @@ export const AuthProvider = ({ children }) => {
           setToken({ auth: null, refreshed: true });
         }
       } else {
-        storeToken(JSON.stringify({auth: null, refreshed: false}))
+        storeToken(JSON.stringify({ auth: null, refreshed: false }));
       }
     } catch (e) {
       console.log("Error refreshing the authorization token: ", e);
