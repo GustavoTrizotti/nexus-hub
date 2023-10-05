@@ -11,8 +11,6 @@ const DeckList = ({ decks, setDecks }) => {
           <DeckListItem
             key={deckMap.id}
             deck={deckMap}
-            decks={decks}
-            setDecks={setDecks}
           />
         );
       })}

@@ -22,6 +22,8 @@ const SubjectCard = ({ subject, scrollRef, onDissmiss }) => {
   const itemWidth = useSharedValue("100%");
   const opacity = useSharedValue(1);
 
+  const textColor = changeTextColor(color, "#602f91", "#f1e3ff")
+
   const width = Dimensions.get("screen").width;
   const threshold = -width * 0.3;
 
@@ -90,10 +92,10 @@ const SubjectCard = ({ subject, scrollRef, onDissmiss }) => {
         onGestureEvent={panGesture}
       >
         <Animated.View
-          className="w-full justify-between items-center px-4 py-12 rounded-lg bg-white shadow-md"
-          style={[reanimatedStyle, {borderLeftWidth: 12, borderLeftColor: color}]}
+          className="w-full justify-between items-center px-4 py-12 rounded-lg"
+          style={[reanimatedStyle, {backgroundColor: textColor}]}
         >
-          <Text className="text-2xl font-bold mb-8 text-center" style={{color: color}}>
+          <Text className="text-2xl font-bold mb-8 p-2 text-center" style={{color: color, borderBottomWidth: 4, borderColor: color}}>
             {subject.name}
           </Text>
           <View className="flex flex-row items-center justify-center">

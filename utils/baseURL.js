@@ -1,5 +1,5 @@
-const baseURL = "http://10.115.74.37:8080"
-const apiURL = "http://10.115.74.37:8080/api/v1"
+const baseURL = "http://192.168.0.15:8080"
+const apiURL = "http://192.168.0.15:8080/api/v1"
 
 export default {
     loginURL: `${baseURL}/login`,
@@ -14,5 +14,10 @@ export default {
         baseDecks: `${apiURL}/decks`,
         getAll: `${apiURL}/decks/all`,
         create: `${apiURL}/decks/save`
+    },
+    flashcards: {
+        baseFlashcards: `${apiURL}/flashcards`,
+        getAll: `${apiURL}/flashcards/all`,
+        create: `${apiURL}/flashcards/save`
     }
 }
