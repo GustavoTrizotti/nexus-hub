@@ -14,22 +14,6 @@ export const FlashcardProvider = ({ children }) => {
   const [flashcards, setFlashcards] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
-  const getFlashcards = async () => {
-    setIsLoading(true);
-    try {
-      const response = await axios.get(baseURL.flashcards.getAll, {
-        headers: {
-          Authorization: token.auth,
-        },
-      });
-      console.log(response);
-      setIsLoading(false);
-      setFlashcards(response.data);
-    } catch (error) {
-      console.log("Error getting the flashcards: ", error);
-    }
-  };
-
   const getFlashcardsByDeckId = async (deckId) => {
     setIsLoading(true);
     try {
@@ -92,16 +76,11 @@ export const FlashcardProvider = ({ children }) => {
     }
   };
 
-  useEffect(() => {
-    getFlashcards();
-  }, [])
-
   return (
     <FlashcardContext.Provider
       value={{
         flashcards,
         setFlashcards,
-        getFlashcards,
         getFlashcardsByDeckId,
         createFlashcard,
         deleteFlashcard,

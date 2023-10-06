@@ -3,8 +3,6 @@ import React from "react";
 
 import { SafeAreaView } from "react-native-safe-area-context";
 import MainHeader from "../../components/MainHeader";
-import DeckOptionsChart from "../../components/DeckOptions/DeckOptionsChart";
-import DeckOptionsHeader from "../../components/DeckOptions/DeckOptionsHeader";
 import { Pressable } from "react-native";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
@@ -14,19 +12,20 @@ import CardList from "../../components/DeckOptions/CardList";
 import CreateFlashcard from "./CreateFlashcard";
 import EditDeckModal from "../../components/DeckOptions/EditDeckModal";
 import { useState } from "react";
+import { Dimensions } from "react-native";
+import percentageFormat from "../../utils/deckCardPercentageFormat"
+import PieChart from "react-native-pie-chart";
 
 const DeckOptions = ({ route }) => {
   const [isVisible, setIsVisible] = useState(false);
 
   const deck = route.params.deck;
-  const setDeck = route.params.setDecks;
+  const flashcards = route.params.flashcards;
 
-  const [cards, setCards] = useState(route.params.cards);
-  const length = cards.length;
-  const selectedCard = randomCard(cards);
+  const selectedCard = randomCard(flashcards);
   const navigation = useNavigation();
 
-  if (length > 0) {
+  if (flashcards.length > 0) {
     return (
       <SafeAreaView className="flex bg-white h-full w-full">
         <ScrollView>
@@ -40,7 +39,7 @@ const DeckOptions = ({ route }) => {
               card={selectedCard}
             />
             <View className="flex items-center justify-center mt-4">
-              <DeckOptionsChart deck={deck} cards={cards} />
+              <DeckOptionsChart deck={deck} cards={flashcards} />
               <View className="flex flex-row mt-6 mx-2 items-center justify-between">
                 <Pressable
                   className="flex flex-1 bg-primary p-4 m-2 rounded-md"
@@ -67,20 +66,116 @@ const DeckOptions = ({ route }) => {
               </View>
             </View>
           </KeyboardAvoidingView>
-          <CardList deck={deck} cards={cards} />
+          <CardList deck={deck} cards={flashcards} />
         </ScrollView>
 
         <EditDeckModal
           isVisible={isVisible}
           setIsVisible={setIsVisible}
           deck={deck}
-          setDeck={setDeck}
         />
       </SafeAreaView>
     );
   } else {
     return <CreateFlashcard card={selectedCard} title={deck.name} />;
   }
+};
+
+const DeckOptionsHeader = ({ title, navigation, card }) => {
+  return (
+    <View className="flex px-2 flex-row w-full justify-between items-center">
+      <View className="flex flex-col p-3">
+        <View className="flex flex-row items-center align-center gap-2">
+          <Text className="text-primary font-bold text-xl">{title}</Text>
+          <Icon name="cards" color="#AD6FEB" size={24} />
+        </View>
+        <Text className="text-tertiary text-md py-1">
+          Spaced Revision Decks
+        </Text>
+      </View>
+      <View className="flex flex-col p-3">
+        <Pressable
+          className="flex flex-row bg-primary p-3 px-2 rounded-md items-center justify-between gap-x-2"
+          activeOpacity={0.75}
+          onPress={() => {
+            navigation.navigate("CreateCard", { title: title, card: card });
+          }}
+        >
+          <Icon name="cards" color="#FFFFFF" size={24} />
+          <Text className="text-white text-md uppercase font-bold px-2">
+            New Card
+          </Text>
+        </Pressable>
+      </View>
+    </View>
+  );
+};
+
+const DeckOptionsChart = ({ cards }) => {
+  return (
+    <View className="flex w-full items-center justify-center">
+      <CustomDeckChart cards={cards} />
+    </View>
+  );
+};
+
+const CustomDeckChart = ({ cards }) => {
+  const deckCards = cards;
+  const deckCardsLength = cards.length;
+  const countNew = deckCards.filter((deck) => deck.status === "NEW").length;
+  const countLearning = deckCards.filter(
+    (deck) => deck.status === "LEARNING"
+  ).length;
+  const countLearned = deckCards.filter(
+    (deck) => deck.status === "LEARNED"
+  ).length;
+
+  const width = Dimensions.get("window").width * 0.5;
+  const series = [countNew, countLearning, countLearned];
+  const sliceColor = ["#AD6FEB", "#CF9EFF", "#9d63d4"];
+
+  return (
+    <View className="flex gap-4">
+      <View className="flex justify-center items-center relative">
+        <PieChart
+          widthAndHeight={width}
+          series={series}
+          sliceColor={sliceColor}
+          coverFill={"#FFF"}
+          coverRadius={0.5}
+        />
+        <Text className="text-primary text-3xl text-center absolute font-bold">
+          {deckCards.length}
+        </Text>
+      </View>
+      <View>
+        {countNew != 0 ? (
+          <View className="flex flex-row items-center justify-center gap-2">
+            <Icon name="school" size={30} color={"#AD6FEB"} />
+            <Text className="text-xl text-primary font-bold">
+              New: {percentageFormat(deckCardsLength, countNew)}%
+            </Text>
+          </View>
+        ) : null}
+        {countLearning != 0 ? (
+          <View className="flex flex-row items-center justify-center gap-2">
+            <Icon name="lightbulb" size={30} color={"#CF9EFF"} />
+            <Text className="text-xl text-light font-bold">
+              Learning: {percentageFormat(deckCardsLength, countLearning)}%
+            </Text>
+          </View>
+        ) : null}
+        {countLearned != 0 ? (
+          <View className="flex flex-row items-center justify-center gap-2">
+            <Icon name="check-bold" size={30} color={"#9d63d4"} />
+            <Text className="text-xl font-bold" style={{ color: "#9d63d4" }}>
+              Learned: {percentageFormat(deckCardsLength, countLearned)}%
+            </Text>
+          </View>
+        ) : null}
+      </View>
+    </View>
+  );
 };
 
 export default DeckOptions;
