@@ -1,20 +1,19 @@
-import { View, Text, ScrollView, KeyboardAvoidingView } from "react-native";
 import React from "react";
+import { KeyboardAvoidingView, ScrollView, Text, View } from "react-native";
 
-import { SafeAreaView } from "react-native-safe-area-context";
-import MainHeader from "../../components/MainHeader";
 import { Pressable } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import MainHeader from "../../components/MainHeader";
 
-import randomCard from "../../utils/randomCard";
 import { useNavigation } from "@react-navigation/native";
-import CardList from "../../components/DeckOptions/CardList";
-import CreateFlashcard from "./CreateFlashcard";
-import EditDeckModal from "../../components/DeckOptions/EditDeckModal";
 import { useState } from "react";
 import { Dimensions } from "react-native";
-import percentageFormat from "../../utils/deckCardPercentageFormat"
 import PieChart from "react-native-pie-chart";
+import CardList from "../../components/DeckOptions/CardList";
+import EditDeckModal from "../../components/DeckOptions/EditDeckModal";
+import randomCard from "../../utils/randomCard";
+import CreateFlashcard from "./CreateFlashcard";
 
 const DeckOptions = ({ route }) => {
   const [isVisible, setIsVisible] = useState(false);
@@ -121,7 +120,6 @@ const DeckOptionsChart = ({ cards }) => {
 
 const CustomDeckChart = ({ cards }) => {
   const deckCards = cards;
-  const deckCardsLength = cards.length;
   const countNew = deckCards.filter((deck) => deck.status === "NEW").length;
   const countLearning = deckCards.filter(
     (deck) => deck.status === "LEARNING"
@@ -136,7 +134,7 @@ const CustomDeckChart = ({ cards }) => {
 
   return (
     <View className="flex gap-4">
-      <View className="flex justify-center items-center relative">
+      <View className="flex justify-center items-center relative py-4">
         <PieChart
           widthAndHeight={width}
           series={series}
@@ -147,32 +145,6 @@ const CustomDeckChart = ({ cards }) => {
         <Text className="text-primary text-3xl text-center absolute font-bold">
           {deckCards.length}
         </Text>
-      </View>
-      <View>
-        {countNew != 0 ? (
-          <View className="flex flex-row items-center justify-center gap-2">
-            <Icon name="school" size={30} color={"#AD6FEB"} />
-            <Text className="text-xl text-primary font-bold">
-              New: {percentageFormat(deckCardsLength, countNew)}%
-            </Text>
-          </View>
-        ) : null}
-        {countLearning != 0 ? (
-          <View className="flex flex-row items-center justify-center gap-2">
-            <Icon name="lightbulb" size={30} color={"#CF9EFF"} />
-            <Text className="text-xl text-light font-bold">
-              Learning: {percentageFormat(deckCardsLength, countLearning)}%
-            </Text>
-          </View>
-        ) : null}
-        {countLearned != 0 ? (
-          <View className="flex flex-row items-center justify-center gap-2">
-            <Icon name="check-bold" size={30} color={"#9d63d4"} />
-            <Text className="text-xl font-bold" style={{ color: "#9d63d4" }}>
-              Learned: {percentageFormat(deckCardsLength, countLearned)}%
-            </Text>
-          </View>
-        ) : null}
       </View>
     </View>
   );

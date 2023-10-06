@@ -1,15 +1,13 @@
-import { View, Text, TextInput } from "react-native";
-import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import { Text, View } from "react-native";
 import CardSheet from "./CardSheet";
 
 const CardList = ({ deck, cards }) => {
   return (
-    <View>
-      <View className="flex flex-row px-4 m-6 items-center justify-between bg-gray-100 rounded-md">
-        <TextInput className="flex-1 h-8 m-4 text-lg w-auto" placeholder="Search Card..." />
-        <Icon name="magnify" size={24} color={"#AD6FEB"} />
+    <View className="p-4">
+      <View className="flex flex-row p-4 border-t-2 border-gray-200 w-full items-center justify-center">
+        <Text className="text-xl text-center uppercase font-bold text-primary">Card List</Text>
       </View>
-      <View className="flex items-center justify-center w-screen">
+      <View className="flex items-center justify-center w-full">
         {cards.map((card) => {
           return (
             <CardSheet key={card.id} deck={deck} card={card} name={deck.name} />

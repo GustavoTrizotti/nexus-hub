@@ -8,7 +8,7 @@ const CardSheet = ({ deck, card, name }) => {
 
   return (
     <Pressable
-      className="flex justify-between flex-col bg-primary py-10 px-2 m-4 w-auto rounded-lg shadow-sm"
+      className="flex justify-between items-center flex-row bg-primary p-2 w-full m-4 rounded-lg shadow-sm"
       onPress={() => {
         navigation.navigate("Card", {
           card: card,
@@ -16,11 +16,13 @@ const CardSheet = ({ deck, card, name }) => {
         });
       }}
     >
-      <Text className="text-center p-2 font-bold text-lg text-white">
-        {name}
-      </Text>
-      <View className="flex py-6 px-4">
-        <Text className="text-md text-white">{card.question}</Text>
+      <View className="flex p-2">
+        <Text className="font-bold uppercase opacity-50 text-lg text-white">
+          {name}
+        </Text>
+        <View className="flex">
+          <Text className="text-md text-white">{card.question}</Text>
+        </View>
       </View>
       <View className="flex justify-center items-center p-2">
         <Icon name="magnify" size={24} color={"#FFF"} />
