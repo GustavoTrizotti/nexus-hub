@@ -1,14 +1,13 @@
-import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { NavigationContainer } from "@react-navigation/native";
 
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
-import Home from "../screens/Home";
-import Subjects from "../navigation/SubjectNavigation";
 import Cycle from "../screens/Cycle";
-import Flashcards from "../navigation/FlashcardsNavigation";
+import Home from "../screens/Home";
 import Sessions from "../screens/Sessions";
-import { DeckProvider } from "../context/DeckContext";
+import Flashcards from "./FlashcardRouter";
+import Subjects from "./SubjectRouter";
 
 const TabNavigation = () => {
   const Tab = createBottomTabNavigator();

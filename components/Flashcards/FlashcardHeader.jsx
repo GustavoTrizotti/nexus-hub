@@ -7,7 +7,7 @@ import { Pressable } from "react-native";
 import ReactNativeModal from "react-native-modal";
 import FlashcardMenu from "./FlashcardMenu";
 
-const FlashcardHeader = ({ deck }) => {
+const FlashcardHeader = ({length, deckName}) => {
   const [isMenuVisible, setIsMenuVisible] = useState(false);
   const navigation = useNavigation();
 
@@ -20,11 +20,11 @@ const FlashcardHeader = ({ deck }) => {
       </View>
       <View className="flex flex-1 flex-col">
         <Text className="text-primary text-center text-2xl font-bold">
-          {deck.name}
+          {deckName}
         </Text>
         <Text className="text-tertiary text-center text-lg font-bold opacity-40">
           {/* TODO - UPDATE COUNT ON CARD CHANGE */}
-          1/{deck.cards.length}
+          1/{length}
         </Text>
       </View>
       <View className="flex flex-2">

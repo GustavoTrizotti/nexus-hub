@@ -1,7 +1,7 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { NavigationContainer } from "@react-navigation/native";
+import AuthRouter from "./router/AuthRouter";
 import { AuthProvider } from "./context/AuthContext";
-import AuthRouter from "./navigation/AuthRouter";
 import { ToastProvider } from "react-native-toast-notifications";
 import { DeckProvider } from "./context/DeckContext";
 import { SubjectProvider } from "./context/SubjectContext";

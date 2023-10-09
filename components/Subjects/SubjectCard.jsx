@@ -1,7 +1,6 @@
 import { View, Text, Dimensions } from "react-native";
 import React from "react";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import SubjectCardDifficulty from "./SubjectCardDifficulty";
 import { changeTextColor } from "../../utils/textColorHex";
 import {
   GestureHandlerRootView,
@@ -22,7 +21,7 @@ const SubjectCard = ({ subject, scrollRef, onDissmiss }) => {
   const itemWidth = useSharedValue("100%");
   const opacity = useSharedValue(1);
 
-  const textColor = changeTextColor(color, "#602f91", "#f1e3ff")
+  const textColor = changeTextColor(color, "#602f91", "#f1e3ff");
 
   const width = Dimensions.get("screen").width;
   const threshold = -width * 0.3;
@@ -70,6 +69,7 @@ const SubjectCard = ({ subject, scrollRef, onDissmiss }) => {
       opacity: opacity.value,
     };
   });
+
   return (
     <GestureHandlerRootView className="flex w-full flex-row my-4 justify-center items-center">
       <Animated.View
@@ -93,9 +93,12 @@ const SubjectCard = ({ subject, scrollRef, onDissmiss }) => {
       >
         <Animated.View
           className="w-full justify-between items-center px-4 py-12 rounded-lg"
-          style={[reanimatedStyle, {backgroundColor: textColor}]}
+          style={[reanimatedStyle, { backgroundColor: textColor }]}
         >
-          <Text className="text-2xl font-bold mb-8 p-2 text-center" style={{color: color, borderBottomWidth: 4, borderColor: color}}>
+          <Text
+            className="text-2xl font-bold mb-8 p-2 text-center"
+            style={{ color: color, borderBottomWidth: 4, borderColor: color }}
+          >
             {subject.name}
           </Text>
           <View className="flex flex-row items-center justify-center">
@@ -105,6 +108,32 @@ const SubjectCard = ({ subject, scrollRef, onDissmiss }) => {
         </Animated.View>
       </PanGestureHandler>
     </GestureHandlerRootView>
+  );
+};
+
+const SubjectCardDifficulty = ({ diff, color }) => {
+  const diffArray = [];
+
+  for (let i = 0; i < 5; i++) {
+    if (i >= diff) {
+      diffArray.push(1);
+    } else {
+      diffArray.push(0);
+    }
+  }
+
+  return (
+    <View className="flex flex-row gap-x-1">
+      {diffArray.map((diff, idx) => {
+        if (diff == 1) {
+          return (
+            <Icon key={idx} name="circle-outline" size={16} color={color} />
+          );
+        } else if (diff == 0) {
+          return <Icon key={idx} name="circle" size={16} color={color} />;
+        }
+      })}
+    </View>
   );
 };
 

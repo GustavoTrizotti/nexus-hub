@@ -1,28 +1,44 @@
-import { View, Text, TextInput, ScrollView, Pressable, ActivityIndicator } from "react-native";
-import React from "react";
+import React, { useState } from "react";
+import {
+  ActivityIndicator,
+  Pressable,
+  ScrollView,
+  Text,
+  TextInput,
+  View,
+} from "react-native";
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import { useSubjects } from "../../context/SubjectContext";
 import MainHeader from "../MainHeader";
 import KeyboardAvoidWrapper from "../utils/KeyboardAvoidWrapper";
-import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import CreateDifficulty from "./CreateDifficulty";
-import SubjectColor from "./SubjectColor";
-import { useState } from "react";
-import { useSubjects } from "../../context/SubjectContext";
+import { useEffect } from "react";
+import { TouchableOpacity } from "react-native";
+import { scheme } from "../../utils/colorSchema";
+import { useNavigation } from "@react-navigation/native";
 
 const CreateSubject = () => {
   const [name, setName] = useState("");
   const [difficulty, setDifficulty] = useState(1);
-  const [color, setColor] = useState("#AD6FEB");
+  const [color, setColor] = useState("");
+
+  useEffect(() => {
+    setColor(
+      Object.values(scheme)[
+        Math.floor(Math.random() * Object.keys(scheme).length + 1)
+      ]
+    );
+  }, []);
 
   const { createSubject, isLoading } = useSubjects();
 
+  const navigation = useNavigation();
+
   const handleCreateSubject = (subject) => {
-    console.log(subject);
     try {
       createSubject(subject);
     } catch (error) {
       console.log("Error handling the subject creation: ", error);
     }
-   
   };
 
   return (
@@ -57,14 +73,18 @@ const CreateSubject = () => {
                   setDifficulty={setDifficulty}
                 />
               </View>
-              <View className="p-2 mt-2">
-                <Text className="font-bold text-lg text-primary">Color</Text>
-                <SubjectColor color={color} setColor={setColor} />
-              </View>
               <View className="flex justify-center items-center p-4 my-4">
-                <Pressable className="p-4 bg-primary rounded-md" onPress={() => {
-                  handleCreateSubject({name: name, difficulty: difficulty, color: color})
-                }}>
+                <Pressable
+                  className="p-4 bg-primary rounded-md"
+                  onPress={() => {
+                    handleCreateSubject({
+                      name: name,
+                      difficulty: difficulty,
+                      color: color,
+                    });
+                    navigation.goBack();
+                  }}
+                >
                   {isLoading ? (
                     <ActivityIndicator size="large" color="#FFF" />
                   ) : (
@@ -79,6 +99,78 @@ const CreateSubject = () => {
         </View>
       </ScrollView>
     </KeyboardAvoidWrapper>
+  );
+};
+
+const DifficultyCheck = ({ checked, handleCheck }) => {
+  return (
+    <TouchableOpacity
+      onPress={() => handleCheck()}
+      className="flex mx-3"
+      activeOpacity={0.2}
+    >
+      {checked ? (
+        <Icon name="circle-slice-8" size={48} color="#AD6FEB" />
+      ) : (
+        <Icon name="circle-outline" size={48} color="#AD6FEB" />
+      )}
+    </TouchableOpacity>
+  );
+};
+
+export const CreateDifficulty = ({ difficulty, setDifficulty }) => {
+  const [checkBoxes, setCheckBoxes] = useState([
+    true,
+    false,
+    false,
+    false,
+    false,
+  ]);
+
+  const diffs = {
+    1: "Very Easy",
+    2: "Easy",
+    3: "Medium",
+    4: "Hard",
+    5: "Very Hard",
+  };
+
+  const handleCheckboxChange = (index) => {
+    const newCheckboxes = [...checkBoxes];
+    if (newCheckboxes[index] !== false) {
+      for (let i = index + 1; i < newCheckboxes.length; i++) {
+        newCheckboxes[i] = false;
+      }
+    } else {
+      for (let i = 0; i <= index; i++) {
+        newCheckboxes[i] = true;
+      }
+    }
+    setCheckBoxes(newCheckboxes);
+  };
+
+  useEffect(() => {
+    setDifficulty(checkBoxes.filter((check) => check === true).length);
+  }, [checkBoxes]);
+
+  return (
+    <View className="w-full mt-2">
+      <View className="p-4 flex flex-row justify-center">
+        {checkBoxes.map((checked, index) => (
+          <DifficultyCheck
+            checked={checked}
+            handleCheck={() => handleCheckboxChange(index)}
+            key={index}
+          />
+        ))}
+      </View>
+
+      <View className="flex justify-center items-center">
+        <Text className="pt-2 text-lg text-primary uppercase font-bold">
+          {diffs[difficulty]}
+        </Text>
+      </View>
+    </View>
   );
 };
 

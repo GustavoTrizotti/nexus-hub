@@ -12,7 +12,6 @@ import { useDeck } from "../context/DeckContext";
 
 export default function Decks() {
   const { decks, setDecks, isLoading } = useDeck();
-  console.log(decks);
 
   const [modalVisible, setModalVisible] = useState(false);
 

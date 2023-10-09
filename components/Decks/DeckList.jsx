@@ -6,6 +6,7 @@ import { useEffect } from "react";
 import { Pressable } from "react-native";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { Text } from "react-native";
+import { useState } from "react";
 
 const DeckList = ({ decks }) => {
   return (
@@ -28,6 +29,7 @@ const DeckListItem = ({ deck, parent }) => {
   const navigation = useNavigation();
 
   const { flashcards, getFlashcardsByDeckId } = useFlashcards()
+  const deckFlashcards = flashcards.filter(card => card.deckId === deck.id)
 
   useEffect(() => {
     getFlashcardsByDeckId(deck.id)
@@ -39,7 +41,7 @@ const DeckListItem = ({ deck, parent }) => {
         onPress={() =>
           navigation.navigate("Deck", {
             deck: deck,
-            flashcards: flashcards
+            flashcards: deckFlashcards
           })
         }
         className="flex p-4 mb-2 mx-3 flex-row items-center justify-between border-b-2 border-gray-100"
@@ -49,7 +51,7 @@ const DeckListItem = ({ deck, parent }) => {
           <Text className="text-xl font-bold text-primary"> {deck.name} </Text>
         </View>
         <Text className="text-lg font-bold text-tertiary opacity-40">
-          {flashcards.length}
+          {deckFlashcards.length}
         </Text>
       </Pressable>
     </View>

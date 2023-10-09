@@ -88,7 +88,7 @@ const DeckOptionsHeader = ({ title, navigation, card }) => {
           <Text className="text-primary font-bold text-xl">{title}</Text>
           <Icon name="cards" color="#AD6FEB" size={24} />
         </View>
-        <Text className="text-tertiary text-md py-1">
+        <Text className="text-light font-semibold text-md uppercase py-1">
           Spaced Revision Decks
         </Text>
       </View>
