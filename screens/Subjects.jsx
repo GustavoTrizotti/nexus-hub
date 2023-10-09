@@ -1,17 +1,16 @@
+import React, { useRef } from "react";
 import {
   GestureHandlerRootView,
   ScrollView,
 } from "react-native-gesture-handler";
-import React, { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import MainHeader from "../components/MainHeader";
-import SubjectHeader from "../components/Subjects/SubjectHeader";
 import SubjectBody from "../components/Subjects/SubjectBody";
+import SubjectHeader from "../components/Subjects/SubjectHeader";
 import { useSubjects } from "../context/SubjectContext";
-import { useRef } from "react";
 
 const Subjects = () => {
-  const { subjects, getSubjects } = useSubjects();
+  const { subjects } = useSubjects();
   const scrollRef = useRef(null);
 
   return (

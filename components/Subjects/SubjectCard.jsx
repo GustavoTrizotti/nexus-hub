@@ -71,7 +71,7 @@ const SubjectCard = ({ subject, scrollRef, onDissmiss }) => {
   });
 
   return (
-    <GestureHandlerRootView className="flex w-full flex-row my-4 justify-center items-center">
+    <GestureHandlerRootView className="flex w-full flex-row mb-4 justify-center items-center">
       <Animated.View
         style={[
           {

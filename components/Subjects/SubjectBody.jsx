@@ -11,7 +11,7 @@ const SubjectBody = ({ subjects, scrollRef }) => {
   }, []);
 
   return (
-    <View className="flex p-4 mx-6">
+    <View className="flex px-4 mx-6">
       <View className="flex items-center justify-center mb-6 w-full">
         {subjects.map((subject) => {
           return (
