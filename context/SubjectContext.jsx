@@ -31,7 +31,7 @@ export const SubjectProvider = ({ children }) => {
   };
 
   const createSubject = async (subject) => {
-    setIsLoading(true);
+    setIsLoading(true);;
     try {
       const response = await axios.post(
         baseURL.subjects.create,
@@ -48,6 +48,7 @@ export const SubjectProvider = ({ children }) => {
       );
       setSubjects((prev) => [...prev, response.data]);
       setIsLoading(false);
+      return response.data
     } catch (error) {
       console.log("Error creating the subject: ", error);
     }
@@ -66,11 +67,13 @@ export const SubjectProvider = ({ children }) => {
       );
       if (response !== undefined) {
         const filteredSubjects = subjects.filter(
-          (subject) => subject.id !== response.data.id
+          (subject) => subject.id == response.data.id
         );
+        console.log("Subjects filtradas para colocar na lista atual:", filteredSubjects);
         setSubjects(filteredSubjects);
       }
       setIsLoading(false);
+      return response.data
     } catch (error) {
       console.log("Error deleting the subject: ", error);
       setIsLoading(false);

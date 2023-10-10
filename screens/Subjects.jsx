@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import {
   GestureHandlerRootView,
   ScrollView,
@@ -18,7 +18,7 @@ const Subjects = () => {
       <SafeAreaView className="flex bg-white h-full w-full">
         <ScrollView ref={scrollRef}>
           <MainHeader />
-          <SubjectHeader />
+          <SubjectHeader/>
           <SubjectBody subjects={subjects} scrollRef={scrollRef} />
         </ScrollView>
       </SafeAreaView>

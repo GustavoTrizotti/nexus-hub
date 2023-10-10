@@ -4,16 +4,17 @@ import { useSubjects } from "../../context/SubjectContext";
 import SubjectCard from "./SubjectCard";
 
 const SubjectBody = ({ subjects, scrollRef }) => {
-  const { deleteSubject, isLoading } = useSubjects();
+  const { deleteSubject, setSubjects, isLoading } = useSubjects();
 
   const onDissmiss = useCallback((subjectId) => {
-    deleteSubject(subjectId);
+    deleteSubject(subjectId)
   }, []);
 
   return (
     <View className="flex px-4 mx-6">
       <View className="flex items-center justify-center mb-6 w-full">
         {subjects.map((subject) => {
+          console.log(subject);
           return (
             <SubjectCard
               key={subject.id}
