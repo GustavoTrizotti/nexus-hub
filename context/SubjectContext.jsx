@@ -64,10 +64,12 @@ export const SubjectProvider = ({ children }) => {
           },
         }
       );
-      if (response !== undefined) {
+      if (response) {
+        console.log("Subject List to Delete: ", subjects);
         const filteredSubjects = subjects.filter(
-          (subject) => subject.id !== response.data.id
+          (subject) => subject.id != response.data
         );
+        console.log(filteredSubjects);
         setSubjects(filteredSubjects);
       }
       setIsLoading(false);

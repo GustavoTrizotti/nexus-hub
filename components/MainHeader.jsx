@@ -4,14 +4,21 @@ import { StatusBar } from "expo-status-bar";
 import Icon from "react-native-vector-icons/FontAwesome5";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { useFonts } from "expo-font";
-const MainHeader = ({ title }) => {
-  
+const MainHeader = ({ title, navigator }) => {
   const [fontsLoaded] = useFonts({
-    'Sora': require('../assets/fonts/Sora/Sora-Regular.ttf')
+    Sora: require("../assets/fonts/Sora/Sora-Regular.ttf"),
   });
 
   const navigation = useNavigation();
   const route = useRoute();
+
+  const handleNavigateBack = (navigator) => {
+    if (navigator) {
+      navigator.goBack();
+    } else {
+      navigation.goBack();
+    }
+  };
 
   if (!fontsLoaded) {
     return null;
@@ -21,18 +28,24 @@ const MainHeader = ({ title }) => {
     <View className="bg-white p-6 flex flex-row items-center justify-between">
       <StatusBar style="dark" backgroundColor="#fff" />
       {route.name === "HOME" ? (
-        <Icon name="bars" size={24} color="#AD6FEB"/>
+        <Icon name="bars" size={24} color="#AD6FEB" />
       ) : (
-        <Pressable onPress={() => navigation.goBack()}>
+        <Pressable onPress={() => handleNavigateBack(navigator)}>
           <Icon name="chevron-left" size={24} color="#AD6FEB" />
         </Pressable>
       )}
       {title != null ? (
-        <Text className="text-primary text-center text-2xl font-bold" style={{fontFamily: 'Sora'}}>
+        <Text
+          className="text-primary text-center text-2xl font-bold"
+          style={{ fontFamily: "Sora" }}
+        >
           {title}
         </Text>
       ) : (
-        <Text className="text-primary text-center uppercase text-2xl font-bold" style={{fontFamily: 'Sora'}}>
+        <Text
+          className="text-primary text-center uppercase text-2xl font-bold"
+          style={{ fontFamily: "Sora" }}
+        >
           {route.name}
         </Text>
       )}

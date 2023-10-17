@@ -60,6 +60,7 @@ const SubjectCard = ({ subject, scrollRef, onDissmiss }) => {
         translateX: translateX.value,
       },
     ],
+    opacity: opacity.value
   }));
 
   const reanimatedDeleteStyle = useAnimatedStyle(() => {

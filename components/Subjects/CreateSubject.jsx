@@ -66,7 +66,7 @@ const CreateSubject = () => {
             </View>
           </View>
           <View>
-            <SubjectColor />
+            <SubjectColor setColor={setColor} />
           </View>
           <View className="flex justify-center items-center p-4 my-4">
             <Pressable
@@ -169,13 +169,15 @@ export const CreateDifficulty = ({ difficulty, setDifficulty }) => {
   );
 };
 
-const SubjectColor = () => {
+const SubjectColor = ({ setColor }) => {
   const [checkedColors, setCheckedColors] = useState([]);
 
   useEffect(() => {
-    Object.values(scheme).map((color) => {
-      setCheckedColors((prev) => [...prev, { col: color, checked: false }]);
-    });
+    if (checkedColors.length == 0) {
+      Object.values(scheme).map((color) => {
+        setCheckedColors((prev) => [...prev, { col: color, checked: false }]);
+      });
+    }
   }, []);
 
   const handleChangeColor = (index) => {
@@ -184,6 +186,7 @@ const SubjectColor = () => {
       newCheckedColors[i].checked = false;
     }
     newCheckedColors[index].checked = true;
+    setColor(newCheckedColors[index].col);
     setCheckedColors(newCheckedColors);
   };
 
@@ -193,7 +196,7 @@ const SubjectColor = () => {
         return (
           <SubjectColorOption
             color={color.col}
-            /* handleCheck={handleChangeColor(index)} */
+            handleCheck={() => handleChangeColor(index)}
             selected={color.checked}
             key={index}
           />
