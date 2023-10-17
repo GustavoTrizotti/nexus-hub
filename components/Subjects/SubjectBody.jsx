@@ -14,7 +14,6 @@ const SubjectBody = ({ subjects, scrollRef }) => {
     <View className="flex px-4 mx-6">
       <View className="flex items-center justify-center mb-6 w-full">
         {subjects.map((subject) => {
-          console.log(subject);
           return (
             <SubjectCard
               key={subject.id}
