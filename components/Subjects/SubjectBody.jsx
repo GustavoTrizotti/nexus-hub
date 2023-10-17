@@ -2,13 +2,19 @@ import React, { useCallback } from "react";
 import { View } from "react-native";
 import { useSubjects } from "../../context/SubjectContext";
 import SubjectCard from "./SubjectCard";
+import { useNavigation } from "@react-navigation/native";
 
 const SubjectBody = ({ subjects, scrollRef }) => {
   const { deleteSubject, setSubjects, isLoading } = useSubjects();
+  const navigation = useNavigation();
 
-  const onDissmiss = useCallback((subjectId) => {
+  const onDissmissDelete = useCallback((subjectId) => {
     deleteSubject(subjectId)
   }, []);
+
+  const onDissmissUpdate = useCallback((subject) => {
+    navigation.navigate("CreateSubject", {updateSubject: subject})
+  })
 
   return (
     <View className="flex px-4 mx-6">
@@ -19,7 +25,7 @@ const SubjectBody = ({ subjects, scrollRef }) => {
               key={subject.id}
               subject={subject}
               scrollRef={scrollRef}
-              onDissmiss={onDissmiss}
+              onDissmiss={[onDissmissDelete, () => onDissmissUpdate(subject)]}
             />
           );
         })}

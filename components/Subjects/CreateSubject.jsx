@@ -14,12 +14,14 @@ import { scheme } from "../../utils/colorSchema";
 import MainHeader from "../MainHeader";
 import KeyboardAvoidWrapper from "../utils/KeyboardAvoidWrapper";
 
-const CreateSubject = () => {
+const CreateSubject = ({ route }) => {
+  const subjectUpdate = route.params.updateSubject;
   const [name, setName] = useState("");
   const [difficulty, setDifficulty] = useState(1);
   const [color, setColor] = useState("#AD6FEB");
 
-  const { createSubject, setSubjects, isLoading } = useSubjects();
+  const { createSubject, setSubjects, isLoading, updateSubject } =
+    useSubjects();
 
   const navigation = useNavigation();
 
@@ -28,6 +30,14 @@ const CreateSubject = () => {
       createSubject(subject);
     } catch (error) {
       console.log("Error handling the subject creation: ", error);
+    }
+  };
+
+  const handleUpdateSubject = (subject) => {
+    try {
+      updateSubject(subject);
+    } catch (error) {
+      console.log("Error handling the subject update: ", error);
     }
   };
 
@@ -52,6 +62,7 @@ const CreateSubject = () => {
                   placeholder="Subject name..."
                   className="flex border-b-2 border-gray-200 p-4 text-lg my-2"
                   onChangeText={(e) => setName(e)}
+                  value={subjectUpdate ? subjectUpdate.name : ""}
                 />
               </View>
               <View className="p-2 mt-2">
@@ -61,6 +72,7 @@ const CreateSubject = () => {
                 <CreateDifficulty
                   difficulty={difficulty}
                   setDifficulty={setDifficulty}
+                  subjectUpdate={subjectUpdate}
                 />
               </View>
             </View>
@@ -114,7 +126,11 @@ const DifficultyCheck = ({ checked, handleCheck }) => {
   );
 };
 
-export const CreateDifficulty = ({ difficulty, setDifficulty }) => {
+export const CreateDifficulty = ({
+  difficulty,
+  setDifficulty,
+  subjectUpdate,
+}) => {
   const [checkBoxes, setCheckBoxes] = useState([
     true,
     false,
@@ -146,7 +162,12 @@ export const CreateDifficulty = ({ difficulty, setDifficulty }) => {
   };
 
   useEffect(() => {
-    setDifficulty(checkBoxes.filter((check) => check === true).length);
+    if (subjectUpdate) {
+      setDifficulty(subjectUpdate.difficulty);
+      handleCheckboxChange(subjectUpdate.difficulty = 1)
+    } else {
+      setDifficulty(checkBoxes.filter((check) => check === true).length);
+    }
   }, [checkBoxes]);
 
   return (

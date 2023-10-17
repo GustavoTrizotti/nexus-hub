@@ -82,6 +82,30 @@ export const SubjectProvider = ({ children }) => {
     }
   };
 
+  const updateSubject = async (subject) => {
+    setIsLoading(true);
+    try {
+      const response = axios.put(
+        baseURL.subjects.baseSubjects + `/${subject.id}`,
+        {
+          subject,
+        },
+        {
+          Authorization: token.auth,
+        }
+      );
+      if (response) {
+        getSubjects();
+        setIsLoading(false)
+        return response.data;
+      } else {
+        console.log("No content provided to update the subject.");
+      }
+    } catch (error) {
+      console.log("Error updating the subject: ", error);
+    }
+  };
+
   useEffect(() => {
     if (token.auth !== null) {
       getSubjects();
@@ -96,6 +120,7 @@ export const SubjectProvider = ({ children }) => {
         getSubjects,
         createSubject,
         deleteSubject,
+        updateSubject,
         isLoading,
       }}
     >

@@ -20,22 +20,30 @@ const SubjectCard = ({ subject, scrollRef, onDissmiss }) => {
   const itemHeight = useSharedValue("100%");
   const itemWidth = useSharedValue("100%");
   const opacity = useSharedValue(1);
+  const updateOpacity = useSharedValue(0);
+  const deleteOpacity = useSharedValue(0);
+  const [onDissmissDelete, onDissmissUpdate] = onDissmiss;
 
   const textColor = changeTextColor(color, "#602f91", "#f1e3ff");
 
   const width = Dimensions.get("screen").width;
-  const threshold = -width * 0.3;
+  const thresholdDelete = -width * 0.3;
+  const thresholdEdit = width * 0.3;
 
   const panGesture = useAnimatedGestureHandler({
     onActive: (event) => {
       translateX.value = event.translationX;
-      if (event.translationX > 0) {
-        translateX.value = 0;
+      if (translateX.value < 0) {
+        deleteOpacity.value = withTiming(1, { duration: 200 });
+      } else if (translateX.value > 0) {
+        updateOpacity.value = withTiming(1, { duration: 200 });
+      } else {
+        deleteOpacity.value = 0;
+        updateOpacity.value = 0;
       }
     },
     onEnd: (event) => {
-      const isDissmissed = translateX.value < threshold;
-      if (isDissmissed) {
+      if (translateX.value < thresholdDelete) {
         translateX.value = withTiming(-width);
         itemHeight.value = withTiming(0, {
           duration: 2000,
@@ -43,13 +51,18 @@ const SubjectCard = ({ subject, scrollRef, onDissmiss }) => {
         itemWidth.value = withTiming(0, {
           duration: 2000,
         });
-        opacity.value = withTiming(0, undefined, (isFinished) => {
-          if (isFinished && onDissmiss) {
-            runOnJS(onDissmiss)(subject.id);
+        deleteOpacity.value = withTiming(0, undefined, (isFinished) => {
+          if (isFinished && onDissmissDelete) {
+            runOnJS(onDissmissDelete)(subject.id);
           }
         });
+      } else if (translateX.value > thresholdEdit) {
+        translateX.value = withTiming(0, { duration: 300 });
+        if (onDissmissUpdate) {
+          runOnJS(onDissmissUpdate)(subject.id);
+        }
       } else {
-        translateX.value = withTiming(0);
+        translateX.value = withTiming(0, { duration: 300 });
       }
     },
   });
@@ -60,14 +73,22 @@ const SubjectCard = ({ subject, scrollRef, onDissmiss }) => {
         translateX: translateX.value,
       },
     ],
-    opacity: opacity.value
+    opacity: opacity.value,
   }));
 
-  const reanimatedDeleteStyle = useAnimatedStyle(() => {
+  const reanimatedDelete = useAnimatedStyle(() => {
     return {
       width: itemWidth.value,
       height: itemHeight.value,
-      opacity: opacity.value,
+      opacity: deleteOpacity.value,
+    };
+  });
+
+  const reanimatedUpdate = useAnimatedStyle(() => {
+    return {
+      width: itemWidth.value,
+      height: itemHeight.value,
+      opacity: updateOpacity.value,
     };
   });
 
@@ -82,11 +103,26 @@ const SubjectCard = ({ subject, scrollRef, onDissmiss }) => {
             alignItems: "center",
             alignSelf: "center",
           },
-          reanimatedDeleteStyle,
+          reanimatedDelete,
         ]}
         className="bg-red-400 p-4 rounded-lg w-full h-full"
       >
         <Icon name="trash-can" size={50} color="#FFF" />
+      </Animated.View>
+      <Animated.View
+        style={[
+          {
+            position: "absolute",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            alignSelf: "center",
+          },
+          reanimatedUpdate,
+        ]}
+        className="bg-yellow-400 p-4 rounded-lg w-full h-full"
+      >
+        <Icon name="pencil" size={50} color="#FFF" />
       </Animated.View>
       <PanGestureHandler
         simultaneousHandlers={scrollRef}
