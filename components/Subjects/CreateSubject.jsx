@@ -17,9 +17,9 @@ import KeyboardAvoidWrapper from "../utils/KeyboardAvoidWrapper";
 const CreateSubject = () => {
   const [name, setName] = useState("");
   const [difficulty, setDifficulty] = useState(1);
-  const [color, setColor] = useState("");
+  const [color, setColor] = useState("#AD6FEB");
 
-  const { createSubject, isLoading } = useSubjects();
+  const { createSubject, setSubjects, isLoading } = useSubjects();
 
   const navigation = useNavigation();
 
@@ -81,6 +81,7 @@ const CreateSubject = () => {
                   navigation.goBack();
                 }
               }}
+              Subject
             >
               {isLoading ? (
                 <ActivityIndicator size="large" color="#FFF" />
@@ -170,35 +171,37 @@ export const CreateDifficulty = ({ difficulty, setDifficulty }) => {
 };
 
 const SubjectColor = ({ setColor }) => {
-  const [checkedColors, setCheckedColors] = useState([]);
+  const [colors, setColors] = useState([]);
 
   useEffect(() => {
-    if (checkedColors.length == 0) {
+    if (colors.length == 0) {
       Object.values(scheme).map((color) => {
-        setCheckedColors((prev) => [...prev, { col: color, checked: false }]);
+        setColors((prev) => [...prev, { col: color, checked: false }]);
       });
     }
   }, []);
 
   const handleChangeColor = (index) => {
-    const newCheckedColors = [...checkedColors];
-    for (let i = 0; i < newCheckedColors.length; i++) {
-      newCheckedColors[i].checked = false;
+    const newColors = [...colors];
+    if (newColors[index] !== null) {
+      for (let i = 0; i < newColors.length; i++) {
+        newColors[i].checked = false;
+      }
+      newColors[index].checked = true;
     }
-    newCheckedColors[index].checked = true;
-    setColor(newCheckedColors[index].col);
-    setCheckedColors(newCheckedColors);
+    setColors(newColors);
+    setColor(newColors[index].col);
   };
 
   return (
     <View className="flex flex-row w-full justify-center items-center">
-      {checkedColors.map((color, index) => {
+      {colors.map((color, index) => {
         return (
           <SubjectColorOption
             color={color.col}
-            handleCheck={() => handleChangeColor(index)}
             selected={color.checked}
             key={index}
+            handleCheck={() => handleChangeColor(index)}
           />
         );
       })}

@@ -48,6 +48,7 @@ export const SubjectProvider = ({ children }) => {
       );
       setSubjects((prev) => [...prev, response.data]);
       setIsLoading(false);
+      return response.data
     } catch (error) {
       console.log("Error creating the subject: ", error);
     }
@@ -67,12 +68,13 @@ export const SubjectProvider = ({ children }) => {
       if (response) {
         console.log("Subject List to Delete: ", subjects);
         const filteredSubjects = subjects.filter(
-          (subject) => subject.id != response.data
+          (subject) => subject.id == response.data.id
         );
-        console.log(filteredSubjects);
+        console.log("Subjects filtradas para colocar na lista atual:", filteredSubjects);
         setSubjects(filteredSubjects);
       }
       setIsLoading(false);
+      return response.data
     } catch (error) {
       console.log("Error deleting the subject: ", error);
       setIsLoading(false);

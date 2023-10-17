@@ -1,9 +1,8 @@
-import { View, Text, TextInput, Pressable } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 import React from "react";
+import { Pressable, Text, View } from "react-native";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import SearchInput from "../utils/SearchInput";
-import { useState } from "react";
-import { useNavigation } from "@react-navigation/native";
 
 const SubjectHeader = () => {
   const navigation = useNavigation();
