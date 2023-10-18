@@ -3,14 +3,19 @@ import { View } from "react-native";
 import { useSubjects } from "../../context/SubjectContext";
 import SubjectCard from "./SubjectCard";
 import { useNavigation } from "@react-navigation/native";
+import { useEffect } from "react";
 
-const SubjectBody = ({ subjects, scrollRef }) => {
-  const { deleteSubject, setSubjects, isLoading } = useSubjects();
+const SubjectBody = ({ scrollRef }) => {
+  const { deleteSubject, getSubjects, subjects } = useSubjects();
   const navigation = useNavigation();
+
+  useEffect(() => {
+    getSubjects();
+  }, [])
 
   const onDissmissDelete = useCallback((subjectId) => {
     deleteSubject(subjectId)
-  }, []);
+  }, [deleteSubject]);
 
   const onDissmissUpdate = useCallback((subject) => {
     navigation.navigate("CreateSubject", {updateSubject: subject})

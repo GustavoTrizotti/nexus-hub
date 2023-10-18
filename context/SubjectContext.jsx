@@ -88,15 +88,20 @@ export const SubjectProvider = ({ children }) => {
       const response = axios.put(
         baseURL.subjects.baseSubjects + `/${subject.id}`,
         {
-          subject,
+          id: subject.id,
+          name: subject.name,
+          difficulty: subject.difficulty,
+          color: subject.color,
         },
         {
-          Authorization: token.auth,
+          headers: {
+            Authorization: token.auth,
+          },
         }
       );
       if (response) {
         getSubjects();
-        setIsLoading(false)
+        setIsLoading(false);
         return response.data;
       } else {
         console.log("No content provided to update the subject.");

@@ -10,7 +10,6 @@ import SubjectHeader from "../components/Subjects/SubjectHeader";
 import { useSubjects } from "../context/SubjectContext";
 
 const Subjects = () => {
-  const { subjects } = useSubjects();
   const scrollRef = useRef(null);
 
   return (
@@ -19,7 +18,7 @@ const Subjects = () => {
         <ScrollView ref={scrollRef}>
           <MainHeader />
           <SubjectHeader/>
-          <SubjectBody subjects={subjects} scrollRef={scrollRef} />
+          <SubjectBody scrollRef={scrollRef} />
         </ScrollView>
       </SafeAreaView>
     </GestureHandlerRootView>

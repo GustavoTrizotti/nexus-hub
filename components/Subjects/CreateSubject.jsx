@@ -15,13 +15,18 @@ import MainHeader from "../MainHeader";
 import KeyboardAvoidWrapper from "../utils/KeyboardAvoidWrapper";
 
 const CreateSubject = ({ route }) => {
-  const subjectUpdate = route.params.updateSubject;
-  const [name, setName] = useState("");
-  const [difficulty, setDifficulty] = useState(1);
-  const [color, setColor] = useState("#AD6FEB");
+  const subjectUpdate = route.params ? route.params.updateSubject : null;
+  const isUpdate = subjectUpdate ? true : false;
+  const [name, setName] = useState(isUpdate ? subjectUpdate.name : "");
+  const [difficulty, setDifficulty] = useState(
+    isUpdate ? subjectUpdate.difficulty : 1
+  );
+  const [color, setColor] = useState(
+    isUpdate ? subjectUpdate.color : "#AD6FEB"
+  );
 
-  const { createSubject, setSubjects, isLoading, updateSubject } =
-    useSubjects();
+
+  const { createSubject, isLoading, updateSubject } = useSubjects();
 
   const navigation = useNavigation();
 
@@ -49,7 +54,7 @@ const CreateSubject = ({ route }) => {
           <View className="flex items-center justify-center flex-row">
             <Icon name="book-plus-multiple" size={24} color="#AD6FEB" />
             <Text className="p-4 text-lg text-primary font-bold uppercase text-center">
-              Create Subjects
+              {isUpdate ? "Edit Subjects" : "Create Subjects"}
             </Text>
           </View>
           <View>
@@ -62,7 +67,7 @@ const CreateSubject = ({ route }) => {
                   placeholder="Subject name..."
                   className="flex border-b-2 border-gray-200 p-4 text-lg my-2"
                   onChangeText={(e) => setName(e)}
-                  value={subjectUpdate ? subjectUpdate.name : ""}
+                  value={name}
                 />
               </View>
               <View className="p-2 mt-2">
@@ -78,17 +83,29 @@ const CreateSubject = ({ route }) => {
             </View>
           </View>
           <View>
-            <SubjectColor setColor={setColor} />
+            <SubjectColor setColor={setColor} subjectUpdate={subjectUpdate} />
           </View>
           <View className="flex justify-center items-center p-4 my-4">
             <Pressable
               className="p-4 bg-primary rounded-md w-full justify-center items-center flex"
               onPress={() => {
-                handleCreateSubject({
+                const subject = {
                   name: name,
                   difficulty: difficulty,
                   color: color,
-                });
+                };
+                console.log(subject);
+                if (isUpdate) {
+                  handleUpdateSubject({
+                    id: subjectUpdate.id,
+                    name: name,
+                    difficulty: difficulty,
+                    color: color,
+                  });
+                } else {
+                  handleCreateSubject(subject);
+                }
+
                 if (!isLoading) {
                   navigation.goBack();
                 }
@@ -162,13 +179,15 @@ export const CreateDifficulty = ({
   };
 
   useEffect(() => {
+    setDifficulty(checkBoxes.filter((check) => check === true).length);
+  }, [checkBoxes]);
+
+  useEffect(() => {
     if (subjectUpdate) {
       setDifficulty(subjectUpdate.difficulty);
-      handleCheckboxChange(subjectUpdate.difficulty = 1)
-    } else {
-      setDifficulty(checkBoxes.filter((check) => check === true).length);
+      handleCheckboxChange(subjectUpdate.difficulty - 1);
     }
-  }, [checkBoxes]);
+  }, []);
 
   return (
     <View className="w-full mt-2">
@@ -191,27 +210,40 @@ export const CreateDifficulty = ({
   );
 };
 
-const SubjectColor = ({ setColor }) => {
-  const [colors, setColors] = useState([]);
+const SubjectColor = ({ setColor, subjectUpdate }) => {
+  const [colors, setColors] = useState(
+    colors === undefined
+      ? Object.values(scheme).map((color) => ({ col: color, checked: false }))
+      : []
+  );
 
   useEffect(() => {
-    if (colors.length == 0) {
-      Object.values(scheme).map((color) => {
-        setColors((prev) => [...prev, { col: color, checked: false }]);
-      });
+    if (subjectUpdate) {
+      handleSelectUpdateColor(subjectUpdate.color);
     }
   }, []);
 
   const handleChangeColor = (index) => {
     const newColors = [...colors];
-    if (newColors[index] !== null) {
+    if (newColors[index] != undefined) {
       for (let i = 0; i < newColors.length; i++) {
         newColors[i].checked = false;
       }
       newColors[index].checked = true;
+      setColors(newColors);
+      setColor(newColors[index].col);
     }
+  };
+
+  const handleSelectUpdateColor = (color) => {
+    const newColors = colors.map((singleColor) => {
+      console.log(singleColor.col);
+      return singleColor.col === color
+        ? { col: color, checked: true }
+        : { col: singleColor.col, checked: false };
+    });
+
     setColors(newColors);
-    setColor(newColors[index].col);
   };
 
   return (
