@@ -13,6 +13,8 @@ import Animated, {
   useSharedValue,
   withTiming,
 } from "react-native-reanimated";
+import { Pressable } from "react-native";
+import { useNavigation } from "@react-navigation/native";
 
 const SubjectCard = ({ subject, scrollRef, onDissmiss }) => {
   const color = subject.color;
@@ -29,6 +31,8 @@ const SubjectCard = ({ subject, scrollRef, onDissmiss }) => {
   const width = Dimensions.get("screen").width;
   const thresholdDelete = -width * 0.3;
   const thresholdEdit = width * 0.3;
+
+  const navigation = useNavigation();
 
   const panGesture = useAnimatedGestureHandler({
     onActive: (event) => {
@@ -93,58 +97,62 @@ const SubjectCard = ({ subject, scrollRef, onDissmiss }) => {
   });
 
   return (
-    <GestureHandlerRootView className="flex w-full flex-row mb-4 justify-center items-center">
-      <Animated.View
-        style={[
-          {
-            position: "absolute",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            alignSelf: "center",
-          },
-          reanimatedDelete,
-        ]}
-        className="bg-red-400 p-4 rounded-lg w-full h-full"
-      >
-        <Icon name="trash-can" size={50} color="#FFF" />
-      </Animated.View>
-      <Animated.View
-        style={[
-          {
-            position: "absolute",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            alignSelf: "center",
-          },
-          reanimatedUpdate,
-        ]}
-        className="bg-yellow-400 p-4 rounded-lg w-full h-full"
-      >
-        <Icon name="pencil" size={50} color="#FFF" />
-      </Animated.View>
-      <PanGestureHandler
-        simultaneousHandlers={scrollRef}
-        onGestureEvent={panGesture}
-      >
+    <Pressable onPress={() => {
+      navigation.navigate("SubjectTodo", {subject: subject})
+    }}>
+      <GestureHandlerRootView className="flex w-full flex-row mb-4 justify-center items-center">
         <Animated.View
-          className="w-full justify-between items-center px-4 py-12 rounded-lg"
-          style={[reanimatedStyle, { backgroundColor: textColor }]}
+          style={[
+            {
+              position: "absolute",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              alignSelf: "center",
+            },
+            reanimatedDelete,
+          ]}
+          className="bg-red-400 p-4 rounded-lg w-full h-full"
         >
-          <Text
-            className="text-2xl font-bold mb-8 p-2 text-center"
-            style={{ color: color, borderBottomWidth: 4, borderColor: color }}
-          >
-            {subject.name}
-          </Text>
-          <View className="flex flex-row items-center justify-center">
-            <Icon name="fire" size={30} color={color} />
-            <SubjectCardDifficulty diff={subject.difficulty} color={color} />
-          </View>
+          <Icon name="trash-can" size={50} color="#FFF" />
         </Animated.View>
-      </PanGestureHandler>
-    </GestureHandlerRootView>
+        <Animated.View
+          style={[
+            {
+              position: "absolute",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              alignSelf: "center",
+            },
+            reanimatedUpdate,
+          ]}
+          className="bg-yellow-400 p-4 rounded-lg w-full h-full"
+        >
+          <Icon name="pencil" size={50} color="#FFF" />
+        </Animated.View>
+        <PanGestureHandler
+          simultaneousHandlers={scrollRef}
+          onGestureEvent={panGesture}
+        >
+          <Animated.View
+            className="w-full justify-between items-center px-4 py-12 rounded-lg"
+            style={[reanimatedStyle, { backgroundColor: textColor }]}
+          >
+            <Text
+              className="text-2xl font-bold mb-8 p-2 text-center"
+              style={{ color: color, borderBottomWidth: 4, borderColor: color }}
+            >
+              {subject.name}
+            </Text>
+            <View className="flex flex-row items-center justify-center">
+              <Icon name="fire" size={30} color={color} />
+              <SubjectCardDifficulty diff={subject.difficulty} color={color} />
+            </View>
+          </Animated.View>
+        </PanGestureHandler>
+      </GestureHandlerRootView>
+    </Pressable>
   );
 };
 

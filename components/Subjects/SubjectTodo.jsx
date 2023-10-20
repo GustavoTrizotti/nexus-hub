@@ -1,12 +1,16 @@
-import { View, Text } from 'react-native'
-import React from 'react'
+import React from "react";
+import { Text } from "react-native";
+import MainHeader from "../MainHeader";
+import KeyboardAvoidWrapper from "../utils/KeyboardAvoidWrapper";
 
-const SubjectTodo = () => {
+const SubjectTodo = ({ route }) => {
+  const subject = route.params.subject;
   return (
-    <View>
-      <Text>SubjectTodo</Text>
-    </View>
-  )
-}
+    <KeyboardAvoidWrapper bgColor="#FFF">
+      <MainHeader title={subject.name} />
+      <Text>Texto</Text>
+    </KeyboardAvoidWrapper>
+  );
+};
 
-export default SubjectTodo
+export default SubjectTodo;

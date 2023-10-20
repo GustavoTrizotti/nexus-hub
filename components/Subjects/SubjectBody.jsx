@@ -46,32 +46,22 @@ const SubjectBody = ({ scrollRef }) => {
       {isLoading ? (
         <ActivityIndicator size="large" color="#FFF" />
       ) : (
-        <Pressable
+        <Animated.View
+          entering={FadeInUp}
+          exiting={FadeOut}
           className="flex items-center justify-center mb-6 w-full"
-          onPress={() => {
-            navigation.navigate("SubjectTodo");
-          }}
         >
-          <Animated.View
-            entering={FadeInUp}
-            exiting={FadeOut}
-            className="flex items-center justify-center mb-6 w-full"
-          >
-            {subjects.map((subject) => {
-              return (
-                <SubjectCard
-                  key={subject.id}
-                  subject={subject}
-                  scrollRef={scrollRef}
-                  onDissmiss={[
-                    onDissmissDelete,
-                    () => onDissmissUpdate(subject),
-                  ]}
-                />
-              );
-            })}
-          </Animated.View>
-        </Pressable>
+          {subjects.map((subject) => {
+            return (
+              <SubjectCard
+                key={subject.id}
+                subject={subject}
+                scrollRef={scrollRef}
+                onDissmiss={[onDissmissDelete, () => onDissmissUpdate(subject)]}
+              />
+            );
+          })}
+        </Animated.View>
       )}
     </View>
   );
