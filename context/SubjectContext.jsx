@@ -126,6 +126,7 @@ export const SubjectProvider = ({ children }) => {
         createSubject,
         deleteSubject,
         updateSubject,
+        setIsLoading,
         isLoading,
       }}
     >

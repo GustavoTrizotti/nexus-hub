@@ -1,6 +1,7 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import {
   GestureHandlerRootView,
+  RefreshControl,
   ScrollView,
 } from "react-native-gesture-handler";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -11,11 +12,23 @@ import { useSubjects } from "../context/SubjectContext";
 
 const Subjects = () => {
   const scrollRef = useRef(null);
+  const { isLoading, setIsLoading } = useSubjects();
 
+  const refreshComponent = () => {
+    setIsLoading(true);
+    setTimeout(() => {
+      setIsLoading(false)
+    }, 1000)
+  };
+  
   return (
     <GestureHandlerRootView>
       <SafeAreaView className="flex bg-white h-full w-full">
-        <ScrollView ref={scrollRef}>
+        <ScrollView ref={scrollRef}
+          refreshControl={
+            <RefreshControl refreshing={isLoading} onRefresh={() => refreshComponent()}/>
+          }
+        >
           <MainHeader />
           <SubjectHeader/>
           <SubjectBody scrollRef={scrollRef} />
