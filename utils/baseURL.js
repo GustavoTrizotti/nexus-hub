@@ -1,5 +1,5 @@
-const baseURL = "http://192.168.0.16:8080"
-const apiURL = "http://192.168.0.16:8080/api/v1"
+const baseURL = "http://192.168.0.20:8080"
+const apiURL = "http://192.168.0.20:8080/api/v1"
 
 export default {
     loginURL: `${baseURL}/login`,

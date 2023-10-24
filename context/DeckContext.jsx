@@ -77,6 +77,35 @@ export const DeckProvider = ({ children }) => {
     }
   };
 
+  const updateDeck = async (deck) => {
+    setIsLoading(true);
+    try {
+      const response = await axios.put(
+        baseURL.decks.baseDecks + `/${deck.id}`,
+        {
+          name: deck.name,
+          subjectId: deck.subjectId,
+          parentDeckId: deck.parentDeckId,
+        },
+        {
+          headers: {
+            Authorization: token.auth,
+          },
+        }
+      )
+
+      if (response) {
+        getDecks();
+        setIsLoading(false);
+        return response.data
+      } else {
+        console.log("No content provided to update the deck.");
+      }
+    } catch (error) {
+      console.log("Error updating the deck: ", deck);
+    }
+  }
+
   useEffect(() => {
     if (token.auth !== null) {
       getDecks();
@@ -91,6 +120,8 @@ export const DeckProvider = ({ children }) => {
         createDeck,
         getDecks,
         deleteDeck,
+        updateDeck,
+        setIsLoading,
         isLoading,
       }}
     >

@@ -1,12 +1,8 @@
 import { useNavigation } from "@react-navigation/native";
-import React from "react";
-import { View } from "react-native";
-import {useFlashcards} from "../../context/FlashcardContext"
-import { useEffect } from "react";
-import { Pressable } from "react-native";
+import React, { useEffect } from "react";
+import { Pressable, Text, View } from "react-native";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import { Text } from "react-native";
-import { useState } from "react";
+import { useFlashcards } from "../../context/FlashcardContext";
 
 const DeckList = ({ decks }) => {
   return (
@@ -34,6 +30,15 @@ const DeckListItem = ({ deck, parent }) => {
   useEffect(() => {
     getFlashcardsByDeckId(deck.id)
   }, []);
+
+  // TODO
+  // Verificar se Deck possui atributo parentDeckId
+  // Se possui, verificar a posição do parentDeckId na lista de decks e colocar o Deck +1 posição no array
+  // Deck -> Tipo diferente de item da lista (barra lateral e collapsable)
+
+  // TODO
+  // Verificar se Deck possui atributo subjectId
+  // Se possui criar lista diferente (collapsable) para armazenar os decks que tem relação com as subjects
 
   return (
     <View>

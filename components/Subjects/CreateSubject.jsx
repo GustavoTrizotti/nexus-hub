@@ -25,7 +25,6 @@ const CreateSubject = ({ route }) => {
     isUpdate ? subjectUpdate.color : "#AD6FEB"
   );
 
-
   const { createSubject, isLoading, updateSubject } = useSubjects();
 
   const navigation = useNavigation();

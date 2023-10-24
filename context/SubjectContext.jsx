@@ -85,7 +85,7 @@ export const SubjectProvider = ({ children }) => {
   const updateSubject = async (subject) => {
     setIsLoading(true);
     try {
-      const response = axios.put(
+      const response = await axios.put(
         baseURL.subjects.baseSubjects + `/${subject.id}`,
         {
           id: subject.id,

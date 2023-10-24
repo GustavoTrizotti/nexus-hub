@@ -7,16 +7,27 @@ import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import MainHeader from "../../components/MainHeader";
 
 import { useNavigation } from "@react-navigation/native";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Dimensions } from "react-native";
 import PieChart from "react-native-pie-chart";
 import CardList from "../../components/DeckOptions/CardList";
 import EditDeckModal from "../../components/DeckOptions/EditDeckModal";
+import { useDeck } from "../../context/DeckContext";
 import randomCard from "../../utils/randomCard";
 import CreateFlashcard from "./CreateFlashcard";
+import { RefreshControl } from "react-native";
 
 const DeckOptions = ({ route }) => {
   const [isVisible, setIsVisible] = useState(false);
+
+  const { isLoading, setIsLoading } = useDeck();
+
+  const refreshComponent = () => {
+    setIsLoading(true);
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 1000);
+  };
 
   const deck = route.params.deck;
   const flashcards = route.params.flashcards;
@@ -26,54 +37,60 @@ const DeckOptions = ({ route }) => {
 
   if (flashcards.length > 0) {
     return (
-      <SafeAreaView className="flex bg-white h-full w-full">
-        <ScrollView>
-          <MainHeader title={deck.name} />
-          <KeyboardAvoidingView
-            behavior={Platform.OS === "ios" ? "padding" : "height"}
+        <SafeAreaView className="flex bg-white h-full w-full">
+          <ScrollView
+            refreshControl={
+              <RefreshControl
+                refreshing={isLoading}
+                onRefresh={() => refreshComponent()}
+              />
+            }
           >
-            <DeckOptionsHeader
-              title={deck.name}
-              navigation={navigation}
-              card={selectedCard}
-            />
-            <View className="flex items-center justify-center mt-4">
-              <DeckOptionsChart deck={deck} cards={flashcards} />
-              <View className="flex flex-row mt-6 mx-2 items-center justify-between">
-                <Pressable
-                  className="flex flex-1 bg-primary p-4 m-2 rounded-md"
-                  onPress={() => {
-                    navigation.navigate("Card", {
-                      card: selectedCard,
-                      deck: deck,
-                    });
-                  }}
-                >
-                  <Text className="w-fit text-lg uppercase font-bold text-white text-center">
-                    Study
-                  </Text>
-                </Pressable>
-                <Pressable
-                  className="flex flex-2 h-fit bg-primary p-4 m-2 rounded-md"
-                  onPress={() => setIsVisible(true)}
-                >
-                  <Icon name="pencil" size={24} color="#FFF" />
-                </Pressable>
-                <Pressable className="flex flex-2 bg-primary p-4 m-2 rounded-md">
-                  <Icon name="delete" size={24} color="#FFF" />
-                </Pressable>
+            <MainHeader title={deck.name} />
+            <KeyboardAvoidingView
+              behavior={Platform.OS === "ios" ? "padding" : "height"}
+            >
+              <DeckOptionsHeader
+                title={deck.name}
+                navigation={navigation}
+                card={selectedCard}
+              />
+              <View className="flex items-center justify-center mt-4">
+                <DeckOptionsChart deck={deck} cards={flashcards} />
+                <View className="flex flex-row mt-6 mx-2 items-center justify-between">
+                  <Pressable
+                    className="flex flex-1 bg-primary p-4 m-2 rounded-md"
+                    onPress={() => {
+                      navigation.navigate("Flashcard", {
+                        card: selectedCard,
+                        deck: deck,
+                      });
+                    }}
+                  >
+                    <Text className="w-fit text-lg uppercase font-bold text-white text-center">
+                      Study
+                    </Text>
+                  </Pressable>
+                  <Pressable
+                    className="flex flex-2 h-fit bg-primary p-4 m-2 rounded-md"
+                    onPress={() => setIsVisible(true)}
+                  >
+                    <Icon name="pencil" size={24} color="#FFF" />
+                  </Pressable>
+                  <Pressable className="flex flex-2 bg-primary p-4 m-2 rounded-md">
+                    <Icon name="delete" size={24} color="#FFF" />
+                  </Pressable>
+                </View>
               </View>
-            </View>
-          </KeyboardAvoidingView>
-          <CardList deck={deck} cards={flashcards} />
-        </ScrollView>
-
-        <EditDeckModal
-          isVisible={isVisible}
-          setIsVisible={setIsVisible}
-          deck={deck}
-        />
-      </SafeAreaView>
+            </KeyboardAvoidingView>
+            <CardList deck={deck} cards={flashcards} />
+          </ScrollView>
+          <EditDeckModal
+            isVisible={isVisible}
+            setIsVisible={setIsVisible}
+            deck={deck}
+          />
+        </SafeAreaView>
     );
   } else {
     return <CreateFlashcard card={selectedCard} title={deck.name} />;
