@@ -1,21 +1,17 @@
-import { View, Text } from "react-native";
-import React from "react";
-import MainHeader from "../../components/MainHeader";
+import React, { useState } from "react";
+import { Pressable, ScrollView, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import CreateCardBody from "../../components/Flashcards/CreateFlashcard/CreateCardBody";
-import CreateCardTag from "../../components/Flashcards/CreateFlashcard/CreateCardTag";
-import { Pressable } from "react-native";
-import { ScrollView } from "react-native";
+import MainHeader from "../../components/MainHeader";
 
-const CreateFlashcard = ({ title, card }) => {
+const CreateFlashcard = ({ deck }) => {
+  const flashcard = useState()
+
   return (
     <SafeAreaView className="bg-white h-full">
       <ScrollView>
         <MainHeader title={"Flashcards"} />
         <View>
-          <Text className="text-xl text-center font-bold text-primary">
-            {title}
-          </Text>
           <Text className="text-lg text-center font-bold text-tertiary my-2">
             Create Flashcard
           </Text>
@@ -28,14 +24,15 @@ const CreateFlashcard = ({ title, card }) => {
             </Text>
           </Pressable>
         </View>
-        {card ? (
-          <View className="p-4 flex justify-center items-center">
-            <CreateCardTag card={card} />
-          </View>
-        ) : null}
       </ScrollView>
     </SafeAreaView>
   );
 };
 
 export default CreateFlashcard;
+
+const TagList = () => {
+  return (
+    <></>
+  )
+}

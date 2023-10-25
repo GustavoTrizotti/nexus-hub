@@ -1,5 +1,5 @@
-const baseURL = "http://192.168.0.20:8080"
-const apiURL = "http://192.168.0.20:8080/api/v1"
+const baseURL = "http://10.115.65.113:8080"
+const apiURL = "http://10.115.65.113:8080/api/v1"
 
 export default {
     loginURL: `${baseURL}/login`,
@@ -18,5 +18,10 @@ export default {
     flashcards: {
         baseFlashcards: `${apiURL}/flashcards`,
         create: `${apiURL}/flashcards/save`
+    },
+    tags: {
+        baseTags: `${apiURL}/tags`,
+        getAll: `${apiURL}/tags/all`,
+        create: `${apiURL}/tags/save`,
     }
 }

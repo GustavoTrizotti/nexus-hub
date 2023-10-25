@@ -8,27 +8,21 @@ const DeckList = ({ decks }) => {
   return (
     <View className="flex px-2">
       {decks.map((deckMap) => {
-        return (
-          <DeckListItem
-            key={deckMap.id}
-            deck={deckMap}
-          />
-        );
+        return <DeckListItem key={deckMap.id} deck={deckMap} />;
       })}
     </View>
   );
 };
 
 const DeckListItem = ({ deck, parent }) => {
-
   const iconName = parent ? "chevron-right" : "cards-variant";
   const navigation = useNavigation();
 
-  const { flashcards, getFlashcardsByDeckId } = useFlashcards()
-  const deckFlashcards = flashcards.filter(card => card.deckId === deck.id)
+  const { flashcards, getFlashcardsByDeckId } = useFlashcards();
+  const deckFlashcards = flashcards.filter((card) => card.deckId === deck.id);
 
   useEffect(() => {
-    getFlashcardsByDeckId(deck.id)
+    getFlashcardsByDeckId(deck.id);
   }, []);
 
   // TODO
@@ -46,7 +40,7 @@ const DeckListItem = ({ deck, parent }) => {
         onPress={() =>
           navigation.navigate("Deck", {
             deck: deck,
-            flashcards: deckFlashcards
+            flashcards: deckFlashcards,
           })
         }
         className="flex p-4 mb-2 mx-3 flex-row items-center justify-between border-b-2 border-gray-100"
@@ -62,6 +56,5 @@ const DeckListItem = ({ deck, parent }) => {
     </View>
   );
 };
-
 
 export default DeckList;

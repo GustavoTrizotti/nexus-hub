@@ -51,9 +51,8 @@ const DeckOptions = ({ route }) => {
               behavior={Platform.OS === "ios" ? "padding" : "height"}
             >
               <DeckOptionsHeader
-                title={deck.name}
                 navigation={navigation}
-                card={selectedCard}
+                deck={deck}
               />
               <View className="flex items-center justify-center mt-4">
                 <DeckOptionsChart deck={deck} cards={flashcards} />
@@ -97,12 +96,12 @@ const DeckOptions = ({ route }) => {
   }
 };
 
-const DeckOptionsHeader = ({ title, navigation, card }) => {
+const DeckOptionsHeader = ({ navigation, deck }) => {
   return (
     <View className="flex px-2 flex-row w-full justify-between items-center">
       <View className="flex flex-col p-3">
         <View className="flex flex-row items-center align-center gap-2">
-          <Text className="text-primary font-bold text-xl">{title}</Text>
+          <Text className="text-primary font-bold text-xl">{deck.name}</Text>
           <Icon name="cards" color="#AD6FEB" size={24} />
         </View>
         <Text className="text-light font-semibold text-md uppercase py-1">
@@ -114,7 +113,7 @@ const DeckOptionsHeader = ({ title, navigation, card }) => {
           className="flex flex-row bg-primary p-3 px-2 rounded-md items-center justify-between gap-x-2"
           activeOpacity={0.75}
           onPress={() => {
-            navigation.navigate("CreateCard", { title: title, card: card });
+            navigation.navigate("CreateCard", { deck: deck });
           }}
         >
           <Icon name="cards" color="#FFFFFF" size={24} />
