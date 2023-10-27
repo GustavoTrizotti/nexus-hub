@@ -1,7 +1,7 @@
 import { View, Text, TextInput } from "react-native";
 import React from "react";
 
-const CreateCardBody = () => {
+const CreateCardBody = ({flashcard, setFlashcard}) => {
   return (
     <View className="flex w-full">
       <View>
@@ -11,6 +11,8 @@ const CreateCardBody = () => {
           multiline
           numberOfLines={5}
           className="bg-gray-100 p-4 rounded-lg text-lg"
+          onChangeText={(e) => setFlashcard({...flashcard, question: e})}
+          value={flashcard ? flashcard.question : ""}
         />
       </View>
       <View>
@@ -20,6 +22,8 @@ const CreateCardBody = () => {
           multiline
           numberOfLines={5}
           className="bg-gray-100 p-4 rounded-lg text-lg"
+          onChangeText={(e) => setFlashcard({...flashcard, answer: e})}
+          value={flashcard ? flashcard.answer : ""}
         />
       </View>
     </View>
