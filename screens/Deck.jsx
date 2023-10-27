@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { ActivityIndicator, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import DeckHeader from "../components/Decks/DeckHeader";
 import MainHeader from "../components/MainHeader";
@@ -8,21 +7,21 @@ import ReactNativeModal from "react-native-modal";
 import CreateDeck from "../components/Decks/CreateDeck";
 import DeckList from "../components/Decks/DeckList";
 
-import { useDeck } from "../context/DeckContext";
 import { ScrollView } from "react-native";
-import { RefreshControl } from "react-native";
+import { useDeck } from "../context/DeckContext";
 
 export default function Decks() {
-  const { decks, setDecks, isLoading, setIsLoading } = useDeck();
 
+  // TODO
+  // Verificar se Deck possui atributo parentDeckId
+  // Se possui, verificar a posição do parentDeckId na lista de decks e colocar o Deck +1 posição no array
+  // Deck -> Tipo diferente de item da lista (barra lateral e collapsable)
+
+  // TODO
+  // Verificar se Deck possui atributo subjectId
+  // Se possui criar lista diferente (collapsable) para armazenar os decks que tem relação com as subjects
+  
   const [modalVisible, setModalVisible] = useState(false);
-
-  const refreshComponent = () => {
-    setIsLoading(true);
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 1000);
-  };
 
   const handleSetModalVisible = () => {
     setModalVisible(true);
@@ -36,29 +35,15 @@ export default function Decks() {
     <SafeAreaView>
       <ScrollView
         className="flex bg-white w-full h-full"
-        refreshControl={
-          <RefreshControl
-            refreshing={isLoading}
-            onRefresh={() => refreshComponent()}
-          />
-        }
       >
         <MainHeader />
-
         <DeckHeader handleSetModalVisible={handleSetModalVisible} />
-        {isLoading ? (
-          <View className="flex items-center justify-center p-4 mt-4">
-            <ActivityIndicator size="large" color="#AD6FEB" />
-          </View>
-        ) : (
-          <DeckList decks={decks} setDecks={setDecks} />
-        )}
-
+        <DeckList />
         <ReactNativeModal
           isVisible={modalVisible}
           onBackdropPress={() => setModalVisible(false)}
         >
-          <CreateDeck closeModal={handleSetModalHidden} setDecks={setDecks} />
+          <CreateDeck closeModal={handleSetModalHidden}/>
         </ReactNativeModal>
       </ScrollView>
     </SafeAreaView>

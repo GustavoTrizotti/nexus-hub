@@ -2,6 +2,7 @@ import { createContext, useContext, useEffect, useState } from "react";
 import { useAuth } from "./AuthContext";
 import axios from "axios";
 import baseURL from "../utils/baseURL";
+import { useLoading } from "./LoadingContext";
 
 const FlashcardContext = createContext();
 
@@ -12,10 +13,9 @@ export const useFlashcards = () => {
 export const FlashcardProvider = ({ children }) => {
   const { token } = useAuth();
   const [flashcards, setFlashcards] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
+  const { setIsLoading } = useLoading();
 
   const getFlashcardsByDeckId = async (deckId) => {
-    setIsLoading(true);
     try {
       const response = await axios.get(baseURL.flashcards.baseFlashcards + `/${deckId}/all`, {
         headers: {
@@ -23,7 +23,7 @@ export const FlashcardProvider = ({ children }) => {
         }
       })
       setIsLoading(false)
-      setFlashcards(response.data)
+      return await response.data.filter((response) => response.deckId === deckId);
     } catch (error) {
       console.log("Error getting flashcards by deck id: ", error);
     }
@@ -84,7 +84,6 @@ export const FlashcardProvider = ({ children }) => {
         getFlashcardsByDeckId,
         createFlashcard,
         deleteFlashcard,
-        isLoading,
       }}
     >
       {children}

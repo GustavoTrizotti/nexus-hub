@@ -74,7 +74,7 @@ const TagListItem = ({ tag, setSelectedTags, selectedTags }) => {
   );
 };
 
-const CreateDeck = ({ setDecks, closeModal }) => {
+const CreateDeck = ({ closeModal }) => {
   const [deck, setDeck] = useState(null);
   const { createDeck } = useDeck();
   const { isLoading, refresh } = useLoading();
