@@ -33,12 +33,15 @@ const CreateDeck = ({ closeModal }) => {
         </Text>
         <View>
           <TextInput
-            className="flex p-4 bg-gray-100 mt-2 text-lg rounded-lg"
+            className="flex p-4 bg-gray-100 text-lg rounded-lg"
             placeholder="Name..."
             onChangeText={(e) => setDeck({ ...deck, name: e })}
           />
         </View>
-        <SubjectList />
+        <View className="w-full flex py-2">
+          <Text className="text-lg font-semibold text-primary">Subject</Text>
+          <SubjectList />
+        </View>
         <Pressable
           className="p-2 bg-primary rounded-md"
           onPress={() => console.log("Teste")}
@@ -55,10 +58,19 @@ const CreateDeck = ({ closeModal }) => {
 const SubjectList = () => {
   const [selectedSubjects, setSelectedSubjects] = useState([]);
 
+  const toggleSelection = (subject) => {
+    const isSelected = selectedSubjects.includes(subject);
+    if (isSelected) {
+      setSelectedSubjects(selectedSubjects.filter((s) => s !== subject));
+    } else {
+      setSelectedSubjects([subject]);
+    }
+  };
+
   const { subjects } = useSubjects();
 
   return (
-    <ScrollView className="flex flex-row py-4 mt-2" horizontal={true}>
+    <ScrollView className="flex flex-row py-4" horizontal={true}>
       {subjects.map((subject) => {
         return (
           <SubjectListItem
@@ -66,6 +78,7 @@ const SubjectList = () => {
             key={subject.id}
             selectedSubjects={selectedSubjects}
             setSelectedSubjects={setSelectedSubjects}
+            toggleSelection={toggleSelection}
           />
         );
       })}
@@ -77,38 +90,23 @@ const SubjectListItem = ({
   subject,
   selectedSubjects,
   setSelectedSubjects,
+  toggleSelection
 }) => {
-  const [isSelected, setIsSelected] = useState(false);
-
-  const toggleSelection = () => {
-    setIsSelected(!isSelected);
-    if (!isSelected) {
-      if (selectedSubjects.includes(subject)) {
-        setSelectedSubjects(selectedSubjects);
-      } else {
-        setSelectedSubjects([...selectedSubjects, subject]);
-      }
-    } else {
-      const filteredSubjects = selectedSubjects.filter(
-        (selectedSubject) => selectedSubject !== subject
-      );
-      setSelectedSubjects(filteredSubjects);
-    }
-  };
+  const isSelected = selectedSubjects.includes(subject);
 
   return (
     <Pressable
       style={
         isSelected
           ? { backgroundColor: "#AD6FEB", borderRadius: 10 }
-          : { borderBottomColor: subject.color, borderBottomWidth: 4 }
+          : { backgroundColor: "#eee", borderRadius: 10 }
       }
       className="flex p-4 mr-4"
-      onPress={toggleSelection}
+      onPress={() => toggleSelection(subject)}
     >
       <Text
         className="text-lg font-semibold px-2"
-        style={isSelected ? { color: subject.color } : { color: subject.color }}
+        style={isSelected ? { color: subject.color } : { color: "#AD6FEB" }}
       >
         {subject.name}
       </Text>
