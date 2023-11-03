@@ -10,7 +10,7 @@ import {
 import { useDeck } from "../../context/DeckContext";
 import { useSubjects } from "../../context/SubjectContext";
 
-const CreateDeck = ({ closeModal }) => {
+const CreateDeck = ({ closeModal, isCreateChild }) => {
   const [deck, setDeck] = useState(null);
   const { createDeck, isLoading } = useDeck();
 
@@ -36,9 +36,17 @@ const CreateDeck = ({ closeModal }) => {
   return (
     <View className="flex relative justify-center items-center p-2 py-8 bg-white mx-4 my-8 h-fit rounded-lg">
       <View className="flex px-6 py-2 gap-y-4 w-full">
-        <Text className="text-xl text-center text-primary font-bold uppercase mb-4">
-          New Deck
-        </Text>
+        {isCreateChild ? (
+          <View className="flex w-full flex-col justify-center items-center py-2 mb-2">
+            <Text className="text-xl text-center text-primary font-bold uppercase mb-2">
+              New Child Deck
+            </Text>
+            <Text className="text-md text-center text-tertiary font-bold uppercase">
+              {isCreateChild.name}
+            </Text>
+          </View>
+        ) : null}
+
         <View>
           <TextInput
             className="flex p-4 bg-gray-100 text-lg rounded-lg"

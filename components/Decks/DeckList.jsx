@@ -1,11 +1,11 @@
 import { useNavigation } from "@react-navigation/native";
 import React, { useEffect, useState } from "react";
-import { Pressable, Text, View } from "react-native";
+import { Pressable, ScrollView, Text, View } from "react-native";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { useDeck } from "../../context/DeckContext";
 import { useFlashcards } from "../../context/FlashcardContext";
 
-const DeckList = () => {
+const DeckList = ({ setModalVisible, setIsCreateChild }) => {
   const { decks, getDecks } = useDeck();
 
   useEffect(() => {
@@ -13,15 +13,22 @@ const DeckList = () => {
   }, []);
 
   return (
-    <View className="flex px-2">
+    <ScrollView className="flex px-2">
       {decks.map((deckMap) => {
-        return <DeckListItem key={deckMap.id} deck={deckMap} />;
+        return (
+          <DeckListItem
+            key={deckMap.id}
+            deck={deckMap}
+            setModalVisible={setModalVisible}
+            setIsCreateChild={setIsCreateChild}
+          />
+        );
       })}
-    </View>
+    </ScrollView>
   );
 };
 
-const DeckListItem = ({ deck }) => {
+const DeckListItem = ({ deck, setModalVisible, setIsCreateChild }) => {
   const navigation = useNavigation();
   const { getFlashcardsByDeckId } = useFlashcards();
   const [deckFlashcards, setDeckFlashcards] = useState([]);
@@ -53,7 +60,15 @@ const DeckListItem = ({ deck }) => {
           <Text className="text-lg font-bold text-tertiary opacity-40">
             {deckFlashcards.length}
           </Text>
-          <Icon name="plus" size={30} color="#bbb" onPress={() => console.log("Teste")}/>
+          <Icon
+            name="plus"
+            size={30}
+            color="#bbb"
+            onPress={() => {
+              setModalVisible(true)
+              setIsCreateChild(deck)
+            }}
+          />
         </View>
       </View>
     </Pressable>

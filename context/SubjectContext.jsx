@@ -13,6 +13,7 @@ export const useSubjects = () => {
 export const SubjectProvider = ({ children }) => {
   const { token } = useAuth();
   const [subjects, setSubjects] = useState([]);
+  const [subject, setSubject] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
   const getSubjects = async () => {
@@ -29,6 +30,21 @@ export const SubjectProvider = ({ children }) => {
       console.log("Error getting the subjects: ", error);
     }
   };
+
+  const getSubjectById = async (subjectId) => {
+    setIsLoading(true);
+    try {
+      const response = await axios.get(baseURL.subjects.baseSubjects + `/${subjectId}`, {
+        headers: {
+          Authorization: token.auth,
+        }
+      })
+      setIsLoading(false);
+      setSubject(response.data)
+    } catch (error) {
+      console.log("Error getting the subjects by ID: ", error);
+    }
+  }
 
   const createSubject = async (subject) => {
     setIsLoading(true);
@@ -122,7 +138,10 @@ export const SubjectProvider = ({ children }) => {
       value={{
         subjects,
         setSubjects,
+        subject,
+        setSubject,
         getSubjects,
+        getSubjectById,
         createSubject,
         deleteSubject,
         updateSubject,
