@@ -1,27 +1,35 @@
 import React, { useState } from "react";
-import { Pressable, Text, TextInput, View } from "react-native";
+import {
+  ActivityIndicator,
+  Pressable,
+  ScrollView,
+  Text,
+  TextInput,
+  View,
+} from "react-native";
 import { useDeck } from "../../context/DeckContext";
-import { useLoading } from "../../context/LoadingContext";
 import { useSubjects } from "../../context/SubjectContext";
-import { ScrollView } from "react-native";
 
 const CreateDeck = ({ closeModal }) => {
   const [deck, setDeck] = useState(null);
-  const { createDeck } = useDeck();
-  const { isLoading, refresh } = useLoading();
+  const { createDeck, isLoading } = useDeck();
 
-  const [selectedTags, setSelectedTags] = useState([]);
+  const setSelectedSubject = (newSelectedSubject) => {
+    setDeck({ ...deck, selectedSubject: newSelectedSubject });
+  };
 
-  /* const handlePostDeck = async () => {
+  const handlePostDeck = async (deck) => {
     try {
       await createDeck({
         name: deck.name,
+        subjectId: deck ? deck.selectedSubject.id : null,
+        parentDeckId: null,
       });
     } catch (error) {
       console.log("Error creating the deck: ", error);
     }
     closeModal();
-  }; */
+  };
 
   // Add Icon to Right in DeckListItem - Add Deck inside another
 
@@ -40,30 +48,33 @@ const CreateDeck = ({ closeModal }) => {
         </View>
         <View className="w-full flex py-2">
           <Text className="text-lg font-semibold text-primary">Subject</Text>
-          <SubjectList />
+          <SubjectList deck={deck} setSelectedSubject={setSelectedSubject} />
         </View>
         <Pressable
           className="p-2 bg-primary rounded-md"
-          onPress={() => console.log("Teste")}
+          onPress={() => handlePostDeck(deck)}
         >
-          <Text className="text-lg font-bold text-white text-center p-2">
-            Save Changes
-          </Text>
+          {isLoading ? (
+            <ActivityIndicator color={"#FFF"} size={40} />
+          ) : (
+            <Text className="text-lg font-bold text-white text-center p-2">
+              Save Changes
+            </Text>
+          )}
         </Pressable>
       </View>
     </View>
   );
 };
 
-const SubjectList = () => {
-  const [selectedSubjects, setSelectedSubjects] = useState([]);
-
+const SubjectList = ({ deck, setSelectedSubject }) => {
   const toggleSelection = (subject) => {
-    const isSelected = selectedSubjects.includes(subject);
-    if (isSelected) {
-      setSelectedSubjects(selectedSubjects.filter((s) => s !== subject));
+    const isSelected = deck ? deck.selectedSubject === subject : false;
+
+    if (!isSelected) {
+      setSelectedSubject(subject);
     } else {
-      setSelectedSubjects([subject]);
+      setSelectedSubject(null);
     }
   };
 
@@ -76,8 +87,8 @@ const SubjectList = () => {
           <SubjectListItem
             subject={subject}
             key={subject.id}
-            selectedSubjects={selectedSubjects}
-            setSelectedSubjects={setSelectedSubjects}
+            selectedSubject={deck ? deck.selectedSubject : null}
+            setSelectedSubject={setSelectedSubject}
             toggleSelection={toggleSelection}
           />
         );
@@ -86,13 +97,8 @@ const SubjectList = () => {
   );
 };
 
-const SubjectListItem = ({
-  subject,
-  selectedSubjects,
-  setSelectedSubjects,
-  toggleSelection
-}) => {
-  const isSelected = selectedSubjects.includes(subject);
+const SubjectListItem = ({ subject, selectedSubject, toggleSelection }) => {
+  const isSelected = selectedSubject === subject;
 
   return (
     <Pressable

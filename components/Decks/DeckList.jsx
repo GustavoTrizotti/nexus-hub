@@ -1,19 +1,9 @@
 import { useNavigation } from "@react-navigation/native";
 import React, { useEffect, useState } from "react";
-import { Dimensions, Pressable, Text, View } from "react-native";
+import { Pressable, Text, View } from "react-native";
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { useDeck } from "../../context/DeckContext";
 import { useFlashcards } from "../../context/FlashcardContext";
-import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import {
-  GestureHandlerRootView,
-  PanGestureHandler,
-} from "react-native-gesture-handler";
-import Animated, {
-  useAnimatedGestureHandler,
-  useAnimatedStyle,
-  useSharedValue,
-  withSpring,
-} from "react-native-reanimated";
 
 const DeckList = () => {
   const { decks, getDecks } = useDeck();
@@ -59,9 +49,12 @@ const DeckListItem = ({ deck }) => {
           <Icon name="cards-variant" size={30} color="#AD6FEB" />
           <Text className="text-xl font-bold text-primary">{deck.name}</Text>
         </View>
-        <Text className="text-lg font-bold text-tertiary opacity-40">
-          {deckFlashcards.length}
-        </Text>
+        <View className="flex flex-row justify-center items-center gap-x-4">
+          <Text className="text-lg font-bold text-tertiary opacity-40">
+            {deckFlashcards.length}
+          </Text>
+          <Icon name="plus" size={30} color="#bbb" onPress={() => console.log("Teste")}/>
+        </View>
       </View>
     </Pressable>
   );
