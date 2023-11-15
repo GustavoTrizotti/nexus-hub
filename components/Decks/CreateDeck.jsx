@@ -45,7 +45,11 @@ const CreateDeck = ({ closeModal, isCreateChild }) => {
               {isCreateChild.name}
             </Text>
           </View>
-        ) : null}
+        ) : (
+          <Text className="text-xl text-center text-primary font-bold uppercase mb-2">
+            New Deck
+          </Text>
+        )}
 
         <View>
           <TextInput

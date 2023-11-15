@@ -33,23 +33,36 @@ const CreateFlashcard = ({ deck }) => {
           </Text>
         </View>
         <View className="p-4 w-full flex items-center">
-          <CreateCardBody flashcard={flashcard} setFlashcard={setFlashcard}/>
-          <TagList selectedTags={selectedTags} setSelectedTags={setSelectedTags}/>
-          <Pressable className="p-4 w-full mt-6 px-6 flex bg-primary rounded-md" onPress={() => {
-            console.log(flashcard, selectedTags);
-          }}>
+          <CreateCardBody flashcard={flashcard} setFlashcard={setFlashcard} />
+          <View className="h-fit flex w-full py-2 mt-2">
+            <Text className="mx-2 text-lg text-primary font-bold">
+              Selecionar Tags
+            </Text>
+            <TagList
+              selectedTags={selectedTags}
+              setSelectedTags={setSelectedTags}
+            />
+          </View>
+          <Pressable
+            className="p-4 w-full mt-6 px-6 flex bg-primary rounded-md"
+            onPress={() => {
+              console.log(flashcard, selectedTags);
+            }}
+          >
             <Text className="text-lg text-center text-white font-bold">
               Save Changes
             </Text>
           </Pressable>
           <View className="flex w-full flex-row">
-            <Pressable className="p-4 flex-1 mt-6 mr-2 px-6 flex bg-red-400 rounded-md">
+            <Pressable className="p-4 flex-1 mt-6 mr-2 px-6 flex bg-red-400 rounded-md flex-row items-center justify-between">
+              <Icon name="trash-can" size={28} color="#fff" />
               <Text className="text-lg text-center text-white font-bold">
                 Delete Deck
               </Text>
             </Pressable>
-            <Pressable className="p-4 flex-1 mt-6 ml-2 px-6 flex bg-yellow-400 rounded-md">
-              <Text className="text-lg text-center text-white font-bold">
+            <Pressable className="p-4 flex-1 mt-6 ml-2 px-6 flex bg-yellow-400 rounded-md flex-row items-center justify-between">
+              <Icon name="pencil" size={28} color="#fff" />
+              <Text className="px-2 text-lg text-center text-white font-bold">
                 Update Deck
               </Text>
             </Pressable>
