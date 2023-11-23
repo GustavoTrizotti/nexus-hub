@@ -1,27 +1,40 @@
-import React, { useState } from "react";
-import { Pressable, Text, View } from "react-native";
+import { useNavigation } from "@react-navigation/native";
+import React, { useEffect, useState } from "react";
+import { Pressable, ScrollView, Text, View } from "react-native";
+import { useToast } from "react-native-toast-notifications";
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import CreateCardBody from "../../components/Flashcards/CreateFlashcard/CreateCardBody";
 import MainHeader from "../../components/MainHeader";
 import KeyboardAvoidWrapper from "../../components/utils/KeyboardAvoidWrapper";
 import { useFlashcards } from "../../context/FlashcardContext";
-import { ScrollView } from "react-native";
-import { useLoading } from "../../context/LoadingContext";
 import { useTags } from "../../context/TagContext";
-import { useEffect } from "react";
-import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
 const CreateFlashcard = ({ deck }) => {
-  const [flashcard, setFlashcard] = useState();
+  const [flashcard, setFlashcard] = useState({ deckId: deck.id });
   const { createFlashcard } = useFlashcards();
   const [selectedTags, setSelectedTags] = useState([]);
+  const navigation = useNavigation();
+  const toast = useToast();
 
   const handleCreateFlashcard = async (flashcard) => {
     try {
-      await createFlashcard(flashcard);
+      if (await createFlashcard(flashcard)) {
+        toast.show("Flashcard criado com sucesso!");
+      } else {
+        toast.show("Erro ao criar o flashcard!");
+      }
     } catch (error) {
-      console.log("Error handling the creation of flashcard: ", error);
+      console.log("Error while handling the create flashcard method: ", error);
     }
   };
+
+  useEffect(() => {
+    if (selectedTags.length > 0) {
+      setFlashcard({ ...flashcard, tagId: selectedTags.map((tag) => tag.id) });
+    } else {
+      setFlashcard({ ...flashcard, tagId: [] });
+    }
+  }, [selectedTags]);
 
   return (
     <KeyboardAvoidWrapper bgColor="#FFF">
@@ -45,8 +58,9 @@ const CreateFlashcard = ({ deck }) => {
           </View>
           <Pressable
             className="p-4 w-full mt-6 px-6 flex bg-primary rounded-md"
-            onPress={() => {
-              console.log(flashcard, selectedTags);
+            onPress={async () => {
+              await handleCreateFlashcard(flashcard);
+              navigation.goBack();
             }}
           >
             <Text className="text-lg text-center text-white font-bold">
@@ -54,7 +68,12 @@ const CreateFlashcard = ({ deck }) => {
             </Text>
           </Pressable>
           <View className="flex w-full flex-row">
-            <Pressable className="p-4 flex-1 mt-6 mr-2 px-6 flex bg-red-400 rounded-md flex-row items-center justify-between">
+            <Pressable
+              className="p-4 flex-1 mt-6 mr-2 px-6 flex bg-red-400 rounded-md flex-row items-center justify-between"
+              onPress={() => {
+
+              }}
+            >
               <Icon name="trash-can" size={28} color="#fff" />
               <Text className="text-lg text-center text-white font-bold">
                 Delete Deck
@@ -77,7 +96,6 @@ export default CreateFlashcard;
 
 const TagList = ({ setSelectedTags, selectedTags }) => {
   const { tags, getTags } = useTags();
-  const { isLoading } = useLoading();
 
   useEffect(() => {
     getTags();

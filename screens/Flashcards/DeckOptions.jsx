@@ -30,7 +30,7 @@ const DeckOptions = ({ route }) => {
   };
 
   const deck = route.params.deck;
-  const flashcards = route.params.flashcards;
+  const flashcards = route.params.deckFlashcards;
 
   const selectedCard = randomCard(flashcards);
   const navigation = useNavigation();
@@ -89,7 +89,7 @@ const DeckOptions = ({ route }) => {
       </SafeAreaView>
     );
   } else {
-    return <CreateFlashcard card={selectedCard} title={deck.name} />;
+    return <CreateFlashcard deck={deck} />;
   }
 };
 

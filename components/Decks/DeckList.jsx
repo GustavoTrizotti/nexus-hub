@@ -4,13 +4,21 @@ import { Pressable, ScrollView, Text, View } from "react-native";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { useDeck } from "../../context/DeckContext";
 import { useFlashcards } from "../../context/FlashcardContext";
+import axios from "axios";
+import baseURL from "../../utils/baseURL";
+import { useAuth } from "../../context/AuthContext";
 
 const DeckList = ({ setModalVisible, setIsCreateChild }) => {
-  const { decks, getDecks } = useDeck();
+  const { decks, getDecks, isLoading } = useDeck();
+  const { flashcards } = useFlashcards(); 
 
   useEffect(() => {
     getDecks();
-  }, []);
+  }, [])
+
+  useEffect(() => {
+    console.log("Teste");
+  }, [decks, flashcards])
 
   return (
     <ScrollView className="flex px-2">
@@ -29,25 +37,34 @@ const DeckList = ({ setModalVisible, setIsCreateChild }) => {
 };
 
 const DeckListItem = ({ deck, setModalVisible, setIsCreateChild }) => {
+  const { token } = useAuth();
   const navigation = useNavigation();
-  const { getFlashcardsByDeckId } = useFlashcards();
-  const [deckFlashcards, setDeckFlashcards] = useState([]);
-
+  const [deckFlashcards, setDeckFlashcards] = useState([])
+  
   const getFlashcards = async () => {
-    const flashcardsData = await getFlashcardsByDeckId(deck.id);
-    setDeckFlashcards(flashcardsData);
-  };
+    await axios.get(baseURL.flashcards.baseFlashcards + `/${deck.id}/all`, {
+      headers: {
+        Authorization: token.auth,
+      },
+    })
+    .then((res) => {
+      if (res.data.length > 0) {
+        setDeckFlashcards(res.data)
+      }
+    })
+    .catch((err) => console.log(err))
+  }
 
   useEffect(() => {
     getFlashcards();
-  }, []);
+  }, [])
 
   return (
     <Pressable
       onPress={() =>
         navigation.navigate("Deck", {
           deck: deck,
-          flashcards: deckFlashcards,
+          deckFlashcards: deckFlashcards
         })
       }
     >
@@ -58,7 +75,7 @@ const DeckListItem = ({ deck, setModalVisible, setIsCreateChild }) => {
         </View>
         <View className="flex flex-row justify-center items-center gap-x-4">
           <Text className="text-lg font-bold text-tertiary opacity-40">
-            {deckFlashcards.length}
+            {deckFlashcards.length || 0}
           </Text>
           <Icon
             name="plus"
