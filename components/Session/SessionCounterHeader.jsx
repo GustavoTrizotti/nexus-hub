@@ -26,8 +26,6 @@ const SessionTimerHeader = () => {
     handlePause,
   };
 
-  console.log(timer);
-
   return (
     <View className="flex w-full justify-evenly items-center flex-row p-4">
       <SessionTimerButton

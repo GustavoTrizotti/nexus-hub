@@ -9,8 +9,9 @@ import KeyboardAvoidWrapper from "../../components/utils/KeyboardAvoidWrapper";
 import { useFlashcards } from "../../context/FlashcardContext";
 import { useTags } from "../../context/TagContext";
 
-const CreateFlashcard = ({ deck }) => {
-  const [flashcard, setFlashcard] = useState({ deckId: deck.id });
+const CreateFlashcard = ({ deck, route }) => {
+  const selectedDeck = deck ? deck : route.params.deck
+  const [flashcard, setFlashcard] = useState({ deckId: selectedDeck.id });
   const { createFlashcard } = useFlashcards();
   const [selectedTags, setSelectedTags] = useState([]);
   const navigation = useNavigation();

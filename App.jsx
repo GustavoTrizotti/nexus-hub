@@ -8,6 +8,7 @@ import { SubjectProvider } from "./context/SubjectContext";
 import { FlashcardProvider } from "./context/FlashcardContext";
 import { TagProvider } from "./context/TagContext";
 import { LoadingProvider } from "./context/LoadingContext";
+import CustomToast from "./components/utils/CustomToast";
 
 export default function App() {
   const Stack = createNativeStackNavigator();
@@ -19,7 +20,7 @@ export default function App() {
           <TagProvider>
             <DeckProvider>
               <FlashcardProvider>
-                <ToastProvider>
+                <ToastProvider placement="bottom" animationType="slide-in" renderToast={(props) => <CustomToast {...props}/>}>
                   <NavigationContainer>
                     <Stack.Navigator screenOptions={{ headerShown: false }}>
                       <Stack.Screen name="App" component={AuthRouter} />

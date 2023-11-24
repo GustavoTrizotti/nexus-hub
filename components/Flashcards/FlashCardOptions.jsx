@@ -1,14 +1,32 @@
-import { View, Text, Pressable } from "react-native";
+import { View, Text, Pressable, TouchableOpacity } from "react-native";
 import React from "react";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import { useFlashcards } from "../../context/FlashcardContext";
+import { Toast } from "react-native-toast-notifications";
+import { useNavigation } from "@react-navigation/native";
 
-const FlashCardOptions = ({ isAnswer, handleRevealAnswer }) => {
+const FlashcardOptions = ({ isAnswer, handleRevealAnswer, card }) => {
   const flashcardOptions = [
     { name: "Again", color: "bg-subjectRed" },
     { name: "Hard", color: "bg-subjectYellow" },
     { name: "Good", color: "bg-subjectGreen" },
     { name: "Easy", color: "bg-subjectBlue" },
   ];
+
+  const navigation = useNavigation();
+
+  const { getFlashcardsByDeckId, submitFlashcard, setError } = useFlashcards();
+
+  const handleSubmitFlashcard = async (id, response) => {
+    try {
+      if (await submitFlashcard(id, response)) {
+        Toast.show("Flashcard enviado com sucesso!", )
+        navigation.goBack();
+      }
+    } catch (error) {
+      setError(error.message);
+    }
+  };
 
   return (
     <View>
@@ -17,11 +35,18 @@ const FlashCardOptions = ({ isAnswer, handleRevealAnswer }) => {
           {flashcardOptions.map((option, idx) => {
             const buttonStyle = `flex flex-1 mx-1 rounded-md justify-center items-center p-2 ${option.color}`;
             return (
-              <Pressable className={buttonStyle} key={idx}>
+              <TouchableOpacity
+                className={buttonStyle}
+                key={idx}
+                onPress={() => {
+                  handleSubmitFlashcard(card.id, option.name.toUpperCase());
+                  getFlashcardsByDeckId(card.deckId);
+                }}
+              >
                 <Text className="text-center text-secondary font-bold text-lg">
                   {option.name}
                 </Text>
-              </Pressable>
+              </TouchableOpacity>
             );
           })}
         </View>
@@ -42,4 +67,4 @@ const FlashCardOptions = ({ isAnswer, handleRevealAnswer }) => {
   );
 };
 
-export default FlashCardOptions;
+export default FlashcardOptions;

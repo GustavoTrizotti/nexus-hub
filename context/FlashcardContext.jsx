@@ -1,9 +1,8 @@
-import { createContext, useContext, useEffect, useState } from "react";
-import { useAuth } from "./AuthContext";
 import axios from "axios";
+import { createContext, useContext, useEffect, useState } from "react";
+import { Toast } from "react-native-toast-notifications";
 import baseURL from "../utils/baseURL";
-import { useLoading } from "./LoadingContext";
-import { useToast } from "react-native-toast-notifications";
+import { useAuth } from "./AuthContext";
 
 const FlashcardContext = createContext();
 
@@ -14,10 +13,8 @@ export const useFlashcards = () => {
 export const FlashcardProvider = ({ children }) => {
   const { token } = useAuth() || null;
   const [flashcards, setFlashcards] = useState([]);
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
-
-  const toast = useToast();
 
   const getFlashcardsByDeckId = async (deckId) => {
     setIsLoading(true);
@@ -33,7 +30,6 @@ export const FlashcardProvider = ({ children }) => {
             setFlashcards(
               res.data.filter((response) => response.deckId === deckId)
             );
-            console.log(flashcards);
             return true;
           }
           return false;
@@ -45,6 +41,7 @@ export const FlashcardProvider = ({ children }) => {
         .finally(() => setIsLoading(false));
     } catch (error) {
       console.log("Error getting flashcards by deck id: ", error);
+      setError(error.message)
     }
   };
 
@@ -80,9 +77,10 @@ export const FlashcardProvider = ({ children }) => {
         })
         .finally(() => setIsLoading(false));
 
-        return response;
+      return response;
     } catch (error) {
       console.log("Error creating the flashcard: ", error);
+      setError(error.message)
     }
   };
 
@@ -107,18 +105,49 @@ export const FlashcardProvider = ({ children }) => {
           return false;
         })
         .catch((err) => {
-          setError(err)
+          setError(err);
           return false;
         })
-        .finally(() => setIsLoading(false))
+        .finally(() => setIsLoading(false));
     } catch (error) {
       console.log("Error deleting the flashcard: ", error);
+      setError(error.message)
+    }
+  };
+
+  const submitFlashcard = async (id, response) => {
+    setIsLoading(true);
+    try {
+      const res = await axios
+        .patch(
+          baseURL.flashcards.baseFlashcards + `/${id}`,
+          { response: response },
+          {
+            headers: {
+              Authorization: token.auth,
+            },
+          }
+        )
+        .then((res) => {
+          if (res.data) {
+            
+            return true;
+          }
+          return false;
+        })
+        .catch((err) => setError(err))
+        .finally(() => setIsLoading(false));
+
+        return res || false;
+    } catch (error) {
+      setError(error.message);
     }
   };
 
   useEffect(() => {
-    if (error != null) {
-      toast.show(error);
+    if (error) {
+      const { message } = error || null;
+      Toast.show(message || error);
     }
   }, [error]);
 
@@ -132,8 +161,9 @@ export const FlashcardProvider = ({ children }) => {
         getFlashcardsByDeckId,
         createFlashcard,
         deleteFlashcard,
+        submitFlashcard,
         isLoading,
-        setIsLoading
+        setIsLoading,
       }}
     >
       {children}

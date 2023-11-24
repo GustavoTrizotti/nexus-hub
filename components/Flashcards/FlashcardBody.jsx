@@ -2,7 +2,8 @@ import { View, Text } from "react-native";
 import React, { useState } from "react";
 
 import FlashcardAnswerBody from "./FlashcardAnswerBody";
-import FlashCardOptions from "./FlashCardOptions";
+import FlashcardOptions from "../Flashcards/FlashcardOptions";
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
 const FlashcardBody = ({ selectCard }) => {
   const [card, setCard] = useState(selectCard);
@@ -19,11 +20,12 @@ const FlashcardBody = ({ selectCard }) => {
         <Text className="text-lg font-bold text-center text-secondary">
           {card.question}
         </Text>
+        <Icon />
       </View>
       <View>
         {isAnswer ? (<FlashcardAnswerBody sCard={card} />) : null}
       </View>
-      <FlashCardOptions handleRevealAnswer={handleRevealAnswer} isAnswer={isAnswer}/>
+      <FlashcardOptions handleRevealAnswer={handleRevealAnswer} isAnswer={isAnswer} card={card}/>
     </View>
   );
 };

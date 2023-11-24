@@ -7,45 +7,43 @@ import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import MainHeader from "../../components/MainHeader";
 
 import { useNavigation } from "@react-navigation/native";
-import { useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { Dimensions } from "react-native";
 import PieChart from "react-native-pie-chart";
 import CardList from "../../components/DeckOptions/CardList";
 import EditDeckModal from "../../components/DeckOptions/EditDeckModal";
-import { useDeck } from "../../context/DeckContext";
+import { useFlashcards } from "../../context/FlashcardContext";
 import randomCard from "../../utils/randomCard";
 import CreateFlashcard from "./CreateFlashcard";
-import { RefreshControl } from "react-native";
 
 const DeckOptions = ({ route }) => {
   const [isVisible, setIsVisible] = useState(false);
+  const deck = route.params.deck;
 
-  const { isLoading, setIsLoading } = useDeck();
+  const { getFlashcardsByDeckId, flashcards, setError } = useFlashcards();
 
-  const refreshComponent = () => {
-    setIsLoading(true);
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 1000);
+  const handleGetFlashcards = (id) => {
+    try {
+      getFlashcardsByDeckId(id);
+    } catch (error) {
+      setError(error.message)
+    }
   };
 
-  const deck = route.params.deck;
-  const flashcards = route.params.deckFlashcards;
+  useEffect(() => {
+    handleGetFlashcards(deck.id);
+    console.log(flashcards);
+  }, [])
+
+  const create = flashcards && flashcards.length > 0;
 
   const selectedCard = randomCard(flashcards);
   const navigation = useNavigation();
 
-  if (flashcards.length > 0) {
+  if (create) {
     return (
       <SafeAreaView className="flex bg-white h-full w-full">
-        <ScrollView
-          refreshControl={
-            <RefreshControl
-              refreshing={isLoading}
-              onRefresh={() => refreshComponent()}
-            />
-          }
-        >
+        <ScrollView>
           <MainHeader title={deck.name} />
           <KeyboardAvoidingView
             behavior={Platform.OS === "ios" ? "padding" : "height"}
@@ -132,22 +130,22 @@ const DeckOptionsChart = ({ cards }) => {
 };
 
 const CustomDeckChart = ({ cards }) => {
-  const deckCards = cards;
-  const countNew = deckCards.filter((deck) => deck.status === "NEW").length;
-  const countLearning = deckCards.filter(
+  const countNew = cards.filter((deck) => deck.status === "NEW").length;
+  const countLearning = cards.filter(
     (deck) => deck.status === "LEARNING"
   ).length;
-  const countLearned = deckCards.filter(
+  const countLearned = cards.filter(
     (deck) => deck.status === "LEARNED"
   ).length;
+  console.log(countNew, countLearning, countLearned);
 
-  const width = Dimensions.get("window").width * 0.5;
+  const width = Dimensions.get("window").width * 0.55;
   const series = [countNew, countLearning, countLearned];
-  const sliceColor = ["#AD6FEB", "#CF9EFF", "#9d63d4"];
+  const sliceColor = ["#ddc6f5", "#AD6FEB", "#8037c8"];
 
   return (
-    <View className="flex gap-4">
-      <View className="flex justify-center items-center relative py-4">
+    <View className="flex flex-row items-center justify-center mx-6">
+      <View className="flex justify-center items-center relative flex-1 py-4">
         <PieChart
           widthAndHeight={width}
           series={series}
@@ -156,7 +154,7 @@ const CustomDeckChart = ({ cards }) => {
           coverRadius={0.5}
         />
         <Text className="text-primary text-3xl text-center absolute font-bold">
-          {deckCards.length}
+          {cards.length}
         </Text>
       </View>
     </View>

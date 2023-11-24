@@ -16,8 +16,7 @@ const Register = () => {
   return (
     <SafeAreaView className="flex items-center justify-center bg-primary">
       <StatusBar style="light" />
-      <KeyboardAvoidingView
-        behavior={Platform.OS === "ios" ? "padding" : "height"}
+      <View
         className="flex w-full h-full justify-center items-center"
       >
         <Pressable
@@ -32,7 +31,7 @@ const Register = () => {
           </Text>
           <RegisterForm />
         </Pressable>
-      </KeyboardAvoidingView>
+      </View>
     </SafeAreaView>
   );
 };

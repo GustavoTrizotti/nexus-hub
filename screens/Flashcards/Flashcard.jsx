@@ -16,8 +16,6 @@ const Flashcard = ({ route }) => {
     getFlashcardsByDeckId(deck.id);
   }, [])
 
-  console.log(flashcards.filter(card => card.deckId === deck.id));
-
   return (
     <SafeAreaView className="bg-white h-full">
       <FlashcardHeader length={flashcards.length} deckName={deck.name}/>

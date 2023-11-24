@@ -58,7 +58,7 @@ const LoginForm = () => {
           start={{ x: 0, y: 0 }}
           end={{ x: 1, y: 1 }}
         >
-          <Pressable onPress={() => handleLogin()}>
+          <Pressable className="w-full" onPress={() => handleLogin()}>
             {isLoading ? (
               <ActivityIndicator size="large" color="#FFF" />
             ) : (

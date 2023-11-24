@@ -18,7 +18,7 @@ const RegisterForm = () => {
   }
 
   return (
-    <View className="flex w-full m-4 h-auto justify-center">
+    <View className="flex w-full m-4 flex-col gap-y-4 h-auto justify-center">
       <View>
         <FormInput
           name="format-text"

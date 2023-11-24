@@ -22,7 +22,7 @@ const CreateDeck = ({ closeModal, isCreateChild }) => {
     try {
       await createDeck({
         name: deck.name,
-        subjectId: deck ? deck.selectedSubject.id : null,
+        subjectId: /* deck ? deck.selectedSubject.id :  */null,
         parentDeckId: null,
       });
     } catch (error) {

@@ -1,11 +1,7 @@
-import { View, Text } from "react-native";
-import React, { useState } from "react";
-import Icon from "react-native-vector-icons/FontAwesome5";
 import { useNavigation } from "@react-navigation/native";
-import { Pressable } from "react-native";
-
-import ReactNativeModal from "react-native-modal";
-import FlashcardMenu from "./FlashcardMenu";
+import React, { useState } from "react";
+import { Pressable, Text, View } from "react-native";
+import Icon from "react-native-vector-icons/FontAwesome5";
 
 const FlashcardHeader = ({length, deckName}) => {
   const [isMenuVisible, setIsMenuVisible] = useState(false);
@@ -27,17 +23,6 @@ const FlashcardHeader = ({length, deckName}) => {
           1/{length}
         </Text>
       </View>
-      <View className="flex flex-2">
-        <Pressable onPress={() => setIsMenuVisible(true)}>
-          <Icon name="ellipsis-v" size={24} color="#AD6FEB" />
-        </Pressable>
-      </View>
-      <ReactNativeModal
-        isVisible={isMenuVisible}
-        onBackdropPress={() => setIsMenuVisible(false)}
-      >
-        <FlashcardMenu />
-      </ReactNativeModal>
     </View>
   );
 };
