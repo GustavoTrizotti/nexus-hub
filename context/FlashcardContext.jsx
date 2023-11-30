@@ -19,7 +19,7 @@ export const FlashcardProvider = ({ children }) => {
   const getFlashcardsByDeckId = async (deckId) => {
     setIsLoading(true);
     try {
-      await axios
+      const response = await axios
         .get(baseURL.flashcards.baseFlashcards + `/${deckId}/all`, {
           headers: {
             Authorization: token.auth,
@@ -27,18 +27,18 @@ export const FlashcardProvider = ({ children }) => {
         })
         .then((res) => {
           if (res.data.length > 0) {
-            setFlashcards(
-              res.data.filter((response) => response.deckId === deckId)
-            );
-            return true;
+            return res.data.filter((response) => response.deckId === deckId)
+          } else {
+            return []
           }
-          return false;
         })
         .catch((err) => {
           setError(err);
           return false;
         })
         .finally(() => setIsLoading(false));
+
+        return response;
     } catch (error) {
       console.log("Error getting flashcards by deck id: ", error);
       setError(error.message)
@@ -66,8 +66,7 @@ export const FlashcardProvider = ({ children }) => {
         .then(async (res) => {
           if (res.data) {
             setFlashcards((prev) => [...prev, res.data]);
-            await getFlashcardsByDeckId(flashcard.deckId);
-            return true;
+            return res.data;
           }
           return false;
         })

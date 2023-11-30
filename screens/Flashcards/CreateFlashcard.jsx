@@ -10,20 +10,15 @@ import { useFlashcards } from "../../context/FlashcardContext";
 import { useTags } from "../../context/TagContext";
 
 const CreateFlashcard = ({ deck, route }) => {
-  const selectedDeck = deck ? deck : route.params.deck
+  const selectedDeck = deck ? deck : route.params.deck;
   const [flashcard, setFlashcard] = useState({ deckId: selectedDeck.id });
   const { createFlashcard } = useFlashcards();
   const [selectedTags, setSelectedTags] = useState([]);
   const navigation = useNavigation();
-  const toast = useToast();
 
   const handleCreateFlashcard = async (flashcard) => {
     try {
-      if (await createFlashcard(flashcard)) {
-        toast.show("Flashcard criado com sucesso!");
-      } else {
-        toast.show("Erro ao criar o flashcard!");
-      }
+      await createFlashcard(flashcard);
     } catch (error) {
       console.log("Error while handling the create flashcard method: ", error);
     }
@@ -60,7 +55,7 @@ const CreateFlashcard = ({ deck, route }) => {
           <Pressable
             className="p-4 w-full mt-6 px-6 flex bg-primary rounded-md"
             onPress={async () => {
-              await handleCreateFlashcard(flashcard);
+              await handleCreateFlashcard(flashcard)
               navigation.goBack();
             }}
           >
@@ -71,9 +66,7 @@ const CreateFlashcard = ({ deck, route }) => {
           <View className="flex w-full flex-row">
             <Pressable
               className="p-4 flex-1 mt-6 mr-2 px-6 flex bg-red-400 rounded-md flex-row items-center justify-between"
-              onPress={() => {
-
-              }}
+              onPress={() => {}}
             >
               <Icon name="trash-can" size={28} color="#fff" />
               <Text className="text-lg text-center text-white font-bold">

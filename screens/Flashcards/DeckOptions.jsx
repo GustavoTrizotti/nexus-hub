@@ -1,5 +1,11 @@
 import React from "react";
-import { KeyboardAvoidingView, ScrollView, Text, View } from "react-native";
+import {
+  ActivityIndicator,
+  KeyboardAvoidingView,
+  ScrollView,
+  Text,
+  View,
+} from "react-native";
 
 import { Pressable } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -12,37 +18,36 @@ import { Dimensions } from "react-native";
 import PieChart from "react-native-pie-chart";
 import CardList from "../../components/DeckOptions/CardList";
 import EditDeckModal from "../../components/DeckOptions/EditDeckModal";
+import { useAuth } from "../../context/AuthContext";
 import { useFlashcards } from "../../context/FlashcardContext";
 import randomCard from "../../utils/randomCard";
-import CreateFlashcard from "./CreateFlashcard";
+import { useDeck } from "../../context/DeckContext";
 
 const DeckOptions = ({ route }) => {
   const [isVisible, setIsVisible] = useState(false);
   const deck = route.params.deck;
-
-  const { getFlashcardsByDeckId, flashcards, setError } = useFlashcards();
-
-  const handleGetFlashcards = (id) => {
-    try {
-      getFlashcardsByDeckId(id);
-    } catch (error) {
-      setError(error.message)
-    }
-  };
+  const { isLoading } = useDeck();
+  const { flashcards, setFlashcards, getFlashcardsByDeckId } = useFlashcards();
+  const { token } = useAuth();
 
   useEffect(() => {
-    handleGetFlashcards(deck.id);
-    console.log(flashcards);
-  }, [])
-
-  const create = flashcards && flashcards.length > 0;
+    const fetchData = async () => {
+      setFlashcards(await getFlashcardsByDeckId(deck.id));
+    };
+  
+    fetchData();
+  }, [deck.id, token.auth]);
 
   const selectedCard = randomCard(flashcards);
   const navigation = useNavigation();
 
-  if (create) {
-    return (
-      <SafeAreaView className="flex bg-white h-full w-full">
+  return (
+    <SafeAreaView className="flex bg-white h-full w-full">
+      {isLoading ? (
+        <View className="flex w-full h-full bg-white justify-center items-center">
+          <ActivityIndicator color="#AD6FEB" size={36} />
+        </View>
+      ) : (
         <ScrollView>
           <MainHeader title={deck.name} />
           <KeyboardAvoidingView
@@ -79,16 +84,15 @@ const DeckOptions = ({ route }) => {
           </KeyboardAvoidingView>
           <CardList deck={deck} cards={flashcards} />
         </ScrollView>
-        <EditDeckModal
-          isVisible={isVisible}
-          setIsVisible={setIsVisible}
-          deck={deck}
-        />
-      </SafeAreaView>
-    );
-  } else {
-    return <CreateFlashcard deck={deck} />;
-  }
+      )}
+
+      <EditDeckModal
+        isVisible={isVisible}
+        setIsVisible={setIsVisible}
+        deck={deck}
+      />
+    </SafeAreaView>
+  );
 };
 
 const DeckOptionsHeader = ({ navigation, deck }) => {
@@ -130,14 +134,15 @@ const DeckOptionsChart = ({ cards }) => {
 };
 
 const CustomDeckChart = ({ cards }) => {
+  if (!cards || cards.length === 0) {
+    return null;
+  }
+
   const countNew = cards.filter((deck) => deck.status === "NEW").length;
   const countLearning = cards.filter(
     (deck) => deck.status === "LEARNING"
   ).length;
-  const countLearned = cards.filter(
-    (deck) => deck.status === "LEARNED"
-  ).length;
-  console.log(countNew, countLearning, countLearned);
+  const countLearned = cards.filter((deck) => deck.status === "LEARNED").length;
 
   const width = Dimensions.get("window").width * 0.55;
   const series = [countNew, countLearning, countLearned];

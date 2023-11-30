@@ -1,7 +1,6 @@
 import { useContext } from "react";
 import { createContext, useState } from "react";
 
-import { useAsyncStorage } from "@react-native-async-storage/async-storage";
 import { useEffect } from "react";
 import jwtDecode from "jwt-decode";
 
@@ -17,14 +16,11 @@ export const useAuth = () => {
 export const AuthProvider = ({ children }) => {
   const [token, setToken] = useState({ auth: null, refreshed: false });
   const [isLoading, setIsLoading] = useState(false);
-  const { setItem, removeItem, getItem } = useAsyncStorage("token");
 
   const logout = async () => {
     try {
       if (token.auth !== null) {
         setToken({ auth: null, refreshed: true });
-        removeItem();
-        await storeToken(JSON.stringify({ auth: null, refreshed: true }));
       } else {
         console.log("Token not found.");
       }
@@ -41,12 +37,6 @@ export const AuthProvider = ({ children }) => {
         password: password,
       });
       setIsLoading(false);
-      storeToken(
-        JSON.stringify({
-          auth: response.headers.authorization,
-          refreshed: true,
-        })
-      );
       setToken({ auth: response.headers.authorization, refreshed: true });
     } catch (error) {
       console.log("Error loggin the user: ", error);
@@ -70,48 +60,59 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const storeToken = async (token) => {
-    try {
-      await setItem(token);
-    } catch (error) {
-      console.log("Error storing token: ", token);
-    }
-  };
-
-  const removeToken = async () => {
-    try {
-      await storeToken(JSON.stringify({ auth: null, refreshed: true }));
-    } catch (error) {
-      console.log("Error removing token: ", token);
-    }
-  };
-
   const refresh = async () => {
     try {
-      const tokenData = await getItem();
+      const tokenData = token.auth;
       if (tokenData != null) {
         const data = JSON.parse(tokenData);
         if (data.auth !== null) {
           const decodedToken = jwtDecode(data.auth);
           const currentDate = new Date();
-          decodedToken.exp * 1000 < currentDate.getTime()
-            ? (removeToken(), setToken({ auth: null, refreshed: true }))
-            : setToken({ auth: data.auth, refreshed: true });
+          if (decodedToken.exp * 1000 < currentDate.getTime() + 60000) {
+            await refreshToken();
+          } else {
+            setToken({ auth: data.auth, refreshed: true });
+          }
         } else {
           setToken({ auth: null, refreshed: true });
         }
       } else {
-        storeToken(JSON.stringify({ auth: null, refreshed: false }));
+        setToken({ auth: null, refreshed: true });
       }
     } catch (e) {
       console.log("Error refreshing the authorization token: ", e);
     }
   };
 
-  const refreshToken = async () => {};
+  const refreshToken = async () => {
+    try {
+      const refreshToken = token.auth;
+      if (refreshToken) {
+        const response = await axios.get(baseURL.refreshTokenURL, {
+          headers: {
+            Cookie: `refresh-token=${refreshToken}`,
+          },
+        });
+        setToken({ auth: response.headers.authorization, refreshed: true });
+        console.log("Token refreshed successfully!");
+      } else {
+        console.log("Refresh token not found.");
+      }
+    } catch (error) {
+      console.log("Error refreshing token: ", error);
+    }
+  };
 
   useEffect(() => {
-    refresh();
+    if (token.refreshed == false) {
+      refresh();
+    } else {
+      const refreshInterval = setInterval(() => {
+        refresh();
+      }, 60000);
+      return () => clearInterval(refreshInterval);
+    }
+    
   }, []);
 
   return (
@@ -119,7 +120,6 @@ export const AuthProvider = ({ children }) => {
       value={{
         token,
         setToken,
-        storeToken,
         login,
         logout,
         register,

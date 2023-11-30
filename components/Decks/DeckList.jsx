@@ -3,18 +3,16 @@ import React, { useEffect } from "react";
 import { Pressable, ScrollView, Text, View } from "react-native";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import { useDeck } from "../../context/DeckContext";
-import { useFlashcards } from "../../context/FlashcardContext";
 
 const DeckList = ({ setModalVisible, setIsCreateChild }) => {
   const { decks, getDecks } = useDeck();
-  const { flashcards } = useFlashcards(); 
 
   useEffect(() => {
-    getDecks();
-  }, [])
-
-  useEffect(() => {
-  }, [decks, flashcards])
+    const fetchData = async () => {
+      getDecks();
+    };
+    fetchData();
+  }, []);
 
   return (
     <ScrollView className="flex px-2">
@@ -36,13 +34,7 @@ const DeckListItem = ({ deck, setModalVisible, setIsCreateChild }) => {
   const navigation = useNavigation();
 
   return (
-    <Pressable
-      onPress={() =>
-        navigation.navigate("Deck", {
-          deck: deck,
-        })
-      }
-    >
+    <Pressable onPress={() => navigation.navigate("Deck", { deck: deck })}>
       <View className="flex p-4 mb-2 mx-3 flex-row items-center justify-between border-b-2 border-gray-100">
         <View className="flex flex-row justify-center items-center gap-4">
           <Icon name="cards-variant" size={30} color="#AD6FEB" />
@@ -54,8 +46,8 @@ const DeckListItem = ({ deck, setModalVisible, setIsCreateChild }) => {
             size={30}
             color="#bbb"
             onPress={() => {
-              setModalVisible(true)
-              setIsCreateChild(deck)
+              setModalVisible(true);
+              setIsCreateChild(deck);
             }}
           />
         </View>

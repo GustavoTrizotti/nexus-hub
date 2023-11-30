@@ -1,27 +1,26 @@
-const baseURL = "http://10.115.66.205:8080";
-const apiURL = "http://10.115.66.205:8080/api/v1";
+import { AUTH_URL, API_URL } from "@env"
 
 export default {
-  loginURL: `${baseURL}/login`,
-  registerURL: `${baseURL}/register`,
-  refreshTokenURL: `${baseURL}/refresh-token`,
+  loginURL: `${AUTH_URL}/login`,
+  registerURL: `${AUTH_URL}/register`,
+  refreshTokenURL: `${AUTH_URL}/refresh-token`,
   subjects: {
-    baseSubjects: `${apiURL}/subjects`,
-    getAll: `${apiURL}/subjects/all`,
-    create: `${apiURL}/subjects/save`,
+    baseSubjects: `${API_URL}/subjects`,
+    getAll: `${API_URL}/subjects/all`,
+    create: `${API_URL}/subjects/save`,
   },
   decks: {
-    baseDecks: `${apiURL}/decks`,
-    getAll: `${apiURL}/decks/all`,
-    create: `${apiURL}/decks/save`,
+    baseDecks: `${API_URL}/decks`,
+    getAll: `${API_URL}/decks/all`,
+    create: `${API_URL}/decks/save`,
   },
   flashcards: {
-    baseFlashcards: `${apiURL}/flashcards`,
-    create: `${apiURL}/flashcards/save`,
+    baseFlashcards: `${API_URL}/flashcards`,
+    create: `${API_URL}/flashcards/save`,
   },
   tags: {
-    baseTags: `${apiURL}/tags`,
-    getAll: `${apiURL}/tags/all`,
-    create: `${apiURL}/tags/save`,
+    baseTags: `${API_URL}/tags`,
+    getAll: `${API_URL}/tags/all`,
+    create: `${API_URL}/tags/save`,
   },
 };

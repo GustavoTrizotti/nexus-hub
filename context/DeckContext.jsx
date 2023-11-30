@@ -15,6 +15,7 @@ export const DeckProvider = ({ children }) => {
   const { token } = useAuth();
   const [decks, setDecks] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   const getDecks = async () => {
     setIsLoading(true);
@@ -92,19 +93,33 @@ export const DeckProvider = ({ children }) => {
             Authorization: token.auth,
           },
         }
-      )
-
-      if (response) {
-        getDecks();
+      );
+      if (response.data) {
+        const currentDecks = [...decks];
+        const indexToUpdate = currentDecks.findIndex((d) => d.id === deck.id);
+        const updatedDecks = [...currentDecks];
+        updatedDecks[indexToUpdate] = response.data;
+        setDecks(updatedDecks);
         setIsLoading(false);
-        return response.data
       } else {
         console.log("No content provided to update the deck.");
       }
     } catch (error) {
       console.log("Error updating the deck: ", deck);
     }
-  }
+  };
+
+  const refreshDecks = async () => {
+    try {
+      setIsLoading(true);
+      await getDecks();
+      setIsLoading(false);
+    } catch (error) {
+      if (error) {
+        setError("Erro ao atualizar os dados.");
+      }
+    }
+  };
 
   useEffect(() => {
     if (token.auth !== null) {
@@ -123,6 +138,9 @@ export const DeckProvider = ({ children }) => {
         updateDeck,
         setIsLoading,
         isLoading,
+        error,
+        setError,
+        refreshDecks,
       }}
     >
       {children}

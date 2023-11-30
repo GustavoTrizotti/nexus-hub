@@ -8,9 +8,9 @@ const EditDeckModal = ({ isVisible, setIsVisible, deck }) => {
   const [deckUpdate, setDeckUpdate] = useState(deck);
   const { updateDeck, isLoading } = useDeck();
 
-  const handleUpdateDeck = (deck) => {
+  const handleUpdateDeck = async (deck) => {
     try {
-      updateDeck(deck);
+      await updateDeck(deck);
     } catch (error) {
       console.log("Error handling the update deck: ", error);
     }
