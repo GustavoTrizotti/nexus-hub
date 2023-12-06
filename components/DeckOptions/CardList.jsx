@@ -11,13 +11,27 @@ const CardList = ({ deck, cards }) => {
           Card List
         </Text>
       </View>
-      <View className="flex items-center justify-center w-full">
-        {cards.map((card) => {
-          return (
-            <CardSheet key={card.id} deck={deck} card={card} name={deck.name} />
-          );
-        })}
-      </View>
+      {cards.length > 0 ? (
+        <View className="flex items-center justify-center w-full">
+          {cards.map((card) => {
+            return (
+              <CardSheet
+                key={card.id}
+                deck={deck}
+                card={card}
+                name={deck.name}
+              />
+            );
+          })}
+        </View>
+      ) : (
+        <View className="flex w-full justify-center items-center">
+          <Text className="text-primary font-bold text-lg text-center p-2">
+            Flashcards não estão disponíveis!
+          </Text>
+          <Text className="text-tertiary font-bold text-md p-2">Aguarda até a próxima data de revisão!</Text>
+        </View>
+      )}
     </View>
   );
 };
@@ -36,7 +50,7 @@ const CardSheet = ({ deck, card, name }) => {
       }}
     >
       <View className="flex flex-row justify-center items-center gap-x-2 ml-1">
-        <Icon name="cards" color="#FFF" size={24}/>
+        <Icon name="cards" color="#FFF" size={24} />
         <View className="flex flex-row justify-between flex-1">
           <View className="flex p-2">
             <Text className="font-bold uppercase opacity-50 text-lg text-white">

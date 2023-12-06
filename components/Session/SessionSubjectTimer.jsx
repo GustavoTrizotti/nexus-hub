@@ -50,24 +50,24 @@ const SessionSubjectTimer = () => {
     <SafeAreaView>
       <ScrollView className="flex px-4 flex-col">
         <SessionSubjectIndividualTimer
-          color="bg-subjectRed"
-          name="Algorithms"
+          color="bg-subjectGreen"
+          name="Biologia"
         />
         <SessionSubjectIndividualTimer
           color="bg-subjectYellow"
-          name="Biology"
+          name="Português"
         />
         <SessionSubjectIndividualTimer
-          color="bg-subjectGreen"
-          name="Chemistry"
+          color="bg-subjectRed"
+          name="Matemática"
         />
         <SessionSubjectIndividualTimer
           color="bg-subjectBlue"
-          name="English"
+          name="POO"
         />
         <SessionSubjectIndividualTimer
           color="bg-subjectPurple"
-          name="History"
+          name="DSW3"
         />
       </ScrollView>
     </SafeAreaView>

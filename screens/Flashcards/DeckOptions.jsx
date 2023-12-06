@@ -27,16 +27,16 @@ const DeckOptions = ({ route }) => {
   const [isVisible, setIsVisible] = useState(false);
   const deck = route.params.deck;
   const { isLoading } = useDeck();
-  const { flashcards, setFlashcards, getFlashcardsByDeckId } = useFlashcards();
-  const { token } = useAuth();
+  const { flashcards, getRevisionFlashcardsByDeckId, getFlashcardsByDeckId } = useFlashcards();
+  const [allFlashcards, setAllFlashcards] = useState([])
 
   useEffect(() => {
-    const fetchData = async () => {
-      setFlashcards(await getFlashcardsByDeckId(deck.id));
-    };
-  
-    fetchData();
-  }, [deck.id, token.auth]);
+    const fetchData = async (deckId) => {
+      setAllFlashcards(await getFlashcardsByDeckId(deckId))
+      await getRevisionFlashcardsByDeckId(deckId)
+    }
+    fetchData(deck.id)
+  }, [])
 
   const selectedCard = randomCard(flashcards);
   const navigation = useNavigation();
@@ -55,7 +55,7 @@ const DeckOptions = ({ route }) => {
           >
             <DeckOptionsHeader navigation={navigation} deck={deck} />
             <View className="flex items-center justify-center mt-4">
-              <DeckOptionsChart deck={deck} cards={flashcards} />
+              <DeckOptionsChart deck={deck} cards={allFlashcards} />
               <View className="flex flex-row mt-6 mx-2 items-center justify-between">
                 <Pressable
                   className="flex flex-1 bg-primary p-4 m-2 rounded-md"
@@ -82,7 +82,9 @@ const DeckOptions = ({ route }) => {
               </View>
             </View>
           </KeyboardAvoidingView>
-          <CardList deck={deck} cards={flashcards} />
+          <View className="flex justify-end">
+            <CardList deck={deck} cards={flashcards} />
+          </View>
         </ScrollView>
       )}
 
@@ -134,15 +136,16 @@ const DeckOptionsChart = ({ cards }) => {
 };
 
 const CustomDeckChart = ({ cards }) => {
+  console.log(cards);
   if (!cards || cards.length === 0) {
     return null;
   }
 
-  const countNew = cards.filter((deck) => deck.status === "NEW").length;
+  const countNew = cards.filter((status) => status.status === "NEW").length;
   const countLearning = cards.filter(
-    (deck) => deck.status === "LEARNING"
+    (status) => status.status === "LEARNING"
   ).length;
-  const countLearned = cards.filter((deck) => deck.status === "LEARNED").length;
+  const countLearned = cards.filter((status) => status.status === "LEARNED").length;
 
   const width = Dimensions.get("window").width * 0.55;
   const series = [countNew, countLearning, countLearned];

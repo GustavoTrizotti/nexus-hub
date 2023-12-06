@@ -3,7 +3,6 @@ import { NavigationContainer } from "@react-navigation/native";
 
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
-import Cycle from "../screens/Cycle";
 import Home from "../screens/Home";
 import Sessions from "../screens/Sessions";
 import Flashcards from "./FlashcardRouter";
@@ -15,7 +14,6 @@ const TabNavigation = () => {
   const SCREEN_NAMES = {
     HOME: "HOME",
     SUBJECTS: "SUBJECTS",
-    CYCLE: "CYCLE",
     CARDS: "DECKS",
     SESSIONS: "SESSIONS",
   };
@@ -48,9 +46,6 @@ const TabNavigation = () => {
               case SCREEN_NAMES.SUBJECTS:
                 iconName = focused ? "book" : "book-outline";
                 break;
-              case SCREEN_NAMES.CYCLE:
-                iconName = focused ? "clock" : "clock-outline";
-                break;
               case SCREEN_NAMES.CARDS:
                 iconName = focused ? "cards" : "cards-outline";
                 break;
@@ -68,7 +63,6 @@ const TabNavigation = () => {
       >
         <Tab.Screen name={SCREEN_NAMES.HOME} component={Home} />
         <Tab.Screen name={SCREEN_NAMES.SUBJECTS} component={Subjects} />
-        <Tab.Screen name={SCREEN_NAMES.CYCLE} component={Cycle} />
         <Tab.Screen name={SCREEN_NAMES.CARDS} component={Flashcards} />
         <Tab.Screen name={SCREEN_NAMES.SESSIONS} component={Sessions} />
       </Tab.Navigator>

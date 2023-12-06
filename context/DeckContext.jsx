@@ -99,6 +99,7 @@ export const DeckProvider = ({ children }) => {
         const indexToUpdate = currentDecks.findIndex((d) => d.id === deck.id);
         const updatedDecks = [...currentDecks];
         updatedDecks[indexToUpdate] = response.data;
+        console.log(updatedDecks);
         setDecks(updatedDecks);
         setIsLoading(false);
       } else {
